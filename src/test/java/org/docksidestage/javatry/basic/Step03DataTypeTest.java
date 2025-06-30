@@ -26,7 +26,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author tahasega
  */
 public class Step03DataTypeTest extends PlainTestCase {
 
@@ -54,8 +54,8 @@ public class Step03DataTypeTest extends PlainTestCase {
             BigDecimal addedDecimal = amba.add(new BigDecimal(land));
             sea = String.valueOf(addedDecimal);
         }
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => 18.4
+    } // land--はオートアンボクシング(int)、計算(9)、オートボクシング(Integer)、再代入(land)が行われている
 
     // ===================================================================================
     //                                                                           Primitive
@@ -82,8 +82,8 @@ public class Step03DataTypeTest extends PlainTestCase {
         if ((int) dstore > piari) {
             sea = 0;
         }
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => 2
+    } // 少数の比較は非常に小さい値イプシロンを用いてMath.abs(amba - 2.3) < epsilonのように行うべき。
 
     // ===================================================================================
     //                                                                              Object
@@ -92,7 +92,7 @@ public class Step03DataTypeTest extends PlainTestCase {
     public void test_datatype_object() {
         St3ImmutableStage stage = new St3ImmutableStage("hangar");
         String sea = stage.getStageName();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
     }
 
     private static class St3ImmutableStage {
@@ -107,4 +107,4 @@ public class Step03DataTypeTest extends PlainTestCase {
             return stageName;
         }
     }
-}
+} // コンストラクタは新しいインスタンスを生成するために使用される。メソッドとは違う。
