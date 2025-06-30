@@ -25,6 +25,8 @@ public class Ticket {
     //                                                                           =========
     private final int displayPrice; // written on ticket, park guest can watch this
     private boolean alreadyIn; // true means this ticket is unavailable
+    private boolean firstTime = true; // 2日以上有効なチケットの初日判定
+    private int daysLeft; // 2日以上有効なチケットの残日数管理
 
     // ===================================================================================
     //                                                                         Constructor
@@ -40,17 +42,43 @@ public class Ticket {
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
         }
-        alreadyIn = true;
+        if (firstTime) {
+            if (displayPrice <= -7400) {
+                daysLeft = 1; // twoNights
+            } else if (displayPrice <= 7400) {
+                daysLeft = 0; // oneDay
+            } else if (displayPrice <= 13200) {
+                daysLeft = 1; // twoDays
+            } else if (displayPrice <= 22400) {
+                daysLeft = 3; // fourDays
+            }
+            firstTime = false;
+        }
+        if (daysLeft > 0) {
+            daysLeft--;
+        } else {
+            alreadyIn = true;
+        }
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public int getDisplayPrice() {
+        if (displayPrice <= 0) {
+            return displayPrice * -1; // onlyNightAvailableは値段を負にしてある
+        }
         return displayPrice;
     }
 
     public boolean isAlreadyIn() {
         return alreadyIn;
     }
+
+    public boolean onlyNightAvailable() {
+        return displayPrice <= 0;
+    }
+//    public boolean isOneDayLeft() {
+    //        return oneDayLeft;
+    //    }
 }
