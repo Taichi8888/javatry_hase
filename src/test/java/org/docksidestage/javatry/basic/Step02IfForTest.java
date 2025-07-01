@@ -204,12 +204,20 @@ public class Step02IfForTest extends PlainTestCase {
             }
         }
         log(sea);
-        // TODO done hase stageList の内容が変わったとしても、結果が変わらないようにしたいですね by jflute (2025/07/01)
+        // done hase stageList の内容が変わったとしても、結果が変わらないようにしたいですね by jflute (2025/07/01)
         // 例えば、stageList に hangar が無くなった場合、同じ結果になるか？
         // stageList に bongar という stage が新しく追加されて場合、同じ結果になるか？
         // 難しいですが、もう少し考えてチャレンジしてみてください。
+        // TODO hase [いいね] おおぉぉ実現できてますね、すごい。インスタンス変数を使ってほぼ同じ構造を作ったという感じで by jflute (2025/07/01)
+        // TODO hase 修行++: ただ、とあるメソッド内の一部のロジックでインスタンス変数の手を借りるのはちょっと大げさになりますので... by jflute (2025/07/01)
+        // ここはチャレンジ案件という感じで、インスタンス変数を使わない方法も考えてみてください。
+        // ヒント出しておきます。Immutableなクラスがあるということは、Mutableなクラスもあるということで。
+        // step1でもMutableなクラス登場しましたね。
 
         stageList.forEach(stage -> {
+            // TODO hase Lambda式の中は単なるメソッドと捉えて良いので、returnで1回の呼び出しは終了できます by jflute (2025/07/01)
+            // (複数のループの中の1ループの処理をreturnするだけなので、全体のループが終わるわけではないですが)
+            // それを使えば、空ifのelse if技を使わないで済みます。(空ifはあまり一般的には見ないので避けたいところで)
             if (stage.startsWith("br")) { // do nothing
             } else if (loopFlag) { // until break
                 land = stage;
@@ -221,8 +229,26 @@ public class Step02IfForTest extends PlainTestCase {
         log(land);
         // (hase)学び：forEachメソッドは、ループ処理じゃないからbreak, continueの命令がない。
         // (hase)voidだからreturnでbreakの真似ができない。
-        // TODO jflute なぜメソッド内で定義したseaが使えず、外で定義したインスタンス変数landだけ使えるのかわかりませんでした。
+        // done jflute なぜメソッド内で定義したseaが使えず、外で定義したインスタンス変数landだけ使えるのかわかりませんでした。
         //  仕様上、finalじゃないとラムダ式の中で参照できないから仕方ない、という認識で良いでしょうか？by hase (2025/07/01)
+        // TODO hase [へんじ] まあ仕様上という意味ではそう決められてるからとしかいいようがないですが... by jflute (2025/07/01)
+        // なぜ、Javaはラムダ式の中でローカル変数を書き換えられないようにしたのか？って設計思想で言うと...
+        //
+        // Lambda式ってのは本質的には単なるオブジェクトなので、何かのクラスをnewした普通のインスタンスなんですね。
+        // なので、forEachの中でどのように扱われるか？ってのはわからないというか保証がないわけです。
+        // もしかしたら、stageListのインスタンス変数で保持されて、しばらくインスタンスが生き続けるかもしれない...
+        //
+        // 極端な話、このtestメソッドが終わった後も生き続けてるかもしれなくて、そのときcallされたら...
+        // すでに終わってるメソッドのローカル変数を書き換えるみたいな処理がLambdaの中に残ってるという状態になって、
+        // 論理的な矛盾が発生するわけです。
+        //
+        // forEach()の中で別スレッドで実行されるかもしれない。
+        // となると、本来メソッドの1呼び出しで閉じてるはずのローカル変数が複数スレッドで書き換えられることもあるかもしれない。
+        // そんなことしないでしょってところなんですが、そういうのを文法上は可能にしてしまうと地球レベルで考えると、
+        // 変な実装で複雑なことが起きるかもしれない。何百万のユーザーを想定するJavaからすればそれは制限しておきたいと。
+        //
+        // って、究極Java設計した人じゃないとわからないことですが、このような話を昔に聞いたことがあり、
+        // まあ論理的にも確かにそうだなとは解釈しています。Javaはわりと安全寄りの言語ということもあり。
     }
 
     /**
@@ -238,7 +264,7 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_yourExercise() {
         List<String> stageList = prepareStageList();
 
-        // TODO done hase [いいね] 良いエクササイズですね、ちゃんと読まないとできない^^ by jflute (2025/07/01)
+        // done hase [いいね] 良いエクササイズですね、ちゃんと読まないとできない^^ by jflute (2025/07/01)
         // (hase)ありがとうございます！コメントいただけると自由演技のセクションもやる気が出ます。
         stageList.forEach(stage -> {
             int len = stage.length();
