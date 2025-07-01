@@ -188,8 +188,8 @@ public class Step02IfForTest extends PlainTestCase {
      * Change foreach statement to List's forEach() (keep result after fix) <br>
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
-    private Boolean loopFlag = true;
-    private String land = null;
+//    private Boolean loopFlag = true;
+//    private String land = null;
 
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
@@ -208,30 +208,45 @@ public class Step02IfForTest extends PlainTestCase {
         // 例えば、stageList に hangar が無くなった場合、同じ結果になるか？
         // stageList に bongar という stage が新しく追加されて場合、同じ結果になるか？
         // 難しいですが、もう少し考えてチャレンジしてみてください。
-        // TODO hase [いいね] おおぉぉ実現できてますね、すごい。インスタンス変数を使ってほぼ同じ構造を作ったという感じで by jflute (2025/07/01)
-        // TODO hase 修行++: ただ、とあるメソッド内の一部のロジックでインスタンス変数の手を借りるのはちょっと大げさになりますので... by jflute (2025/07/01)
+        // TODO done hase [いいね] おおぉぉ実現できてますね、すごい。インスタンス変数を使ってほぼ同じ構造を作ったという感じで by jflute (2025/07/01)
+        // TODO done hase 修行++: ただ、とあるメソッド内の一部のロジックでインスタンス変数の手を借りるのはちょっと大げさになりますので... by jflute (2025/07/01)
         // ここはチャレンジ案件という感じで、インスタンス変数を使わない方法も考えてみてください。
         // ヒント出しておきます。Immutableなクラスがあるということは、Mutableなクラスもあるということで。
         // step1でもMutableなクラス登場しましたね。
-
+        StringBuilder land = new StringBuilder("");
         stageList.forEach(stage -> {
-            // TODO hase Lambda式の中は単なるメソッドと捉えて良いので、returnで1回の呼び出しは終了できます by jflute (2025/07/01)
-            // (複数のループの中の1ループの処理をreturnするだけなので、全体のループが終わるわけではないですが)
-            // それを使えば、空ifのelse if技を使わないで済みます。(空ifはあまり一般的には見ないので避けたいところで)
-            if (stage.startsWith("br")) { // do nothing
-            } else if (loopFlag) { // until break
-                land = stage;
-                if (stage.contains("ga")) { // break no mane
-                    loopFlag = false;
-                }
+            if (stage.startsWith("br")) {
+                return;
             }
+            if (land.toString().contains("ga")) {
+                return;
+            }
+            land.delete(0, land.length());
+            land.append(stage);
         });
-        log(land);
+        log(land.toString());
+        // 新しいオブジェクトを作らずに、直接中身を変えるからミュータブルな変数は扱えるううう！
+        // Stringは変数の再代入をしなければいけないから危険なんですね
+
+//        stageList.forEach(stage -> {
+//            // TODO done hase Lambda式の中は単なるメソッドと捉えて良いので、returnで1回の呼び出しは終了できます by jflute (2025/07/01)
+//            // (複数のループの中の1ループの処理をreturnするだけなので、全体のループが終わるわけではないですが)
+//            // それを使えば、空ifのelse if技を使わないで済みます。(空ifはあまり一般的には見ないので避けたいところで)
+//            if (stage.startsWith("br")) { // do nothing
+//            } else if (loopFlag) { // until break
+//                land = stage;
+//                if (stage.contains("ga")) { // break no mane
+//                    loopFlag = false;
+//                }
+//            }
+//        });
+//        log(land);
+
         // (hase)学び：forEachメソッドは、ループ処理じゃないからbreak, continueの命令がない。
         // (hase)voidだからreturnでbreakの真似ができない。
         // done jflute なぜメソッド内で定義したseaが使えず、外で定義したインスタンス変数landだけ使えるのかわかりませんでした。
         //  仕様上、finalじゃないとラムダ式の中で参照できないから仕方ない、という認識で良いでしょうか？by hase (2025/07/01)
-        // TODO hase [へんじ] まあ仕様上という意味ではそう決められてるからとしかいいようがないですが... by jflute (2025/07/01)
+        // TODO done hase [へんじ] まあ仕様上という意味ではそう決められてるからとしかいいようがないですが... by jflute (2025/07/01)
         // なぜ、Javaはラムダ式の中でローカル変数を書き換えられないようにしたのか？って設計思想で言うと...
         //
         // Lambda式ってのは本質的には単なるオブジェクトなので、何かのクラスをnewした普通のインスタンスなんですね。
@@ -249,6 +264,9 @@ public class Step02IfForTest extends PlainTestCase {
         //
         // って、究極Java設計した人じゃないとわからないことですが、このような話を昔に聞いたことがあり、
         // まあ論理的にも確かにそうだなとは解釈しています。Javaはわりと安全寄りの言語ということもあり。
+
+        // (hase) 壮大な背景を教えていただき、ありがとうございます！！
+        // まだ完全には理解できていませんが、開発者のリスクマネジメントで再代入を危惧したのだとイメージすることができました。
     }
 
     /**
