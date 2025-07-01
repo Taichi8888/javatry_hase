@@ -77,6 +77,8 @@ public class Step01VariableTest extends PlainTestCase {
         sea.add(new BigDecimal(1));
         log(sea); // your answer? => 416
     } // BigDecimalは不変なので、add()メソッドを呼び出しても値は変わらない。代入しないと値は変わらない。
+    // TODO hase [いいね] おお、Immutableの概念を理解してらっしゃるの素晴らしいです by jflute (2025/07/01)
+    // ここは大事なところなので1on1ときにぜひ補足させてください(^^
 
     // ===================================================================================
     //                                                                   Instance Variable
