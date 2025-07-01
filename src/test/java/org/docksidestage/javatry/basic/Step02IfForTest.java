@@ -17,6 +17,7 @@ package org.docksidestage.javatry.basic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.docksidestage.unit.PlainTestCase;
 
@@ -187,28 +188,41 @@ public class Step02IfForTest extends PlainTestCase {
      * Change foreach statement to List's forEach() (keep result after fix) <br>
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
+    private Boolean loopFlag = true;
+    private String land = null;
+
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
-//        String sea = null;
-//        for (String stage : stageList) {
-//            if (stage.startsWith("br")) {
-//                continue;
-//            }
-//            sea = stage;
-//            if (stage.contains("ga")) {
-//                break;
-//            }
-//        }
-        // TODO hase stageList の内容が変わったとしても、結果が変わらないようにしたいですね by jflute (2025/07/01)
+        String sea = null;
+        for (String stage : stageList) {
+            if (stage.startsWith("br")) {
+                continue;
+            }
+            sea = stage;
+            if (stage.contains("ga")) {
+                break;
+            }
+        }
+        log(sea);
+        // TODO done hase stageList の内容が変わったとしても、結果が変わらないようにしたいですね by jflute (2025/07/01)
         // 例えば、stageList に hangar が無くなった場合、同じ結果になるか？
         // stageList に bongar という stage が新しく追加されて場合、同じ結果になるか？
         // 難しいですが、もう少し考えてチャレンジしてみてください。
+
         stageList.forEach(stage -> {
-            if (stage.contains("ga")){
-                log(stage);
+            if (stage.startsWith("br")) { // do nothing
+            } else if (loopFlag) { // until break
+                land = stage;
+                if (stage.contains("ga")) { // break no mane
+                    loopFlag = false;
+                }
             }
         });
-        // log(sea); // should be same as before-fix
+        log(land);
+        // (hase)学び：forEachメソッドは、ループ処理じゃないからbreak, continueの命令がない。
+        // (hase)voidだからreturnでbreakの真似ができない。
+        // TODO jflute なぜメソッド内で定義したseaが使えず、外で定義したインスタンス変数landだけ使えるのかわかりませんでした。
+        //  仕様上、finalじゃないとラムダ式の中で参照できないから仕方ない、という認識で良いでしょうか？by hase (2025/07/01)
     }
 
     /**
@@ -224,7 +238,8 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_yourExercise() {
         List<String> stageList = prepareStageList();
 
-        // TODO hase [いいね] 良いエクササイズですね、ちゃんと読まないとできない^^ by jflute (2025/07/01)
+        // TODO done hase [いいね] 良いエクササイズですね、ちゃんと読まないとできない^^ by jflute (2025/07/01)
+        // (hase)ありがとうございます！コメントいただけると自由演技のセクションもやる気が出ます。
         stageList.forEach(stage -> {
             int len = stage.length();
             List<String> showList = new ArrayList<>();
@@ -244,8 +259,10 @@ public class Step02IfForTest extends PlainTestCase {
         List<String> stageList = new ArrayList<>();
         stageList.add("broadway");
         stageList.add("dockside");
+        stageList.add("braganza");
         stageList.add("hangar");
         stageList.add("magiclamp");
+        stageList.add("bongar");
         return stageList;
     }
 }
