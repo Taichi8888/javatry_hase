@@ -98,6 +98,8 @@ public class Step02IfForTest extends PlainTestCase {
             sea = 10;
         }
         log(sea); // your answer? => 10
+        // TODO jflute 1on1にて、ソースコードリーディング話のフォローする予定 (2025/07/01)
+        // (↑これは、くぼ自身のtodoなので、そのまま残しておいてください)
     }
 
     // ===================================================================================
@@ -197,6 +199,10 @@ public class Step02IfForTest extends PlainTestCase {
 //                break;
 //            }
 //        }
+        // TODO hase stageList の内容が変わったとしても、結果が変わらないようにしたいですね by jflute (2025/07/01)
+        // 例えば、stageList に hangar が無くなった場合、同じ結果になるか？
+        // stageList に bongar という stage が新しく追加されて場合、同じ結果になるか？
+        // 難しいですが、もう少し考えてチャレンジしてみてください。
         stageList.forEach(stage -> {
             if (stage.contains("ga")){
                 log(stage);
@@ -218,6 +224,7 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_yourExercise() {
         List<String> stageList = prepareStageList();
 
+        // TODO hase [いいね] 良いエクササイズですね、ちゃんと読まないとできない^^ by jflute (2025/07/01)
         stageList.forEach(stage -> {
             int len = stage.length();
             List<String> showList = new ArrayList<>();

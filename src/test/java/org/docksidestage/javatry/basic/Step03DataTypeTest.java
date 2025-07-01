@@ -84,6 +84,7 @@ public class Step03DataTypeTest extends PlainTestCase {
         }
         log(sea); // your answer? => 2
     } // 少数の比較は非常に小さい値イプシロンを用いてMath.abs(amba - 2.3) < epsilonのように行うべき。
+    // TODO hase [いいね] イプシロンわからなかったので調べて勉強になりました笑 by jflute (2025/07/01)
 
     // ===================================================================================
     //                                                                              Object
@@ -108,3 +109,5 @@ public class Step03DataTypeTest extends PlainTestCase {
         }
     }
 } // コンストラクタは新しいインスタンスを生成するために使用される。メソッドとは違う。
+// TODO hase [いいね] yes, インスタンス生成時に強制的に呼ばれるメソッド、みたいなものですね by jflute (2025/07/01)
+// 一応、文法的には区別されているので、コンストラクタとメソッドは別物という扱いにはなっています。
