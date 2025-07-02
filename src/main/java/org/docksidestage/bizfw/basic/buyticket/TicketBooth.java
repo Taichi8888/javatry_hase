@@ -15,6 +15,10 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+// TODO hase 細かいですが、@authorは2行目を追加しちゃってOKです by jflute (2025/07/02)
+// e.g.
+//  @author jflute
+//  @author tahasega
 /**
  * @author jflute, tahasega
  */
@@ -52,6 +56,8 @@ public class TicketBooth {
     // * @throws TicketSoldOutException ブース内のチケットが売り切れだったら
     // * @throws TicketShortMoneyException 買うのに金額が足りなかったら
     // */
+    // TODO hase [いいね] NDay でうまく再利用できましたね！ by jflute (2025/07/02)
+    // TODO hase JavaDocが、one-dayのままです by jflute (2025/07/02)
     /**
      * Buy one-day passport, method for park guest.
      * @param handedMoney The money (amount) handed over from park guest. (NotNull, NotMinus)
@@ -69,6 +75,7 @@ public class TicketBooth {
         if (handedMoney < priceForCalc) {
             throw new TicketShortMoneyException("Short money: " + handedMoney);
         }
+        // TODO hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
         if (salesProceeds != null) { // second or more purchase
             salesProceeds = salesProceeds + priceForCalc;
             --quantity;

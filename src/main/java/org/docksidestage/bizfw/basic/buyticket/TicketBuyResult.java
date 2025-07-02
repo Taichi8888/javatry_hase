@@ -1,5 +1,8 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
+// TODO hase 細かいですが、javadocお願いします by jflute (2025/07/02)
+// // 3. 最低限のクラスJavaDoc
+// https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 public class TicketBuyResult {
     private Ticket result = null; // 購入したチケット
     private Integer change = null; // お釣り
