@@ -214,6 +214,11 @@ public class Step02IfForTest extends PlainTestCase {
         // ヒント出しておきます。Immutableなクラスがあるということは、Mutableなクラスもあるということで。
         // step1でもMutableなクラス登場しましたね。
         StringBuilder land = new StringBuilder("");
+        if (stageList.size() == 0) {
+            String landNull = null;
+            log(landNull);
+            return;
+        }
         stageList.forEach(stage -> {
             if (stage.startsWith("br")) {
                 return;
@@ -227,13 +232,16 @@ public class Step02IfForTest extends PlainTestCase {
         log(land.toString());
         // 新しいオブジェクトを作らずに、直接中身を変えるからミュータブルな変数は扱えるううう！
         // Stringは変数の再代入をしなければいけないから危険なんですね
-        // TODO hase [いいね] ちょっとトリッキーですけどね。今回はプログラミングパズルということで。 by jflute (2025/07/01)
+        // TODO done hase [いいね] ちょっとトリッキーですけどね。今回はプログラミングパズルということで。 by jflute (2025/07/01)
         // land変数自体はローカル変数ですが、その変数が参照しているインスタンス(StringBuilder)自体は自由なもので、
         // 代入次第ではメソッドが終わった後も生き続けるインスタンスになり得るので、
         // (Javaさんからすると)Lambdaの中で書き換えられても別に良いだろうということです。
         // というか、実際にLambda式で参照していますから、仮にそのLambda式がメソッド終了後も生き続けても、
         // land変数は消えてなくなりますが、そのLambda式がStringBuilderインスタンスを参照し続けて生かすことになりますね。
         // gaのbreakの代わりにreturnで空回しするってのもよく思いつきましたGood。
+        // (hase) ありがとうございます！mutableな変数は自由だから、lambda式の中で生き続けても問題ないのですね。
+        // この問題を通じてミュータブル、イミュータブルについてjavaの扱いが少し分かってきた気がします、ありがとうございます！
+        // 見返すと、リストが空のときnullが返っていなかったので加筆しましたm
 
 //        stageList.forEach(stage -> {
 //            // done hase Lambda式の中は単なるメソッドと捉えて良いので、returnで1回の呼び出しは終了できます by jflute (2025/07/01)
