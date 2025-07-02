@@ -16,7 +16,9 @@
 package org.docksidestage.javatry.basic.st6.os;
 
 /**
+ * OSオブジェクト
  * @author jflute
+ * @author tahasega
  */
 public class St6OperationSystem {
 

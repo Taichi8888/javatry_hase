@@ -16,7 +16,9 @@
 package org.docksidestage.bizfw.basic.objanimal.runner;
 
 /**
+ * Animalは走るのが速いよね
  * @author jflute
+ * @author tahasega
  */
 public interface FastRunner {
 

@@ -2,6 +2,10 @@ package org.docksidestage.bizfw.basic.objanimal;
 
 import org.docksidestage.bizfw.basic.objanimal.vehicle.Ridable;
 
+/**
+ * 象のオブジェクト
+ * @author tahasega
+ */
 public class Elephant extends Animal implements Ridable {
 
     protected static boolean bien = false;

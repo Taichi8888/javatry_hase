@@ -16,7 +16,9 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
- * @author jflute, tahasega
+ * MySQLのクエリ
+ * @author jflute
+ * @author tahasega
  */
 public class St6MySql extends AbstractDbms {
 

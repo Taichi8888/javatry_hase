@@ -2,6 +2,11 @@ package org.docksidestage.bizfw.basic.objanimal.barking;
 
 import org.docksidestage.bizfw.basic.objanimal.Animal;
 
+/**
+ * Animalが鳴くプロセスをここにまとめたよ
+ * @author jflute
+ * @author tahasega
+ */
 public class BarkingProcess {
 
     public BarkedSound bark(Animal animal) {

@@ -16,7 +16,9 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
- * @author jflute, tahasega
+ * PostgreSQLのクエリ
+ * @author jflute
+ * @author tahasega
  */
 public class St6PostgreSql extends AbstractDbms {
 

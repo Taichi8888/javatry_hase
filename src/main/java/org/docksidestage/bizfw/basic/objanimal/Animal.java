@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The object for animal(動物).
  * @author jflute
+ * @author tahasega
  */
 public abstract class Animal implements Loudable {
 

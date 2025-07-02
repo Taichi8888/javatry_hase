@@ -16,7 +16,9 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
 /**
+ * 鳴き声のクラス
  * @author jflute
+ * @author tahasega
  */
 public class BarkedSound {
 

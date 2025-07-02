@@ -16,7 +16,9 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
 /**
+ * チケットの管理（価格、入場、残り入場可能回数、使用済み、夜間限定）
  * @author jflute
+ * @author tahasega
  */
 public class Ticket {
 

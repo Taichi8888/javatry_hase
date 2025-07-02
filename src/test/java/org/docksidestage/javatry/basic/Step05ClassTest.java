@@ -146,7 +146,9 @@ public class Step05ClassTest extends PlainTestCase {
         log(oneDayPassport.isAlreadyIn()); // should be false
         oneDayPassport.doInPark();
         log(oneDayPassport.isAlreadyIn()); // should be true
-    }
+    } // Todo jflute [質問です] Step6までやってみて、この問題ではOneDayPassportなどをTicketの子クラスとして新しく定義した方が良いかも？と思いました。
+    // 一方で、メソッドがほとんど同じでオーバーライドなどをする場面がないため、冗長になる可能性も考えました。
+    // 教えていただけますと幸いです。
 
     /**
      * Now also you cannot get ticket if two-day passport, so return class that has ticket and change. <br>
@@ -156,7 +158,7 @@ public class Step05ClassTest extends PlainTestCase {
         // uncomment after modifying the method
         TicketBooth booth = new TicketBooth();
         int handedMoney = 20000;
-        TicketBuyResult buyResult = booth.buyTwoDayPassport(handedMoney);
+        TicketBuyResult buyResult = new TicketBuyResult(handedMoney, booth.buyTwoDayPassport(handedMoney).getDisplayPrice());
         Ticket twoDayPassport = buyResult.getTicket();
         int change = buyResult.getChange();
         log(twoDayPassport.getDisplayPrice() + change); // should be same as money
@@ -169,7 +171,7 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_moreFix_usePluralDays() {
         TicketBooth booth = new TicketBooth();
         int handedMoney = 20000;
-        TicketBuyResult buyResult = booth.buyTwoDayPassport(handedMoney);
+        TicketBuyResult buyResult = new TicketBuyResult(handedMoney, booth.buyTwoDayPassport(handedMoney).getDisplayPrice());
         Ticket twoDayPassport = buyResult.getTicket();
         twoDayPassport.doInPark();
         log(twoDayPassport.isAlreadyIn());
@@ -188,8 +190,7 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBooth booth = new TicketBooth();
         Ticket oneDayPassport = booth.buyOneDayPassport(10000);
         showTicketIfNeeds(oneDayPassport);
-        TicketBuyResult buyResult = booth.buyTwoDayPassport(20000);
-        Ticket twoDayPassport = buyResult.getTicket();
+        Ticket twoDayPassport = booth.buyTwoDayPassport(20000);
         showTicketIfNeeds(twoDayPassport);
     }
 
@@ -211,15 +212,15 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_wonder_four() {
         TicketBooth booth = new TicketBooth();
-        Ticket fourDaysPassport = booth.buyFourDaysPassport(25000);
-        fourDaysPassport.doInPark();
-        log(fourDaysPassport.isAlreadyIn());
-        fourDaysPassport.doInPark();
-        log(fourDaysPassport.isAlreadyIn());
-        fourDaysPassport.doInPark();
-        log(fourDaysPassport.isAlreadyIn());
-        fourDaysPassport.doInPark();
-        log(fourDaysPassport.isAlreadyIn());
+        Ticket fourDayPassport = booth.buyFourDayPassport(25000);
+        fourDayPassport.doInPark();
+        log(fourDayPassport.isAlreadyIn());
+        fourDayPassport.doInPark();
+        log(fourDayPassport.isAlreadyIn());
+        fourDayPassport.doInPark();
+        log(fourDayPassport.isAlreadyIn());
+        fourDayPassport.doInPark();
+        log(fourDayPassport.isAlreadyIn());
 //        fourDaysPassport.doInPark();
 //        log(fourDaysPassport.isAlreadyIn());
     }

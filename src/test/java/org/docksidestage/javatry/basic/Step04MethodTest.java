@@ -167,7 +167,7 @@ public class Step04MethodTest extends PlainTestCase {
     public String replaceCwithB(String str) {
         return str.replace("C", "B");
     }
-    // TODO hase [いいね] 第二引数の引数名、ちゃんと意味のある引数名でGood by jflute (2025/07/02)
+    // TODO done hase [いいね] 第二引数の引数名、ちゃんと意味のある引数名でGood by jflute (2025/07/02)
     public String quote(String str, String quotation) {
         return quotation + str + quotation;
     }

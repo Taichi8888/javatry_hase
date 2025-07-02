@@ -16,7 +16,9 @@
 package org.docksidestage.bizfw.basic.objanimal.loud;
 
 /**
+ * Animalは大きな声で鳴くことができるよ
  * @author jflute
+ * @author tahasega
  */
 public interface Loudable {
 
