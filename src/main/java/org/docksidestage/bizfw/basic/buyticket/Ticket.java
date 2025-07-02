@@ -27,6 +27,10 @@ public class Ticket {
     //                                                                           =========
     private final int displayPrice; // written on ticket, park guest can watch this
     private boolean alreadyIn; // true means this ticket is unavailable
+    // TODO hase フラグはできるだけ、falseからtrueになる、(降りてる旗が上がる) にしたいところですね by jflute (2025/07/02)
+    // あと、変数のライフサイクル的には、doInPark()したらfalseに変わっていますので...
+    // 「1回目の入園」という状態を示すニュアンスなのかもですが、そうだとすると最初からtrueなのが少し違和感出ます。
+    // (ぼくだと、firstTimeDone = false; で、doInPark()が一回呼ばれたら true になるとか、かなぁ...)
     private boolean firstTime = true; // 2日以上有効なチケットの初日判定
     private int daysLeft; // 2日以上有効なチケットの残日数管理
 
@@ -45,6 +49,10 @@ public class Ticket {
             throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
         }
         if (firstTime) {
+            // TODO hase せめて、TicketBoothに定義してある定数を使いたいですね。 by jflute (2025/07/02)
+            // 値段が変わったときに、あっちもこっちも修正しないと、あっ修正漏れ、になりやすいので。
+            // TODO hase 修行++: でも、究極は、ここでこういったif-else-if自体をやめたいところですね。 by jflute (2025/07/02)
+            // もし、チケットの種類が増えたとき、TicketBoothだけじゃなくここのelse-ifも増やさないといけなくなります。
             if (displayPrice <= -7400) {
                 daysLeft = 1; // twoNights
             } else if (displayPrice <= 7400) {
@@ -77,6 +85,9 @@ public class Ticket {
         return alreadyIn;
     }
 
+    // TODO hase こういうのもあるはあるんですが、ただオーソドックスにはisOnly...というようにisを付けます by jflute (2025/07/02)
+    // ↑でも isAlreadyIn() と is 方式ですから、合わせた方が良いかなと。
+    // is以外だと、has,existsなどの三単現の動詞、can/may/shouldなどの助動詞がbooleanでよく使われます。
     public boolean onlyNightAvailable() {
         return displayPrice <= 0;
     }

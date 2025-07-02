@@ -15,7 +15,7 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO done hase 細かいですが、@authorは2行目を追加しちゃってOKです by jflute (2025/07/02)
+// done hase 細かいですが、@authorは2行目を追加しちゃってOKです by jflute (2025/07/02)
 // e.g.
 //  @author jflute
 //  @author tahasega
@@ -57,9 +57,13 @@ public class TicketBooth {
     // * @throws TicketSoldOutException ブース内のチケットが売り切れだったら
     // * @throws TicketShortMoneyException 買うのに金額が足りなかったら
     // */
-    // TODO done hase [いいね] NDay でうまく再利用できましたね！ by jflute (2025/07/02)
-    // TODO done hase JavaDocが、one-dayのままです by jflute (2025/07/02)
+    // done hase [いいね] NDay でうまく再利用できましたね！ by jflute (2025/07/02)
+    // done hase JavaDocが、one-dayのままです by jflute (2025/07/02)
     // チーム開発で非常に大事ですね、気をつけます。
+    // TODO hase javadoc, せっかくなので、@param で NDayPrice も追加しましょう by jflute (2025/07/02)
+    // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。
+    // TODO hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
+    // せっかくなので、IDEのリファクタリング機能を使って1箇所だけ直してOKの簡単にrename処理してみましょう。
     /**
      * Buy N-day / M-night passport, method for park guest. (N = 1,2,4) (M = 2)
      * @param handedMoney The money (amount) handed over from park guest. (NotNull, NotMinus)
@@ -70,6 +74,15 @@ public class TicketBooth {
         if (quantity <= 0) {
             throw new TicketSoldOutException("Sold out");
         }
+        // TODO hase ここ少しコメントの補足欲しいですね。マイナスpriceだったら、プラスに戻してる？のはなぜ？ by jflute (2025/07/02)
+        // 例えば、handedMoneyもデータ型的にはマイナス入りますが、仕様としてJavaDocにNotMinusと書いてあります。
+        // 実際にチェックして例外出すの方が理想ですが、一応業務的にマイナスは許さないよという思想という感じではあります。
+        // 今の実装だと、NDayPriceは「マイナス入れられてもプラスに補正して動くよ」って感じに見えます。
+        //
+        // (続き) ↑って書いた後に、「夜間は負の数で管理する」というコメントを見つけました(^^。
+        // なるほどぅ。ただ、あまりマイナスに業務的な意味を保たせて制御するというのは、あまり好まれない方法です。
+        // マジックナンバーに近い使い方なので、将来本当にマイナスを業務的に表現する必要が出てきたときに破綻します。
+        // 夜間であることは、別途何かしらの(直接的な)方法で表現した方が良いかなとは思いました。
         int priceForCalc = NDayPrice;
         if (priceForCalc < 0) {
             priceForCalc = priceForCalc * -1;
@@ -77,7 +90,7 @@ public class TicketBooth {
         if (handedMoney < priceForCalc) {
             throw new TicketShortMoneyException("Short money: " + handedMoney);
         }
-        // TODO done hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
+        // done hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
         // 本当だ...ありがとうございます
         if (salesProceeds != null) { // second or more purchase
             salesProceeds = salesProceeds + priceForCalc;
@@ -89,6 +102,9 @@ public class TicketBooth {
         return ticket;
     }
 
+    // TODO hase 多少個人差もありますが、Javaだと基本publicは上で、privateが下になります by jflute (2025/07/02)
+    // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
+    // 合わせて頂けるとありがたいというところではあります。
     public Ticket buyOneDayPassport(Integer handedMoney) {
 //        if (quantity <= 0) {
 //            throw new TicketSoldOutException("Sold out");
