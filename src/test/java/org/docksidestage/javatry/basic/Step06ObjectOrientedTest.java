@@ -17,14 +17,16 @@ package org.docksidestage.javatry.basic;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
-import org.docksidestage.bizfw.basic.objanimal.Animal;
-import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
-import org.docksidestage.bizfw.basic.objanimal.Cat;
-import org.docksidestage.bizfw.basic.objanimal.Dog;
-import org.docksidestage.bizfw.basic.objanimal.Zombie;
+import org.docksidestage.bizfw.basic.objanimal.*;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
+import org.docksidestage.javatry.basic.st6.dbms.AbstractDbms;
+import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
+import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
+import org.docksidestage.javatry.basic.st6.os.Mac;
+import org.docksidestage.javatry.basic.st6.os.Windows;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -32,7 +34,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author tahasega
  */
 public class Step06ObjectOrientedTest extends PlainTestCase {
 
@@ -63,26 +65,31 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         if (quantity <= 0) {
             throw new IllegalStateException("Sold out");
         }
-        --quantity;
+
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
-        salesProceeds = handedMoney;
 
+        --quantity;
+
+        if (salesProceeds == null) {
+            salesProceeds = oneDayPrice;
+        }else {
+            salesProceeds += oneDayPrice;
+        }
+        log(salesProceeds);
         //
         // [ticket info]
         //
         // simulation: actually these variables should be more wide scope
-        int displayPrice = quantity;
+        int displayPrice = oneDayPrice;
         boolean alreadyIn = false;
 
         // other processes here...
-        // ...
-        // ...
+        Ticket oneDayPass = new Ticket(displayPrice);
+        //do in park here!!!
+        oneDayPass.doInPark();
 
-        //
-        // [do in park now!!!]
-        //
         // simulation: actually this process should be called by other trigger
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
@@ -92,14 +99,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //
         // [final process]
         //
-        saveBuyingHistory(quantity, displayPrice, salesProceeds, alreadyIn);
+        saveBuyingHistory(quantity, salesProceeds, displayPrice, alreadyIn);
     }
 
     private void saveBuyingHistory(int quantity, Integer salesProceeds, int displayPrice, boolean alreadyIn) {
         if (alreadyIn) {
             // simulation: only logging here (normally e.g. DB insert)
-            showTicketBooth(displayPrice, salesProceeds);
-            showYourTicket(quantity, alreadyIn);
+            showTicketBooth(quantity, salesProceeds);
+            showYourTicket(displayPrice, alreadyIn);
         }
     }
 
@@ -133,9 +140,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [buy one-day passport]
         //
         // if step05 has been finished, you can use this code by jflute (2019/06/15)
-        //Ticket ticket = booth.buyOneDayPassport(10000);
-        booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
-        Ticket ticket = new Ticket(7400); // also here
+        Ticket ticket = booth.buyOneDayPassport(10000);
+//        booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
+//        Ticket ticket = new Ticket(7400); // also here
 
         // *buyOneDayPassport() has this process:
         //if (quantity <= 0) {
@@ -191,7 +198,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     // write your memo here:
     // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     // what is object?
-    //
+    // クラスを細分化し、オブジェクトを作成することで、コードに登場する変数の粒度が揃って読みやすくなる。（凝集度）
+    // ・・・役割・責務の分離
+    // オブジェクトを作成すると、再利用可能なパーツとして何回でも利用することができ、コードが短くなる。（再利用性）
+    // ・・・変更への強さ
+    // _/_/_/_/_/_/_/_/_/_/
+    //「データ（状態）」と「それを操作する手続き（振る舞い）」をひとまとめにし、特定の「責務」を持たせた、自律したプログラム部品
     // _/_/_/_/_/_/_/_/_/_/
 
     // ===================================================================================
@@ -205,9 +217,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Dog dog = new Dog();
         BarkedSound sound = dog.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = dog.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -215,9 +227,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Dog();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -225,9 +237,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = createAnyAnimal();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     private Animal createAnyAnimal() {
@@ -243,9 +255,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     private void doAnimalSeaLand_for_4th(Animal animal) {
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -253,9 +265,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Cat();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 5
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -263,9 +275,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = new Zombie();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => uooo
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => -1
     }
 
     /**
@@ -276,7 +288,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is happy?
-        //
+        // 変更に強いしなやかなプログラム。柔軟性、拡張性。
+        // Animal animal = の右辺を変えるだけで、そのほかは何も変えずとも振る舞いを変えられる。
         // _/_/_/_/_/_/_/_/_/_/
     }
 
@@ -287,18 +300,23 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_interface_dispatch() {
         Loudable loudable = new Zombie();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => uooo
         String land = ((Zombie) loudable).bark().getBarkWord();
-        log(land); // your answer? => 
-    }
+        String sea2 = ((Zombie) loudable).soundLoudly();
+//        String sea3 = loudable.bark().getBarkWord(); loudableはbark()メソッドを持っていない
+        log(land); // your answer? => uooo
+        log(sea2);
+    }//インターフェースは継承と違って、hasの関係。クラスに特定の機能を実装させる。
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_interface_hierarchy() {
         Loudable loudable = new AlarmClock();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => jiri jiri jiri---
         boolean land = loudable instanceof Animal;
-        log(land); // your answer? => 
+        boolean land2 = loudable instanceof Loudable;
+        log(land); // your answer? => false
+        log(land2); // your answer? => true
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -306,17 +324,21 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal seaAnimal = new Cat();
         Animal landAnimal = new Zombie();
         boolean sea = seaAnimal instanceof FastRunner;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
         boolean land = landAnimal instanceof FastRunner;
-        log(land); // your answer? => 
-    }
+        log(land); // your answer? => false
+    } //instanceofはそのオブジェクトが特定のクラスのインスタンスであるか、または特定のインターフェースを実装しているか。
 
     /**
      * Make Dog class implement FastRunner interface. (the method implementation is same as Cat class) <br>
      * (DogもFastRunnerインターフェースをimplementsしてみましょう (メソッドの実装はCatと同じで))
      */
     public void test_objectOriented_polymorphism_interface_runnerImpl() {
-        // your confirmation code here
+        Animal pagu = new Dog();
+        boolean sea = pagu instanceof Dog;
+        boolean land = pagu instanceof FastRunner;
+        log(sea); // true
+        log(land); // true
     }
 
     /**
@@ -327,6 +349,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is difference?
+        // 両方ともクラスの設計図を作る。
+        // 抽象クラスはis-aの関係（親子関係）。
+        // インターフェースは継承と違って、can-doの関係。クラスに特定の機能を実装させる。
         //
         // _/_/_/_/_/_/_/_/_/_/
     }
@@ -339,7 +364,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (FastRunnerではないAnimalクラスのコンクリートクラスをobjanimalパッケージに作成しましょう (実装はお好きなように))
      */
     public void test_objectOriented_polymorphism_makeConcrete() {
-        // your confirmation code here
+        Elephant zou = new Elephant();
+        log(zou.isBien()); //false
+        zou.fight();
+        log(zou.isBien()); // true
+        log(zou.getHitPoint()); // 9
+        zou.fight();
+        log(zou.getHitPoint()); // 6
     }
 
     /**
@@ -347,27 +378,43 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (Animalクラスの一部のコンクリートクラスだけがimplementsするインターフェースをobjanimal配下の新しいパッケージに作成しましょう (実装はお好きなように))
      */
     public void test_objectOriented_polymorphism_makeInterface() {
-        // your confirmation code here
+        Animal zou = new Elephant();
+        zou.fight();
+        log(zou.getHitPoint()); // 9
+        zou.fight();
+        log(zou.getHitPoint()); // 6
+        ((Elephant)zou).ride();
+        log(zou.getHitPoint()); // 5
     }
 
     // ===================================================================================
     //                                                                           Challenge
     //                                                                           =========
     /**
-     * Extract St6MySql, St6PostgreSql (basic.st6.dbms)'s process to abstract class (as super class and sub-class) <br>
+     * Extract St6MySql, St6PostgreSql (basic.st6.dbms)'s process to abstract class (as super class and subclass) <br>
      * (St6MySql, St6PostgreSql (basic.st6.dbms) から抽象クラスを抽出してみましょう (スーパークラスとサブクラスの関係に))
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
-        // your confirmation code here
-    }
+        AbstractDbms mysql = new St6MySql();
+        AbstractDbms postgresql = new St6PostgreSql();
+        log(mysql.buildPagingQuery(3,5));
+        log(postgresql.buildPagingQuery(3,5));
+    } // 同じ型宣言、同じメソッドで違う出力得られた。ちょっとお得かも。
 
     /**
-     * Extract St6OperationSystem (basic.st6.os)'s process to concrete classes (as super class and sub-class) <br>
+     * Extract St6OperationSystem (basic.st6.os)'s process to concrete classes (as super class and subclass) <br>
      * (St6OperationSystem (basic.st6.os) からコンクリートクラスを抽出してみましょう (スーパークラスとサブクラスの関係に))
      */
     public void test_objectOriented_writing_specialization_extractToConcrete() {
-        // your confirmation code here
-    }
+        Mac mac = new Mac("abc123");
+        Windows windows = new Windows("def456");
+//        St6OperationSystem oldWindows = new St6OperationSystem("OldWindows", "ghi789");
+        log(mac.getFileSeparator());
+        log(windows.getUserDirectory());
+//        log(oldWindows.getUserDirectory());
+    } // TODO hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
+    // 今のままだと、親クラスのコンストラクタから作られたもの全てが例外処理されてしまうが、親クラスのif文は消したい。
+    // 30分詰まったので保留。
 
     // ===================================================================================
     //                                                                           Good Luck
@@ -377,7 +424,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (抽象クラス肥大化を抑制するためにも、Animalのbark()のプロセス(処理)をBarkingProcessクラスとして切り出しましょう)
      */
     public void test_objectOriented_writing_withDelegation() {
-        // your confirmation code here
+        Animal dog = new Dog();
+        log(dog.bark().getBarkWord());
     }
 
     /**
@@ -398,18 +446,20 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * </pre>
      */
     public void test_objectOriented_writing_withPackageRefactoring() {
-        // your confirmation code here
+        Animal dog = new Dog();
+        log(dog.bark().getBarkWord());
     }
 
     /**
-     * Is Zombie correct as sub-class of Animal? Analyze it in thirty seconds. (thinking only) <br>
+     * Is Zombie correct as subclass of Animal? Analyze it in thirty seconds. (thinking only) <br>
      * (ゾンビは動物クラスのサブクラスとして適切でしょうか？30秒だけ考えてみましょう (考えるだけでOK))
      */
     public void test_objectOriented_zoo() {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        // is it corrent?
-        //
+        // is it correct?
+        // オーバーライドしすぎていてあまり継承の意味があまりない気がする。
+        // メソッドの名前自体は同じなので、元animalだったのを伝える目的でサブクラス化するは有効かも。
         // _/_/_/_/_/_/_/_/_/_/
     }
 }

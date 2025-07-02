@@ -16,12 +16,16 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
- * @author jflute
+ * @author jflute, tahasega
  */
-public class St6MySql {
+public class St6MySql extends AbstractDbms {
 
-    public String buildPagingQuery(int pageSize, int pageNumber) {
-        int offset = pageSize * (pageNumber - 1);
+//    public String buildPagingQuery(int pageSize, int pageNumber) { // googleの検索結果画面など、大量のデータを少しずつ区切って表示する仕組み（ページング）
+//        int offset = pageSize * (pageNumber - 1);
+//        return "limit " + offset + ", " + pageSize;
+//    }
+    @Override
+    public String eachPagingQuery(int pageSize, int offset) {
         return "limit " + offset + ", " + pageSize;
     }
 }

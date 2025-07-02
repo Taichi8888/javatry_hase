@@ -23,15 +23,15 @@ public class St6OperationSystem {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final String OS_TYPE_MAC = "Mac";
-    private static final String OS_TYPE_WINDOWS = "Windows";
-    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
+//    private static final String OS_TYPE_MAC = "Mac";
+//    private static final String OS_TYPE_WINDOWS = "Windows";
+//    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final String osType;
-    private final String loginId;
+    public final String osType;
+    public final String loginId;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -52,26 +52,29 @@ public class St6OperationSystem {
     }
 
     protected String getFileSeparator() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-            return "/";
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-            return "\\";
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-            return "\\";
-        } else {
-            throw new IllegalStateException("Unknown osType: " + osType);
-        }
+//        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
+//            return "/";
+//        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
+//            return "\\";
+//        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
+//            return "\\";
+//        } else {
+//            throw new IllegalStateException("Unknown osType: " + osType);
+//        }
+        throw new IllegalStateException("Unknown osType: " + osType);
     }
 
-    protected String getUserDirectory() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-            return "/Users/" + loginId;
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-            return "/Users/" + loginId;
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-            return "/Documents and Settings/" + loginId;
-        } else {
-            throw new IllegalStateException("Unknown osType: " + osType);
-        }
+    public String getUserDirectory() {
+//        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
+//            return "/Users/" + loginId;
+//        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
+//            return "/Users/" + loginId;
+//        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
+//            return "/Documents and Settings/" + loginId;
+//        } else {
+//            throw new IllegalStateException("Unknown osType: " + osType);
+//        }
+        throw new IllegalStateException("Unknown osType: " + osType);
+
     }
 }

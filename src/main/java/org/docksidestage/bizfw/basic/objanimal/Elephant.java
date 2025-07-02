@@ -1,0 +1,38 @@
+package org.docksidestage.bizfw.basic.objanimal;
+
+import org.docksidestage.bizfw.basic.objanimal.vehicle.Ridable;
+
+public class Elephant extends Animal implements Ridable {
+
+    protected static boolean bien = false;
+
+    public boolean isBien() {
+        return bien;
+    }
+
+    public Elephant() {
+    }
+
+    public String getBarkWord() {
+        return "paon"; // what in English
+    }
+//    @Override
+    public void fight() {
+        downHitPoint();
+        this.bien = true;
+    }
+
+    @Override
+    protected void downHitPoint() {
+        super.downHitPoint();
+        if (isBien()) {
+            super.downHitPoint();
+            super.downHitPoint();
+        }
+    }
+
+    public void ride() {
+        this.bien = false; // medicine given ...
+        downHitPoint();
+    }
+}
