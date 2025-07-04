@@ -29,9 +29,9 @@ public class SupercarClient {
     private final Collection<Supercar> orderedCustomCarCollection = new ArrayList<>();
 
     public void buySupercar() {
-        SupercarDealer dealer = createDealer();
-        String clientRequirement = prepareClientRequirement();
-        Supercar orderedCustomCar = dealer.orderSupercar(clientRequirement);
+        SupercarDealer dealer = createDealer(); // ディーラーできた
+        String clientRequirement = prepareClientRequirement(); // 客の要望を準備、"steering wheel is like sea"
+        Supercar orderedCustomCar = dealer.orderSupercar(clientRequirement); // ディーラーに注文（）
         orderedCustomCarCollection.add(orderedCustomCar);
     }
 

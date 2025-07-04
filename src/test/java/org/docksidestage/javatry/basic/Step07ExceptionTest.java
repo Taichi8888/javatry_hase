@@ -15,6 +15,8 @@
  */
 package org.docksidestage.javatry.basic;
 
+import java.io.IOException;
+
 import org.docksidestage.bizfw.basic.supercar.SupercarClient;
 import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
@@ -61,7 +63,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             sea = e.getMessage();
         }
         log(sea); // your answer? => oneman at showbase
-    }
+    } // Throwable(String message)のコンストラクタでメッセージを設定している。
 
     /**
      * What class name and method name and row number cause the exception? (you can execute and watch logs) <br>
@@ -168,7 +170,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (NullPointerException e) {
             log(e);
         }
-    }
+    } // (Step07ExceptionTest.java:166)
 
     // ===================================================================================
     //                                                                   Checked Exception
@@ -178,7 +180,16 @@ public class Step07ExceptionTest extends PlainTestCase {
      * (new java.io.File(".") の canonical path を取得してログに表示、I/Oエラーの時はメッセージとスタックトレースを代わりに表示)
      */
     public void test_exception_checkedException_basic() {
-    }
+        try {
+            String path = new java.io.File(".").getCanonicalPath(); //
+            log(path);
+        } catch (IOException e) {
+            log(e.getMessage()); // message
+            log(e.getStackTrace()); // stack trace
+        }
+    } // ファイル操作、データベース接続、ネットワーク通信などでは、コンパイル時に強制的に例外処理を要求される。（チェック例外）
+    // ファイルが存在しない、接続できない、などの事前に想定できる例外状況が多いので、チェック例外が使われる。
+    // RuntimeExceptionは「プログラム自体のバグ」で発生することが多い。毎回try-catch処理すると煩雑になるため、チェック例外から除外。
 
     // ===================================================================================
     //                                                                               Cause
@@ -198,14 +209,17 @@ public class Step07ExceptionTest extends PlainTestCase {
             Throwable cause = e.getCause();
             sea = cause.getMessage();
             land = cause.getClass().getSimpleName();
-            log(sea); // your answer? => 
-            log(land); // your answer? => 
-            log(e); // your answer? => 
+            log(sea); // your answer? => Failed to call the third help method: symbol=-1
+            log(land); // your answer? => IllegalArgumentException
+            log(e); // your answer? => Failed to call the second help method: symbol=1
         }
-    }
+    } // Caused by: java.lang.NumberFormatException: For input string: "piari"
+    // エラー追うの大変すぎる......
+    // Caused byを追うと、例外が発生した原因を特定できる。
+    // 例外の原因を追うために、例外のメッセージに情報を含めることが重要。
 
     private void throwCauseFirstLevel() {
-        int symbol = Integer.MAX_VALUE - 0x7ffffffe;
+        int symbol = Integer.MAX_VALUE - 0x7ffffffe; // 1
         try {
             throwCauseSecondLevel(symbol);
         } catch (IllegalArgumentException e) {
@@ -215,8 +229,8 @@ public class Step07ExceptionTest extends PlainTestCase {
 
     private void throwCauseSecondLevel(int symbol) {
         try {
-            --symbol;
-            symbol--;
+            --symbol; // 0
+            symbol--; // -1
             if (symbol < 0) {
                 throwCauseThirdLevel(symbol);
             }
@@ -227,7 +241,7 @@ public class Step07ExceptionTest extends PlainTestCase {
 
     private void throwCauseThirdLevel(int symbol) {
         if (symbol < 0) {
-            Integer.valueOf("piari");
+            Integer.valueOf("piari"); // NumberFormatException
         }
     }
 
@@ -247,9 +261,13 @@ public class Step07ExceptionTest extends PlainTestCase {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             // What happens? Write situation and cause here. (何が起きた？状況と原因をここに書いてみましょう)
             // - - - - - - - - - -
-            //
-            //
-            //
+            // 【ログ】The kawaii face is already unsupported so we cannot make it.
+            // 【結論】スーパーカーを買おうとしたが、所望のステアリングホイールを作るためのkawaii faceネジがサ終していて、注文できなかった。
+            // 【具体】
+            //  スーパーカーを買いにディーラーに来た。
+            //  seaみたいなステアリングホイールが良いと言った。
+            //  ディーラーは、要望を聞いてpiariというカタログキーのスーパーカーを注文した。
+            //  (7/4ここまで)
             // _/_/_/_/_/_/_/_/_/_/
         }
     }
