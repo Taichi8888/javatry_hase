@@ -71,7 +71,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
 
         --quantity;
-
+        // [いいね]売上加算気付けてる　by tanaryo
         if (salesProceeds == null) {
             salesProceeds = oneDayPrice;
         }else {
@@ -415,6 +415,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     } // TODO hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
     // 今のままだと、親クラスのコンストラクタから作られたもの全てが例外処理されてしまうが、親クラスのif文は消したい。
     // 30分詰まったので保留。
+    // [comment] OSが何であるかという情報はどこで担保する？　
+    // 今だとコンストラクタの引数で指定しているが他にもありそうかも？(灯台下暗し的な)　by tanaryo (2025/7/5)
 
     // ===================================================================================
     //                                                                           Good Luck

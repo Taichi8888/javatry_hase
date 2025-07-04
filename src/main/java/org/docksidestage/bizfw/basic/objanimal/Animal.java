@@ -58,6 +58,12 @@ public abstract class Animal implements Loudable {
         return this.barkingProcess.bark(this);
     } // 引数にthis渡すのが冗長な気がする。
     // breatheInとかもまとめて外に出しても良いかも→HP管理がめんどくさい。
+    // [いいね] 外に出す考え方は良さそう
+    // そもそもbarkingProcessを作成した理由はAnimalのbark()のプロセスをそっちに切り出すため
+    // なので、animalクラスにbarkに関する処理が多く残っているのは望ましくない
+    // barkingProcessにどこまで責務を持たせるか
+    // ただし、現状downHitPoint()はAnimalの責務なので、そこはBarkingProcessに持たせられない
+    // うまくその処理を委譲できないかな・・・・ by tanaryo (2025/7/5
 
     public void breatheIn() { // actually depends on barking
         logger.debug("...Breathing in for barking"); // dummy implementation
