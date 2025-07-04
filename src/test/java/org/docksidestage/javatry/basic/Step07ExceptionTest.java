@@ -47,8 +47,8 @@ public class Step07ExceptionTest extends PlainTestCase {
         } finally {
             sea.append("broadway");
         }
-        log(sea); // your answer? =>
-    }
+        log(sea); // your answer? => hangarbroadway
+    } // finallyはcatchしてもしなくても実行される。エラーが発生しなかったらdocksidebroadwayになる。
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_basic_message() {
@@ -60,7 +60,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? =>
+        log(sea); // your answer? => oneman at showbase
     }
 
     /**
@@ -75,7 +75,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => St7BasicExceptionThrowerクラス、onemanメソッド、40行目
     }
 
     // ===================================================================================
@@ -88,36 +88,37 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_hierarchy_Runtime_instanceof_RuntimeException() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof RuntimeException;
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => true
+    } // IllegalStateException extends RuntimeException
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Exception() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Error() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Error;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => false
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Throwable() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Throwable;
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => true
+    } // instanceofは全てのスーパークラスを確認する。
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Throwable_instanceof_Exception() {
         Object exp = new Throwable("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => false
+    } // instanceofはメソッドではなくキーワード（if, for, class, tryなど）
+    // だからoが大文字にならない（キャメルケースというらしい）
 
     // ===================================================================================
     //                                                                         NullPointer
@@ -135,8 +136,8 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
-    }
+        // your answer? => land.toLowerCase()でnullに対して変更を加えようとしているから。c言語と同じ？
+    } // sea.equals("mystic") ? null : "oneman"; 三項演算子
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_nullpointer_headache() {
@@ -149,7 +150,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => NullPointerExceptionの中身
     }
 
     /**
@@ -161,7 +162,8 @@ public class Step07ExceptionTest extends PlainTestCase {
             String sea = "mystic";
             String land = !!!sea.equals("mystic") ? null : "oneman";
             String piari = !!!sea.equals("mystic") ? "plaza" : null;
-            int sum = land.length() + piari.length();
+            int sum = land.length();
+            sum += piari.length();
             log(sum);
         } catch (NullPointerException e) {
             log(e);

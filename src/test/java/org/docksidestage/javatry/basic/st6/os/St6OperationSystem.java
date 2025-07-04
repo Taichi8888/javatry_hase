@@ -15,6 +15,9 @@
  */
 package org.docksidestage.javatry.basic.st6.os;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * OSオブジェクト
  * @author jflute
@@ -28,6 +31,13 @@ public class St6OperationSystem {
 //    private static final String OS_TYPE_MAC = "Mac";
 //    private static final String OS_TYPE_WINDOWS = "Windows";
 //    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
+    private List<String> OSTypeList() {
+        List<String> osTypeList = new ArrayList<>();
+        osTypeList.add("Mac");
+        osTypeList.add("Windows");
+        osTypeList.add("OldWindows");
+        return osTypeList;
+    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -54,15 +64,7 @@ public class St6OperationSystem {
     }
 
     protected String getFileSeparator() {
-//        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-//            return "/";
-//        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-//            return "\\";
-//        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-//            return "\\";
-//        } else {
-//            throw new IllegalStateException("Unknown osType: " + osType);
-//        }
+
         throw new IllegalStateException("Unknown osType: " + osType);
     }
 
@@ -76,6 +78,10 @@ public class St6OperationSystem {
 //        } else {
 //            throw new IllegalStateException("Unknown osType: " + osType);
 //        }
+        List<String> osTypeList = OSTypeList();
+        for (String osType : osTypeList) {
+            if (osType.equals("Windows")) {}
+        }
         throw new IllegalStateException("Unknown osType: " + osType);
 
     }

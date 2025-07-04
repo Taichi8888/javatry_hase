@@ -86,7 +86,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         boolean alreadyIn = false;
 
         // other processes here...
-        Ticket oneDayPass = new Ticket(displayPrice);
+        Ticket oneDayPass = new Ticket(displayPrice, 1, false);
         //do in park here!!!
         oneDayPass.doInPark();
 

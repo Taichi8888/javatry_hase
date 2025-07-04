@@ -58,7 +58,7 @@ public class Step05ClassTest extends PlainTestCase {
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
-    public void test_class_howToUse_nosales() {
+    public void test_class_howToUse_noSales() {
         TicketBooth booth = new TicketBooth();
         Integer sea = booth.getSalesProceeds();
         log(sea); // your answer? => null
@@ -109,17 +109,20 @@ public class Step05ClassTest extends PlainTestCase {
      * Make method for buying two-day passport (price is 13200). (which can return change as method return value)
      * (TwoDayPassport (金額は13200) も買うメソッドを作りましょう (戻り値でお釣りをちゃんと返すように))
      */
-//    public void test_class_letsFix_makeMethod_twoday() {
-//        // uncomment after making the method
-//        TicketBooth booth = new TicketBooth();
-//        int money = 14000;
-//        int change = booth.buyTwoDayPassport(money);
-//        Integer sea = booth.getSalesProceeds() + change;
-//        log(sea); // should be same as money
-//
-//        // and show two-day passport quantity here
-//        log("two-day passport price: {}", booth.getSalesProceeds());
-//    }
+    public void test_class_letsFix_makeMethod_twoDay() {
+        // uncomment after making the method
+        TicketBooth booth = new TicketBooth();
+        int money = 14000;
+        Ticket twoDayPassport = booth.buyTwoDayPassport(money);
+        TicketBuyResult result = new TicketBuyResult(money, twoDayPassport.getDisplayPrice(), twoDayPassport.getDaysLeft(), twoDayPassport.isOnlyNightAvailable());
+        int change = result.getChange();
+        Integer sea = booth.getSalesProceeds() + change;
+        log(sea); // should be same as money
+
+        // and show two-day passport quantity here
+        log("quantity: {}", booth.getQuantity());
+        log("two-day passport price: {}", booth.getSalesProceeds());
+    }
 
     /**
      * Recycle duplicate logics between one-day and two-day by e.g. private method in class. (And confirm result of both before and after) <br>
@@ -146,9 +149,7 @@ public class Step05ClassTest extends PlainTestCase {
         log(oneDayPassport.isAlreadyIn()); // should be false
         oneDayPassport.doInPark();
         log(oneDayPassport.isAlreadyIn()); // should be true
-    } // Todo jflute [質問です] Step6までやってみて、この問題ではOneDayPassportなどをTicketの子クラスとして新しく定義した方が良いかも？と思いました。
-    // 一方で、メソッドがほとんど同じでオーバーライドなどをする場面がないため、冗長になる可能性も考えました。
-    // 教えていただけますと幸いです。
+    }
 
     /**
      * Now also you cannot get ticket if two-day passport, so return class that has ticket and change. <br>
@@ -158,8 +159,8 @@ public class Step05ClassTest extends PlainTestCase {
         // uncomment after modifying the method
         TicketBooth booth = new TicketBooth();
         int handedMoney = 20000;
-        TicketBuyResult buyResult = new TicketBuyResult(handedMoney, booth.buyTwoDayPassport(handedMoney).getDisplayPrice());
-        Ticket twoDayPassport = buyResult.getTicket();
+        Ticket twoDayPassport = booth.buyTwoDayPassport(handedMoney);
+        TicketBuyResult buyResult = new TicketBuyResult(handedMoney, twoDayPassport.getDisplayPrice(), twoDayPassport.getDaysLeft(), twoDayPassport.isOnlyNightAvailable());
         int change = buyResult.getChange();
         log(twoDayPassport.getDisplayPrice() + change); // should be same as money
     }
@@ -171,18 +172,18 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_moreFix_usePluralDays() {
         TicketBooth booth = new TicketBooth();
         int handedMoney = 20000;
-        TicketBuyResult buyResult = new TicketBuyResult(handedMoney, booth.buyTwoDayPassport(handedMoney).getDisplayPrice());
-        Ticket twoDayPassport = buyResult.getTicket();
+        Ticket twoDayPassport = booth.buyTwoDayPassport(handedMoney);
+        log(twoDayPassport.getDaysLeft());
         twoDayPassport.doInPark();
         log(twoDayPassport.isAlreadyIn());
-//        log(twoDayPassport.isOneDayLeft());
+        log(twoDayPassport.getDaysLeft());
         twoDayPassport.doInPark();
         log(twoDayPassport.isAlreadyIn());
-//        log(twoDayPassport.isOneDayLeft());
+        log(twoDayPassport.getDaysLeft());
     }
 
     /**
-     * Accurately determine whether type of bought ticket is two-day passport or not by if-statemet. (fix Ticket classes if needed) <br>
+     * Accurately determine whether type of bought ticket is two-day passport or not by if-statement. (fix Ticket classes if needed) <br>
      * (買ったチケットの種別がTwoDayPassportなのかどうかをif文で正確に判定してみましょう。(必要ならTicketクラスたちを修正))
      */
     public void test_class_moreFix_whetherTicketType() {
@@ -221,8 +222,6 @@ public class Step05ClassTest extends PlainTestCase {
         log(fourDayPassport.isAlreadyIn());
         fourDayPassport.doInPark();
         log(fourDayPassport.isAlreadyIn());
-//        fourDaysPassport.doInPark();
-//        log(fourDaysPassport.isAlreadyIn());
     }
 
     /**
@@ -232,10 +231,15 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_moreFix_wonder_night() {
         TicketBooth booth = new TicketBooth();
         Ticket ticket = booth.buyTwoNightPassport(10000);
-        log(ticket.onlyNightAvailable());
-        ticket.doInPark();
+        log(ticket.isOnlyNightAvailable());
+        try {
+            ticket.doInPark(); // should throw exception
+        } catch (IllegalStateException e) {
+            log("Cannot use day park with night-only ticket: " + e.getMessage());
+        }
+        ticket.doInNightPark();
         log(ticket.isAlreadyIn());
-        ticket.doInPark();
+        ticket.doInNightPark();
         log(ticket.isAlreadyIn());
     }
 
@@ -246,7 +250,7 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_moreFix_yourRefactoring() {
         TicketBooth booth = new TicketBooth();
         Ticket ticket = booth.buyTwoNightPassport(10000);
-        log(ticket.onlyNightAvailable());
+        log(ticket.isOnlyNightAvailable());
         ticket.doInPark();
         log(ticket.isAlreadyIn());
         ticket.doInPark();
@@ -255,14 +259,14 @@ public class Step05ClassTest extends PlainTestCase {
     }
 
     /**
-     * Write intelligent comments on source code to the main code in buyticket package. <br>
-     * (buyticketパッケージのクラスに、気の利いたコメントを追加してみましょう)
+     * Write intelligent comments on source code to the main code in buyTicket package. <br>
+     * (buyTicketパッケージのクラスに、気の利いたコメントを追加してみましょう)
      */
     public void test_class_moreFix_yourSuperComments() {
         TicketBooth booth = new TicketBooth();
         Ticket ticket = booth.buyTwoNightPassport(32000);
-        TicketBuyResult result1 = new TicketBuyResult(32000, ticket.getDisplayPrice());
+        TicketBuyResult result1 = new TicketBuyResult(32000, ticket.getDisplayPrice(), ticket.getDaysLeft(), ticket.isOnlyNightAvailable());
         log(result1.getChange());
-        log(ticket.onlyNightAvailable());
+        log(ticket.isOnlyNightAvailable());
     }
 }
