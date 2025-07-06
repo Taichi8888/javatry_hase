@@ -8,17 +8,25 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author tahasega
  */
 public class TicketBuyResult {
-    // TODO done hase [いいね]こういう横のスラスラ(//)コメントの補足嬉しいですね！ by jflute (2025/07/02)
+    // done hase [いいね]こういう横のスラスラ(//)コメントの補足嬉しいですね！ by jflute (2025/07/02)
     private final Ticket ticket; // 購入したチケット
     private final Integer change; // お釣り
 
     public TicketBuyResult(Integer handedMoney, Integer nDayPrice, Integer nDays, Boolean onlyNightAvailable) {
-        // TODO done hase 矛盾した引数を入れられた場合、もう例外throwで弾いてしまった良いかなとは思います by jflute (2025/07/02)
+        // done hase 矛盾した引数を入れられた場合、もう例外throwで弾いてしまった良いかなとは思います by jflute (2025/07/02)
         // 今だと、ticket/changeがnullのままになって、getの呼び出し先でNullPointerになるとか事象がわかりづらくなるかなと。
         if (handedMoney - nDayPrice < 0) {
+            // TODO hase [いいね] ShortMoney例外使うの良いですね！ by jflute (2025/07/07)
             throw new TicketBooth.TicketShortMoneyException("Short money: " + handedMoney);
         }
+        // TODO hase [ふぉろー] ここはコメント程度で。Constructorでnew Ticketするか？Ticketを受け取るか？ by jflute (2025/07/07)
+        // この辺は人によって若干好みが変わりそうです。
+        // Constructorって (変数やメソッドに比べて) Javaの中ではちょっとレアな登場人物で...
+        // あんまり Constructor であれこれ処理が入ってることを想定しない意識で読む人も多いので見逃されちゃいがちで...
+        // (ケースバイケースですが)個人的にはできるだけ避けようとはしています。
         this.ticket = new Ticket(nDayPrice, nDays, onlyNightAvailable);
+        // TODO hase ↑と似た話ですが、「お釣りを計算する」というのも小さいながらも立派な業務ロジックです。 by jflute (2025/07/07)
+        // 業務ロジックが、いかにも入れ物クラスっぽいResultクラスの(しかも)Constructorで実装されていると、探すの大変そうだなと。
         this.change = handedMoney - nDayPrice;
     }
 

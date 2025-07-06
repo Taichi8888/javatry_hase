@@ -197,6 +197,8 @@ public class Step05ClassTest extends PlainTestCase {
 
 //     uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
+        // TODO hase まず、金額をハードコードすると、料金改定がされたら破綻します。少なくとも定数を利用しましょう by jflute (2025/07/07)
+        // あと、別の日数でたまたま2Dayと同じ料金のチケットが新しく登場したとき破綻します。
         if (ticket.getDisplayPrice() == 13200) { // write determination for two-day passport
             log("two-day passport");
         } else {

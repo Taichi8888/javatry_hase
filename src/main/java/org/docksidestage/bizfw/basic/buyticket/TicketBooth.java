@@ -39,6 +39,10 @@ public class TicketBooth {
     //                                                                           =========
     private int quantity = MAX_QUANTITY;
     private Integer salesProceeds; // null allowed: until first purchase
+    // TODO hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
+    // 同じインスタンスで同時にアクセスされたときに、このchangeの値が入れ違ってしまう可能性があります。
+    // あまり同時に処理を受け付けるつもりがないクラスだとしても、むやみにインスタンスに一時的な値を入れない方が無難です。
+    // getChange()のためにそうしたのかなと思ったのですが...getChange()誰も使ってないような？？？
     private int change;
 
     // ===================================================================================
@@ -62,7 +66,7 @@ public class TicketBooth {
     // done hase JavaDocが、one-dayのままです by jflute (2025/07/02)
     // チーム開発で非常に大事ですね、気をつけます。
 
-    // TODO done hase 多少個人差もありますが、Javaだと基本publicは上で、privateが下になります by jflute (2025/07/02)
+    // done hase 多少個人差もありますが、Javaだと基本publicは上で、privateが下になります by jflute (2025/07/02)
     // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
     // 合わせて頂けるとありがたいというところではあります。
     public Ticket buyOneDayPassport(Integer handedMoney) {
@@ -99,9 +103,14 @@ public class TicketBooth {
         }
     }
 
-    // TODO done hase javadoc, せっかくなので、@param で NDayPrice も追加しましょう by jflute (2025/07/02)
+    // TODO hase かなり小テクニックですが、privateの「実処理」をするメソッドを作るとき、先頭文字を変えるのをよく見かけます by jflute (2025/07/07)
+    // publicのbuyTwoDayPassport()に対して、今のbuyNDayPassport()だと、メソッド補完したときに似た名前が並んで視認しづらいんですよね。
+    // なので、publicは一番大事なので一番普通のbuy...を使うとして、実処理のprivateは例えば doBuy...() とか。実際に買うみたいなニュアンス。
+    // 他にも internalBuy...() とか世の中色々とあります。ぼくは意味的にもしっくり来て短いので do をよく使っています。
+    //
+    // done hase javadoc, せっかくなので、@param で NDayPrice も追加しましょう by jflute (2025/07/02)
     // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。←JavaDocの費用対効果...意識してみます！(hase)
-    // TODO done hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
+    // done hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
     // せっかくなので、IDEのリファクタリング機能を使って1箇所だけ直してOKの簡単にrename処理してみましょう。←すごい！！night ticketもあるのでticketPriceにしました(hase)
     /**
      * Buy N-day / M-night passport, method for park guest. (N = 1,2,4) (M = 2)
@@ -114,7 +123,7 @@ public class TicketBooth {
         if (quantity <= 0) {
             throw new TicketSoldOutException("Sold out");
         }
-        // TODO done hase ここ少しコメントの補足欲しいですね。マイナスpriceだったら、プラスに戻してる？のはなぜ？ by jflute (2025/07/02)
+        // done hase ここ少しコメントの補足欲しいですね。マイナスpriceだったら、プラスに戻してる？のはなぜ？ by jflute (2025/07/02)
         // 例えば、handedMoneyもデータ型的にはマイナス入りますが、仕様としてJavaDocにNotMinusと書いてあります。
         // 実際にチェックして例外出すの方が理想ですが、一応業務的にマイナスは許さないよという思想という感じではあります。
         // 今の実装だと、NDayPriceは「マイナス入れられてもプラスに補正して動くよ」って感じに見えます。
@@ -128,6 +137,13 @@ public class TicketBooth {
         //        } // TicketBuyResultでチェックするように変更しました by hase (2025/07/02)
         // done hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
         // 本当だ...ありがとうございます
+        // TODO hase Resultの方のtodoを書いてからこっちを書いてるのですが...ShortMoneyのチェックが移動したんですね by jflute (2025/07/07)
+        // 購入で必要なチェックは最初にまとまっていることを期待してしまうので、分かれると「あれ？お金足りないときは？」って一瞬思ってしまいます。
+        // もちろんShortMoneyはチケットを作って提供する「Result」の役割ということであれば腑に落ちる部分もありますが...
+        // 「チケットを作って提供する」って業務を行うクラスとしてはResultってのがちょっと合ってないのかなと思いました。
+        // 例えば、PurchasedTicketPresenter ってクラスを新たに作って、そいつが new Ticket() して TicketBuyResult を戻すとか。
+        // この場合、TicketBuyResult は単なる入れ物クラスにして、お金不足のチェックやチケット発行処理は Presenter がやるとか。
+        // みたいな感じであれば、チェックが分かれてても、それぞれの業務クラスでチェックしてるってことで直感的かなと。
         TicketBuyResult result = new TicketBuyResult(handedMoney, ticketPrice, nDays, onlyNightAvailable); // チケット購入結果を取得
         Ticket ticket = result.getTicket(); // 購入したチケットを取得
         change = result.getChange(); // お釣りを取得
