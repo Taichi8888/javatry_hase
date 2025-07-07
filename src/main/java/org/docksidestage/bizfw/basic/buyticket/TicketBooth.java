@@ -39,11 +39,11 @@ public class TicketBooth {
     //                                                                           =========
     private int quantity = MAX_QUANTITY;
     private Integer salesProceeds; // null allowed: until first purchase
-    // TODO hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
+    // TODO done hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
     // 同じインスタンスで同時にアクセスされたときに、このchangeの値が入れ違ってしまう可能性があります。
     // あまり同時に処理を受け付けるつもりがないクラスだとしても、むやみにインスタンスに一時的な値を入れない方が無難です。
     // getChange()のためにそうしたのかなと思ったのですが...getChange()誰も使ってないような？？？
-    private int change;
+    // private int change;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -69,20 +69,20 @@ public class TicketBooth {
     // done hase 多少個人差もありますが、Javaだと基本publicは上で、privateが下になります by jflute (2025/07/02)
     // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
     // 合わせて頂けるとありがたいというところではあります。
-    public Ticket buyOneDayPassport(Integer handedMoney) {
-        return buyNDayPassport(handedMoney, ONE_DAY_PRICE, 1, false);
+    public TicketBuyResult buyOneDayPassport(Integer handedMoney) {
+        return doBuyNDayPassport(handedMoney, ONE_DAY_PRICE, 1, false);
     }
 
-    public Ticket buyTwoDayPassport(Integer handedMoney) {
-        return buyNDayPassport(handedMoney, TWO_DAY_PRICE, 2, false);
+    public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
+        return doBuyNDayPassport(handedMoney, TWO_DAY_PRICE, 2, false);
     }
 
-    public Ticket buyFourDayPassport(Integer handedMoney) {
-        return buyNDayPassport(handedMoney, FOUR_DAY_PRICE, 4, false);
+    public TicketBuyResult buyFourDayPassport(Integer handedMoney) {
+        return doBuyNDayPassport(handedMoney, FOUR_DAY_PRICE, 4, false);
     }
 
-    public Ticket buyTwoNightPassport(Integer handedMoney) {
-        return buyNDayPassport(handedMoney, TWO_NIGHT_PRICE, 2, true);
+    public TicketBuyResult buyTwoNightPassport(Integer handedMoney) {
+        return doBuyNDayPassport(handedMoney, TWO_NIGHT_PRICE, 2, true);
     }
 
     public static class TicketSoldOutException extends RuntimeException {
@@ -103,10 +103,11 @@ public class TicketBooth {
         }
     }
 
-    // TODO hase かなり小テクニックですが、privateの「実処理」をするメソッドを作るとき、先頭文字を変えるのをよく見かけます by jflute (2025/07/07)
+    // TODO done hase かなり小テクニックですが、privateの「実処理」をするメソッドを作るとき、先頭文字を変えるのをよく見かけます by jflute (2025/07/07)
     // publicのbuyTwoDayPassport()に対して、今のbuyNDayPassport()だと、メソッド補完したときに似た名前が並んで視認しづらいんですよね。
     // なので、publicは一番大事なので一番普通のbuy...を使うとして、実処理のprivateは例えば doBuy...() とか。実際に買うみたいなニュアンス。
     // 他にも internalBuy...() とか世の中色々とあります。ぼくは意味的にもしっくり来て短いので do をよく使っています。
+    // 確かに名前が似ていると読みづらいですね...自分もdoつけてみます！(by hase 25/7/7)
     //
     // done hase javadoc, せっかくなので、@param で NDayPrice も追加しましょう by jflute (2025/07/02)
     // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。←JavaDocの費用対効果...意識してみます！(hase)
@@ -119,10 +120,10 @@ public class TicketBooth {
      * @throws TicketSoldOutException When ticket in booth is sold out.
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
-    private Ticket buyNDayPassport(Integer handedMoney, Integer ticketPrice, Integer nDays, Boolean onlyNightAvailable) {
+    private TicketBuyResult doBuyNDayPassport(Integer handedMoney, Integer ticketPrice, Integer nDays, Boolean onlyNightAvailable) {
         if (quantity <= 0) {
             throw new TicketSoldOutException("Sold out");
-        }
+        } // 売り切れ
         // done hase ここ少しコメントの補足欲しいですね。マイナスpriceだったら、プラスに戻してる？のはなぜ？ by jflute (2025/07/02)
         // 例えば、handedMoneyもデータ型的にはマイナス入りますが、仕様としてJavaDocにNotMinusと書いてあります。
         // 実際にチェックして例外出すの方が理想ですが、一応業務的にマイナスは許さないよという思想という感じではあります。
@@ -137,23 +138,33 @@ public class TicketBooth {
         //        } // TicketBuyResultでチェックするように変更しました by hase (2025/07/02)
         // done hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
         // 本当だ...ありがとうございます
-        // TODO hase Resultの方のtodoを書いてからこっちを書いてるのですが...ShortMoneyのチェックが移動したんですね by jflute (2025/07/07)
+        // TODO done hase Resultの方のtodoを書いてからこっちを書いてるのですが...ShortMoneyのチェックが移動したんですね by jflute (2025/07/07)
         // 購入で必要なチェックは最初にまとまっていることを期待してしまうので、分かれると「あれ？お金足りないときは？」って一瞬思ってしまいます。
         // もちろんShortMoneyはチケットを作って提供する「Result」の役割ということであれば腑に落ちる部分もありますが...
         // 「チケットを作って提供する」って業務を行うクラスとしてはResultってのがちょっと合ってないのかなと思いました。
         // 例えば、PurchasedTicketPresenter ってクラスを新たに作って、そいつが new Ticket() して TicketBuyResult を戻すとか。
         // この場合、TicketBuyResult は単なる入れ物クラスにして、お金不足のチェックやチケット発行処理は Presenter がやるとか。
         // みたいな感じであれば、チェックが分かれてても、それぞれの業務クラスでチェックしてるってことで直感的かなと。
-        TicketBuyResult result = new TicketBuyResult(handedMoney, ticketPrice, nDays, onlyNightAvailable); // チケット購入結果を取得
-        Ticket ticket = result.getTicket(); // 購入したチケットを取得
-        change = result.getChange(); // お釣りを取得
+
+        // なるほど...「直感的」なコードを書くのが苦手みたいです。(by hase 25/7/7)
+        // チェックが分かれているのは、やはりややこしく思えてきたので、購入時のチェックやチケット発行もTicketBoothの役割とし、
+        // TicketBuyResultは単なる入れ物クラスにしたいと思います。
+        // そして、doBuyNDayPassport()の戻り値をTicketではなくTicketBuyResultに変更し、購入処理の結果からチケットとお釣りを取得できるようにします。
+        if (handedMoney - ticketPrice < 0) {
+            throw new TicketBooth.TicketShortMoneyException("Short money: " + handedMoney);
+        } // 金額不足
+        Ticket ticket = new Ticket(ticketPrice, nDays, onlyNightAvailable);
+        int change = handedMoney - ticketPrice; // お釣り（>= 0）
+        TicketBuyResult result = new TicketBuyResult(ticket, change);
+        // Todo jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
+        // （未購入状態と売上0を違うものとして認識する時が想定できず質問しました） by hase (2025/07/07)
         if (salesProceeds != null) { // second or more purchase
             salesProceeds = salesProceeds + ticketPrice;
         } else { // first purchase
             salesProceeds = ticketPrice;
         }
         --quantity;
-        return ticket;
+        return result;
     }
 
     // ===================================================================================
@@ -163,11 +174,8 @@ public class TicketBooth {
         return quantity;
     }
 
-    public int getSalesProceeds() {
+    public Integer getSalesProceeds() {
         return salesProceeds;
     }
 
-    public int getChange() {
-        return change;
-    }
 }

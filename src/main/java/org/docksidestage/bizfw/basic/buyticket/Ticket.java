@@ -15,6 +15,8 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+import java.time.LocalDateTime;
+
 /**
  * チケットの管理（価格、入場、残り入場可能回数、使用済み、夜間限定）
  * @author jflute
@@ -31,7 +33,7 @@ public class Ticket {
     // あと、変数のライフサイクル的には、doInPark()したらfalseに変わっていますので...
     // 「1回目の入園」という状態を示すニュアンスなのかもですが、そうだとすると最初からtrueなのが少し違和感出ます。
     // (ぼくだと、firstTimeDone = false; で、doInPark()が一回呼ばれたら true になるとか、かなぁ...)
-//    private boolean firstTimeDone = false; // 2日以上有効なチケットの初日判定
+    // private boolean firstTimeDone = false; // 2日以上有効なチケットの初日判定
     private int daysLeft; // チケットの残日数管理
     private final boolean onlyNightAvailable; // 夜限定フラグ
 
@@ -39,13 +41,13 @@ public class Ticket {
     //                                                                         Constructor
     //                                                                         ===========
     public Ticket(int displayPrice, int daysLeft, boolean onlyNightAvailable) {
-        // TODO hase 代入行の順番、できればConstructorの引数の順番に合わせましょう by jflute (2025/07/07)
+        // TODO done hase 代入行の順番、できればConstructorの引数の順番に合わせましょう by jflute (2025/07/07)
         // そういったところ整ってるだけで、読み手はノイズなく直感的に読みやすくなるので。
         // ちなみに、インスタンス変数の定義順序も同じです。
         // 何か理由があれば順序通りじゃなくてもいいですが、特になければこの辺から一通り合わせてくれた方がありがたいです。
         this.displayPrice = displayPrice;
-        this.onlyNightAvailable = onlyNightAvailable;
         this.daysLeft = daysLeft;
+        this.onlyNightAvailable = onlyNightAvailable;
     }
 
 
@@ -54,10 +56,11 @@ public class Ticket {
     //                                                                             =======
     public void doInPark() {
         if (alreadyIn) { // すでに入園済みなら、入園できない
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+            throw new IllegalStateException("Already in park by this ticket.");
         }
-        if (onlyNightAvailable) { // 夜間限定チケットは、日中の入園はできない
-            throw new IllegalStateException("This ticket is not available for day park: displayedPrice=" + displayPrice);
+        // 夜間入場処理もdoInPark()で行うように変更
+        if (onlyNightAvailable && !isNightTime()) {
+            throw new IllegalStateException("This ticket is not available for day park.");
         }
 //        if (!firstTimeDone) {
 //            // done hase せめて、TicketBoothに定義してある定数を使いたいですね。 by jflute (2025/07/02)
@@ -80,20 +83,20 @@ public class Ticket {
             alreadyIn = true;
         }
     }
-    // TODO hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)
+    // TODO done hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)
     // ただ、TicketでonlyNightAvailableの状態まで持っていますので、できれば一つのdoInPark()で、
     // 現在が昼だったら入れる/入れない、夜だったら入れる/入れないという風に制御できると呼び出し側がもうちょい楽になるかなと。
     // (いまの実装だと、結局昼の時間帯でも doInNightPark() が呼び出されちゃったら動きますもんね)
-    public void doInNightPark() {
-        if (alreadyIn) { // すでに入園済みなら、入園できない
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
-        }
-        // nDayPassportは夜間入場もOKなので、onlyNightAvailableはfalseでもOK
-        daysLeft--; // 入園したので、残り日数を1減らす
-        if (daysLeft == 0) { // 残り日数が0になったら、入園済みとする
-            alreadyIn = true;
-        }
-    }
+//    public void doInNightPark() {
+//        if (alreadyIn) { // すでに入園済みなら、入園できない
+//            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+//        }
+//        // nDayPassportは夜間入場もOKなので、onlyNightAvailableはfalseでもOK
+//        daysLeft--; // 入園したので、残り日数を1減らす
+//        if (daysLeft == 0) { // 残り日数が0になったら、入園済みとする
+//            alreadyIn = true;
+//        }
+//    }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -115,5 +118,10 @@ public class Ticket {
     // is以外だと、has,existsなどの三単現の動詞、can/may/shouldなどの助動詞がbooleanでよく使われます。←勉強になります！！ありがとうございます。
     public boolean isOnlyNightAvailable() {
         return onlyNightAvailable;
+    }
+
+    public boolean isNightTime() {
+        // 夜間判定
+        return LocalDateTime.now().getHour() >= 17 && LocalDateTime.now().getHour() <= 21;
     }
 }
