@@ -29,6 +29,15 @@ import org.docksidestage.javatry.basic.st6.os.Mac;
 import org.docksidestage.javatry.basic.st6.os.Windows;
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO hase 全体的に無言のコメントアウトが多いので... by jflute (2025/07/07)
+// まあ実務なら消すと思いますが、javatryは勉強用なのでコメントアウトで途中経過を残すのは良いです。
+// ただ、やりかけなのか？勉強用に残してるのか？わからないと読み手が迷いますね。
+// 説明を入れるまでもなく残すような場合は、「おもいでコメントアウト」してもらえると嬉しいです。
+/* e.g.
+    // おもいで
+    //String sea = null;
+    Integer land = ...
+*/
 /**
  * The test of object-oriented. <br>
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
@@ -49,6 +58,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (OneDayPassportを買って InPark する処理の中で、(simulationを除いて)間違いがいくつかあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
+        // TODO hase まだ一個だけ間違いがそのまま残っていますね。本当にあと一個だけですね by jflute (2025/07/07)
         //
         // [ticket booth info]
         //
@@ -69,6 +79,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
         --quantity;
         // done [いいね]売上加算気付けてる　by tanaryo
+        // TODO hase ちょっと dead codeの警告が出てしまっています。salesProceeds が初期値固定nullだからですね by jflute (2025/07/07)
+        // ここは模擬コードなので仕方ないですが、step5であったように初期値0にしちゃってもいいかなと。
         if (salesProceeds == null) {
             salesProceeds = oneDayPrice;
         }else {
@@ -197,6 +209,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     // _/_/_/_/_/_/_/_/_/_/
     //「データ（状態）」と「それを操作する手続き（振る舞い）」をひとまとめにし、特定の「責務」を持たせた、自律したプログラム部品
     // _/_/_/_/_/_/_/_/_/_/
+    // TODO jflute 概念的な話なので、1on1のときにフォローします (2025/07/07)
 
     // ===================================================================================
     //                                                              Polymorphism Beginning
@@ -283,6 +296,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // 変更に強いしなやかなプログラム。柔軟性、拡張性。
         // Animal animal = の右辺を変えるだけで、そのほかは何も変えずとも振る舞いを変えられる。
         // _/_/_/_/_/_/_/_/_/_/
+        // TODO hase [いいね] 良いですね。シンプルに要点を抑えてる感じで by jflute (2025/07/07)
+        // TODO jflute ここも1on1のときに少しだけフォロー。抽象化の話を。 (2025/07/07)
     }
 
     // ===================================================================================
@@ -346,6 +361,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // インターフェースは継承と違って、can-doの関係。クラスに特定の機能を実装させる。
         // インターフェースは複数実装できるが、抽象クラスは1つしか継承できない。
         // _/_/_/_/_/_/_/_/_/_/
+        // TODO hase [ふぉろー] いいですね。わかりやすくまとまっています。 by jflute (2025/07/07)
+        // ただ、ここで書いてるのは、概念的な違い (コンセプトの違い) というよりも機能的な違いになりますかね。
+        // TODO jflute ここも1on1にてフォローする (2025/07/07)
     }
 
     // ===================================================================================
@@ -387,6 +405,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (St6MySql, St6PostgreSql (basic.st6.dbms) から抽象クラスを抽出してみましょう (スーパークラスとサブクラスの関係に))
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
+        // TODO hase [いいね] 伝統的なテンプレートメソッドパターン、しっかりできてますね！ by jflute (2025/07/07)
         AbstractDbms mysql = new St6MySql();
         AbstractDbms postgresql = new St6PostgreSql();
         log(mysql.buildPagingQuery(3,5));
@@ -410,6 +429,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     // done [comment] OSが何であるかという情報はどこで担保する？
     // 今だとコンストラクタの引数で指定しているが他にもありそうかも？(灯台下暗し的な)　by tanaryo (2025/7/5)
     // 親クラスを抽象クラスにして、OSごとのコンクリートクラスを作成することで、OSが何か保証できるということですか？
+    // TODO hase [いいね] 出遅れたけど、今のコードの構造はとても自然で良いです(^^。 by jflute (2025/07/07)
 
     // ===================================================================================
     //                                                                           Good Luck
@@ -456,5 +476,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // オーバーライドしすぎていてあまり継承の意味があまりない気がする。
         // メソッドの名前自体は同じなので、元animalだったのを伝える目的でサブクラス化するは有効かも。
         // _/_/_/_/_/_/_/_/_/_/
+        // TODO hase [ふぉろー] is-aの関係が成り立つかどうか？ってところですね by jflute (2025/07/07)
+        // TODO jflute 1on1にて補足する予定。バイオハザードの話をする (2025/07/07)
     }
 }
