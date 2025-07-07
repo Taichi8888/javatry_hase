@@ -195,11 +195,18 @@ public class Step05ClassTest extends PlainTestCase {
 
 //     uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
-        // TODO done hase まず、金額をハードコードすると、料金改定がされたら破綻します。少なくとも定数を利用しましょう by jflute (2025/07/07)
+        // done hase まず、金額をハードコードすると、料金改定がされたら破綻します。少なくとも定数を利用しましょう by jflute (2025/07/07)
         // あと、別の日数でたまたま2Dayと同じ料金のチケットが新しく登場したとき破綻します。
         // (hase 25/7/7) 以下のように修正しました。
         // チケットの残り日数を判定するために2という数字を使っていますが、これもマジックナンバーになるのでしょうか...
         // Boothの中で、TWO_DAY_DAYS_LEFTという定数を定義した方が良いですか？
+        // TODO hase まあ、日数に関しては、TWO_DAYという概念から2以外の値になることはないので、ハードコードでも良いと思います by jflute (2025/07/07)
+        // マジックナンバーというのは、一つのとある数字に値とは無関係の意味を持たせるもので、例えば「-1なら存在しないを示す」とかそういうのです。
+        // TODO hase DaysLeftはあくまで残数なので、残り1日TwoDayPassportだとヒットしなくなってしまいます by jflute (2025/07/07)
+        // そのTicketのチケット種別としての入園可能日数を連れてこないとですね。
+        // TODO hase 一方で、チケットの種別を判定するのに、随分と判定要素が必要になってしまっています。 by jflute (2025/07/07)
+        // 単純に実装抜けがあると怖いですし、一方でキリがない問題もあります。価格と日数と夜かどうか？以外の要素が出てきたときに破綻します。
+        // 修行++: 純粋に「チケット種別」って概念があって、そのTicketのチケット種別が「TwoDayPassport」って判定できると良いですね。
         if (ticket.getDisplayPrice() == TicketBooth.TWO_DAY_PRICE
                 && ticket.getDaysLeft() == 2
                 && !ticket.isOnlyNightAvailable()) { // write determination for two-day passport

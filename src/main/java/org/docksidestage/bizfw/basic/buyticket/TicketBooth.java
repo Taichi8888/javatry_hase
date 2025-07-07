@@ -39,7 +39,7 @@ public class TicketBooth {
     //                                                                           =========
     private int quantity = MAX_QUANTITY;
     private Integer salesProceeds; // null allowed: until first purchase
-    // TODO done hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
+    // done hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
     // 同じインスタンスで同時にアクセスされたときに、このchangeの値が入れ違ってしまう可能性があります。
     // あまり同時に処理を受け付けるつもりがないクラスだとしても、むやみにインスタンスに一時的な値を入れない方が無難です。
     // getChange()のためにそうしたのかなと思ったのですが...getChange()誰も使ってないような？？？
@@ -70,6 +70,9 @@ public class TicketBooth {
     // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
     // 合わせて頂けるとありがたいというところではあります。
     public TicketBuyResult buyOneDayPassport(Integer handedMoney) {
+        // TODO hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
+        // TODO hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
+        // Testクラスの showTicketIfNeeds() で書いたtodoとつながってきます。
         return doBuyNDayPassport(handedMoney, ONE_DAY_PRICE, 1, false);
     }
 
@@ -103,7 +106,7 @@ public class TicketBooth {
         }
     }
 
-    // TODO done hase かなり小テクニックですが、privateの「実処理」をするメソッドを作るとき、先頭文字を変えるのをよく見かけます by jflute (2025/07/07)
+    // done hase かなり小テクニックですが、privateの「実処理」をするメソッドを作るとき、先頭文字を変えるのをよく見かけます by jflute (2025/07/07)
     // publicのbuyTwoDayPassport()に対して、今のbuyNDayPassport()だと、メソッド補完したときに似た名前が並んで視認しづらいんですよね。
     // なので、publicは一番大事なので一番普通のbuy...を使うとして、実処理のprivateは例えば doBuy...() とか。実際に買うみたいなニュアンス。
     // 他にも internalBuy...() とか世の中色々とあります。ぼくは意味的にもしっくり来て短いので do をよく使っています。
@@ -113,6 +116,9 @@ public class TicketBooth {
     // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。←JavaDocの費用対効果...意識してみます！(hase)
     // done hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
     // せっかくなので、IDEのリファクタリング機能を使って1箇所だけ直してOKの簡単にrename処理してみましょう。←すごい！！night ticketもあるのでticketPriceにしました(hase)
+    // TODO hase javadoc, @paramが足りてません by jflute (2025/07/07)
+    // TODO hase javadoc, @param ticketPrice, javatryではぜひ (NotNull) を付けるようにお願いします。handedMoney参考に by jflute (2025/07/07)
+    // nullを許す引数なのかどうか？というのは呼び出し側にとって重要な情報なので、javadocにこそ書いてあると呼び出す人は助かります。
     /**
      * Buy N-day / M-night passport, method for park guest. (N = 1,2,4) (M = 2)
      * @param handedMoney The money (amount) handed over from park guest. (NotNull, NotMinus)
@@ -138,7 +144,7 @@ public class TicketBooth {
         //        } // TicketBuyResultでチェックするように変更しました by hase (2025/07/02)
         // done hase --quantity; は、if-else の外に出しても良いのでは？ by jflute (2025/07/02)
         // 本当だ...ありがとうございます
-        // TODO done hase Resultの方のtodoを書いてからこっちを書いてるのですが...ShortMoneyのチェックが移動したんですね by jflute (2025/07/07)
+        // done hase Resultの方のtodoを書いてからこっちを書いてるのですが...ShortMoneyのチェックが移動したんですね by jflute (2025/07/07)
         // 購入で必要なチェックは最初にまとまっていることを期待してしまうので、分かれると「あれ？お金足りないときは？」って一瞬思ってしまいます。
         // もちろんShortMoneyはチケットを作って提供する「Result」の役割ということであれば腑に落ちる部分もありますが...
         // 「チケットを作って提供する」って業務を行うクラスとしてはResultってのがちょっと合ってないのかなと思いました。
@@ -156,8 +162,13 @@ public class TicketBooth {
         Ticket ticket = new Ticket(ticketPrice, nDays, onlyNightAvailable);
         int change = handedMoney - ticketPrice; // お釣り（>= 0）
         TicketBuyResult result = new TicketBuyResult(ticket, change);
-        // Todo jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
+        // done jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
         // （未購入状態と売上0を違うものとして認識する時が想定できず質問しました） by hase (2025/07/07)
+        // TODO hase 0初期化で良いと思います。既存コードあえてパーフェクトにしてないので、よく思いつきましたという感じで^^ by jflute (2025/07/07)
+        // まあ、例えば0円商品があったとき、購入が全くない0円と、売上があっても0円で区別が付かないとかはなくはないですが、
+        // その状況は相当レアではありますし、購入の有無が必要な業務であれば別途変数を持たせても良いと思うので。
+        //
+        // ちなみに、todoは、4文字ぜんぶ大文字でお願いします。エディター的に大文字4文字のtodoが色が付いて認識されるというものなので。
         if (salesProceeds != null) { // second or more purchase
             salesProceeds = salesProceeds + ticketPrice;
         } else { // first purchase
