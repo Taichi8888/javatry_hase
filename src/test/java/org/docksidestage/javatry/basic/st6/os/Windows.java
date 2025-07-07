@@ -6,7 +6,7 @@ package org.docksidestage.javatry.basic.st6.os;
  */
 public class Windows extends St6OperationSystem {
     public Windows(String loginId) {
-        super("Windows", loginId);
+        super(loginId);
     }
 
     @Override
@@ -16,6 +16,6 @@ public class Windows extends St6OperationSystem {
 
     @Override
     public String getUserDirectory() {
-        return "/Users/" + loginId;
+        return "/Users/" + getLoginId();
     }
 }

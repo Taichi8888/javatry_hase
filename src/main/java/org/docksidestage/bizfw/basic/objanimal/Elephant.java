@@ -8,7 +8,7 @@ import org.docksidestage.bizfw.basic.objanimal.vehicle.Ridable;
  */
 public class Elephant extends Animal implements Ridable {
 
-    protected static boolean bien = false;
+    protected boolean bien = false;
 
     public boolean isBien() {
         return bien;
@@ -27,7 +27,7 @@ public class Elephant extends Animal implements Ridable {
     }
 
     @Override
-    protected void downHitPoint() {
+    public void downHitPoint() {
         super.downHitPoint();
         if (isBien()) {
             super.downHitPoint();

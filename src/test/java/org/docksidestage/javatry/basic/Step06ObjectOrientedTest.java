@@ -56,7 +56,6 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         int oneDayPrice = 7400;
         int quantity = 10;
         Integer salesProceeds = null;
-
         //
         // [buy one-day passport]
         //
@@ -65,13 +64,11 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         if (quantity <= 0) {
             throw new IllegalStateException("Sold out");
         }
-
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
-
         --quantity;
-        // [いいね]売上加算気付けてる　by tanaryo
+        // done [いいね]売上加算気付けてる　by tanaryo
         if (salesProceeds == null) {
             salesProceeds = oneDayPrice;
         }else {
@@ -84,18 +81,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // simulation: actually these variables should be more wide scope
         int displayPrice = oneDayPrice;
         boolean alreadyIn = false;
-
         // other processes here...
         Ticket oneDayPass = new Ticket(displayPrice, 1, false);
         //do in park here!!!
         oneDayPass.doInPark();
-
         // simulation: actually this process should be called by other trigger
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
         }
         alreadyIn = true;
-
         //
         // [final process]
         //
@@ -130,7 +124,6 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [ticket booth info]
         //
         TicketBooth booth = new TicketBooth();
-
         // *booth has these properties:
         //int oneDayPrice = 7400;
         //int quantity = 10;
@@ -140,7 +133,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [buy one-day passport]
         //
         // if step05 has been finished, you can use this code by jflute (2019/06/15)
-        Ticket ticket = booth.buyOneDayPassport(10000);
+        Ticket ticket = booth.buyOneDayPassport(10000).getTicket();
 //        booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
 //        Ticket ticket = new Ticket(7400); // also here
 
@@ -166,7 +159,6 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [do in park now!!!]
         //
         ticket.doInPark();
-
         // *doInPark() has this process:
         //if (alreadyIn) {
         //    throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice);
@@ -352,7 +344,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // 両方ともクラスの設計図を作る。
         // 抽象クラスはis-aの関係（親子関係）。
         // インターフェースは継承と違って、can-doの関係。クラスに特定の機能を実装させる。
-        //
+        // インターフェースは複数実装できるが、抽象クラスは1つしか継承できない。
         // _/_/_/_/_/_/_/_/_/_/
     }
 
@@ -412,11 +404,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         log(mac.getFileSeparator());
         log(windows.getUserDirectory());
 //        log(oldWindows.getUserDirectory());
-    } // TODO hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
+    } // TODO done hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
     // 今のままだと、親クラスのコンストラクタから作られたもの全てが例外処理されてしまうが、親クラスのif文は消したい。
     // 30分詰まったので保留。
-    // [comment] OSが何であるかという情報はどこで担保する？　
+    // done [comment] OSが何であるかという情報はどこで担保する？
     // 今だとコンストラクタの引数で指定しているが他にもありそうかも？(灯台下暗し的な)　by tanaryo (2025/7/5)
+    // 親クラスを抽象クラスにして、OSごとのコンクリートクラスを作成することで、OSが何か保証できるということですか？
 
     // ===================================================================================
     //                                                                           Good Luck

@@ -58,7 +58,7 @@ public abstract class Animal implements Loudable {
         return this.barkingProcess.bark(this);
     } // 引数にthis渡すのが冗長な気がする。
     // breatheInとかもまとめて外に出しても良いかも→HP管理がめんどくさい。
-    // [いいね] 外に出す考え方は良さそう
+    // done [いいね] 外に出す考え方は良さそう
     // そもそもbarkingProcessを作成した理由はAnimalのbark()のプロセスをそっちに切り出すため
     // なので、animalクラスにbarkに関する処理が多く残っているのは望ましくない
     // barkingProcessにどこまで責務を持たせるか
@@ -70,22 +70,26 @@ public abstract class Animal implements Loudable {
         downHitPoint();
     }
 
-    public void prepareAbdominalMuscle() { // also actually depends on barking
-        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
-        downHitPoint();
-    }
+//    public void prepareAbdominalMuscle() { // also actually depends on barking
+//        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
+//        downHitPoint();
+//    }
 
     public abstract String getBarkWord();
+    // BarkingProcessは「鳴く行為の手順」を担当させ、動物ごとに異なる鳴き声の取得getBarkWord()や、
+    // 鳴く行為よりも抽象度の高いdownHitPoint()はAnimalに残しました。
+    // breathInは迷ったのですが、Animalの子クラスであるZombieでoverrideしていて、
+    // barkではない別のところでも使える可能性高いかなと思い、Animalに残しました。(hase 25/7/7)
 
-    public BarkedSound doBark(String barkWord) {
-        downHitPoint();
-        return new BarkedSound(barkWord);
-    }
+//    public BarkedSound doBark(String barkWord) {
+//        downHitPoint();
+//        return new BarkedSound(barkWord);
+//    }
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    protected void downHitPoint() {
+    public void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());

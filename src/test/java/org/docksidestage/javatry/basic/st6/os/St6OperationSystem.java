@@ -15,41 +15,31 @@
  */
 package org.docksidestage.javatry.basic.st6.os;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * OSオブジェクト
  * @author jflute
  * @author tahasega
  */
-public class St6OperationSystem {
+public abstract class St6OperationSystem {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-//    private static final String OS_TYPE_MAC = "Mac";
-//    private static final String OS_TYPE_WINDOWS = "Windows";
-//    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
-    private List<String> OSTypeList() {
-        List<String> osTypeList = new ArrayList<>();
-        osTypeList.add("Mac");
-        osTypeList.add("Windows");
-        osTypeList.add("OldWindows");
-        return osTypeList;
-    }
+    //    private static final String OS_TYPE_MAC = "Mac";
+    //    private static final String OS_TYPE_WINDOWS = "Windows";
+    //    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    public final String osType;
-    public final String loginId;
+//    public final String osType;
+    private final String loginId;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public St6OperationSystem(String osType, String loginId) {
-        this.osType = osType;
+    public St6OperationSystem(String loginId) {
+//        this.osType = osType;
         this.loginId = loginId;
     }
 
@@ -63,26 +53,11 @@ public class St6OperationSystem {
         return resourcePath.replace("/", fileSeparator);
     }
 
-    protected String getFileSeparator() {
+    protected abstract String getFileSeparator();
 
-        throw new IllegalStateException("Unknown osType: " + osType);
-    }
+    public abstract String getUserDirectory();
 
-    public String getUserDirectory() {
-//        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-//            return "/Users/" + loginId;
-//        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-//            return "/Users/" + loginId;
-//        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-//            return "/Documents and Settings/" + loginId;
-//        } else {
-//            throw new IllegalStateException("Unknown osType: " + osType);
-//        }
-        List<String> osTypeList = OSTypeList();
-        for (String osType : osTypeList) {
-            if (osType.equals("Windows")) {}
-        }
-        throw new IllegalStateException("Unknown osType: " + osType);
-
-    }
+    public String getLoginId() {
+        return this.loginId;
+    } // getter, setterを学びました (hase 25/7/7)
 }
