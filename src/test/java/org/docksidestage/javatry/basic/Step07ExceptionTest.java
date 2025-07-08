@@ -22,6 +22,8 @@ import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO jflute 1on1にて、全体的にエラーハンドリングのフォローする (2025/07/09)
+// TODO hase javadocのauthorお願いします！ by jflute (2025/07/09)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
@@ -183,6 +185,9 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             String path = new java.io.File(".").getCanonicalPath(); //
             log(path);
+            // TODO hase 実際に↓のように一時的にthrowさせてStackTraceがちゃんと出ているか確認してみてください by jflute (2025/07/09)
+            // 出てるは出ていますが、ちょっと出方が見やすくないですね。
+            //throw new IOException();
         } catch (IOException e) {
             log(e.getMessage()); // message
             log(e.getStackTrace()); // stack trace
