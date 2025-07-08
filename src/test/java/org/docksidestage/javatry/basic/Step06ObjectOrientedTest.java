@@ -91,10 +91,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [ticket info]
         //
         // simulation: actually these variables should be more wide scope
-        int displayPrice = oneDayPrice;
+        int displayPrice = oneDayPrice; //
         boolean alreadyIn = false;
         // other processes here...
-        Ticket oneDayPass = new Ticket(displayPrice, 1, false);
+        Ticket oneDayPass = new Ticket(TicketBooth.ONE_DAY_TICKET);
         //do in park here!!!
         oneDayPass.doInPark();
         // simulation: actually this process should be called by other trigger
@@ -196,7 +196,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     }
 
     private void doShowYourTicket(Ticket ticket) {
-        log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getDisplayPrice(), ticket.isAlreadyIn());
+        log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getTicketPrice(), ticket.isAlreadyIn());
     }
 
     // write your memo here:
@@ -416,7 +416,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (St6MySql, St6PostgreSql (basic.st6.dbms) から抽象クラスを抽出してみましょう (スーパークラスとサブクラスの関係に))
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
-        // TODO hase [いいね] 伝統的なテンプレートメソッドパターン、しっかりできてますね！ by jflute (2025/07/07)
+        // TODO done hase [いいね] 伝統的なテンプレートメソッドパターン、しっかりできてますね！ by jflute (2025/07/07)
         AbstractDbms mysql = new St6MySql();
         AbstractDbms postgresql = new St6PostgreSql();
         log(mysql.buildPagingQuery(3,5));
@@ -434,13 +434,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         log(mac.getFileSeparator());
         log(windows.getUserDirectory());
 //        log(oldWindows.getUserDirectory());
-    } // TODO done hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
+    } // done hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
     // 今のままだと、親クラスのコンストラクタから作られたもの全てが例外処理されてしまうが、親クラスのif文は消したい。
     // 30分詰まったので保留。
     // done [comment] OSが何であるかという情報はどこで担保する？
     // 今だとコンストラクタの引数で指定しているが他にもありそうかも？(灯台下暗し的な)　by tanaryo (2025/7/5)
     // 親クラスを抽象クラスにして、OSごとのコンクリートクラスを作成することで、OSが何か保証できるということですか？
-    // TODO hase [いいね] 出遅れたけど、今のコードの構造はとても自然で良いです(^^。 by jflute (2025/07/07)
+    // TODO done hase [いいね] 出遅れたけど、今のコードの構造はとても自然で良いです(^^。 by jflute (2025/07/07)
 
     // ===================================================================================
     //                                                                           Good Luck
@@ -487,7 +487,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // オーバーライドしすぎていてあまり継承の意味があまりない気がする。
         // メソッドの名前自体は同じなので、元animalだったのを伝える目的でサブクラス化するは有効かも。
         // _/_/_/_/_/_/_/_/_/_/
-        // TODO hase [ふぉろー] is-aの関係が成り立つかどうか？ってところですね by jflute (2025/07/07)
+        // TODO done hase [ふぉろー] is-aの関係が成り立つかどうか？ってところですね by jflute (2025/07/07)
+        // was-aですね...もはやAnimalではないので適切でないと思いました by hase (2025/07/08)
         // TODO jflute 1on1にて補足する予定。バイオハザードの話をする (2025/07/07)
     }
 }

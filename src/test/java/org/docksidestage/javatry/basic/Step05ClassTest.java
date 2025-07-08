@@ -144,7 +144,7 @@ public class Step05ClassTest extends PlainTestCase {
 //         uncomment out after modifying the method
         TicketBooth booth = new TicketBooth();
         Ticket oneDayPassport = booth.buyOneDayPassport(10000).getTicket();
-        log(oneDayPassport.getDisplayPrice()); // should be same as one-day price
+        log(oneDayPassport.getTicketPrice()); // should be same as one-day price
         log(oneDayPassport.isAlreadyIn()); // should be false
         oneDayPassport.doInPark();
         log(oneDayPassport.isAlreadyIn()); // should be true
@@ -160,7 +160,7 @@ public class Step05ClassTest extends PlainTestCase {
         int handedMoney = 20000;
         TicketBuyResult buyResult = booth.buyTwoDayPassport(handedMoney);
         int change = buyResult.getChange();
-        log(buyResult.getTicket().getDisplayPrice() + change); // should be same as money
+        log(buyResult.getTicket().getTicketPrice() + change); // should be same as money
     }
 
     /**
@@ -191,6 +191,9 @@ public class Step05ClassTest extends PlainTestCase {
         showTicketIfNeeds(oneDayPassport);
         Ticket twoDayPassport = booth.buyTwoDayPassport(20000).getTicket();
         showTicketIfNeeds(twoDayPassport);
+        Ticket twoDayPassport2 = booth.buyTwoDayPassport(30000).getTicket();
+        twoDayPassport2.doInPark();
+        showTicketIfNeeds(twoDayPassport2); // 1回使っていてもtwo-day passportとして判定できるか
     }
 
 //     uncomment when you implement this exercise
@@ -200,16 +203,18 @@ public class Step05ClassTest extends PlainTestCase {
         // (hase 25/7/7) 以下のように修正しました。
         // チケットの残り日数を判定するために2という数字を使っていますが、これもマジックナンバーになるのでしょうか...
         // Boothの中で、TWO_DAY_DAYS_LEFTという定数を定義した方が良いですか？
-        // TODO hase まあ、日数に関しては、TWO_DAYという概念から2以外の値になることはないので、ハードコードでも良いと思います by jflute (2025/07/07)
+        // TODO done hase まあ、日数に関しては、TWO_DAYという概念から2以外の値になることはないので、ハードコードでも良いと思います by jflute (2025/07/07)
         // マジックナンバーというのは、一つのとある数字に値とは無関係の意味を持たせるもので、例えば「-1なら存在しないを示す」とかそういうのです。
-        // TODO hase DaysLeftはあくまで残数なので、残り1日TwoDayPassportだとヒットしなくなってしまいます by jflute (2025/07/07)
+        // TODO done hase DaysLeftはあくまで残数なので、残り1日TwoDayPassportだとヒットしなくなってしまいます by jflute (2025/07/07)
         // そのTicketのチケット種別としての入園可能日数を連れてこないとですね。
-        // TODO hase 一方で、チケットの種別を判定するのに、随分と判定要素が必要になってしまっています。 by jflute (2025/07/07)
+        // TODO done hase 一方で、チケットの種別を判定するのに、随分と判定要素が必要になってしまっています。 by jflute (2025/07/07)
         // 単純に実装抜けがあると怖いですし、一方でキリがない問題もあります。価格と日数と夜かどうか？以外の要素が出てきたときに破綻します。
         // 修行++: 純粋に「チケット種別」って概念があって、そのTicketのチケット種別が「TwoDayPassport」って判定できると良いですね。
-        if (ticket.getDisplayPrice() == TicketBooth.TWO_DAY_PRICE
-                && ticket.getDaysLeft() == 2
-                && !ticket.isOnlyNightAvailable()) { // write determination for two-day passport
+// おもいで：price, days, onlyNightをticketで管理していた時代
+//        if (ticket.getTicketPrice() == TicketBooth.TWO_DAY_PRICE
+//                && ticket.getDaysLeft() == 2
+//                && !ticket.isOnlyNightAvailable()) { // write determination for two-day passport
+        if (ticket.getTicketType() == TicketBooth.TWO_DAY_TICKET) {
             log("two-day passport");
         } else {
             log("other");

@@ -8,10 +8,16 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author tahasega
  */
 public class TicketBuyResult {
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     // done hase [いいね]こういう横のスラスラ(//)コメントの補足嬉しいですね！ by jflute (2025/07/02)
     private final Ticket ticket; // 購入したチケット
     private final Integer change; // お釣り
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public TicketBuyResult(Ticket ticket, int change) {
 //        // done hase 矛盾した引数を入れられた場合、もう例外throwで弾いてしまった良いかなとは思います by jflute (2025/07/02)
 //        // 今だと、ticket/changeがnullのままになって、getの呼び出し先でNullPointerになるとか事象がわかりづらくなるかなと。
@@ -32,6 +38,9 @@ public class TicketBuyResult {
         this.change = change;
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public Ticket getTicket() {
         return ticket;
     } // チケットを取得

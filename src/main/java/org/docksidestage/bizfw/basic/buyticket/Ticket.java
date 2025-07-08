@@ -27,28 +27,32 @@ public class Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final int displayPrice; // written on ticket, park guest can watch this
-    // TODO hase alreadyInだけ、Contructorで受け取らない純粋な状態を表すmutable変数なので、宣言の並びも一番下とかに移動しましょう by jflute (2025/07/07)
-    private boolean alreadyIn; // true means this ticket is unavailable
+    // TODO done hase alreadyInだけ、Contructorで受け取らない純粋な状態を表すmutable変数なので、宣言の並びも一番下とかに移動しましょう by jflute (2025/07/07)
     // done hase フラグはできるだけ、falseからtrueになる、(降りてる旗が上がる) にしたいところですね by jflute (2025/07/02)
     // あと、変数のライフサイクル的には、doInPark()したらfalseに変わっていますので...
     // 「1回目の入園」という状態を示すニュアンスなのかもですが、そうだとすると最初からtrueなのが少し違和感出ます。
     // (ぼくだと、firstTimeDone = false; で、doInPark()が一回呼ばれたら true になるとか、かなぁ...)
     // private boolean firstTimeDone = false; // 2日以上有効なチケットの初日判定
+// おもいで：price, days, onlyNightをticketで管理していた時代
+//    private final int ticketPrice; // written on ticket, park guest can watch this
+//    private final boolean onlyNightAvailable; // 夜限定フラグ
+    private final TicketType ticketType;
     private int daysLeft; // チケットの残日数管理
-    private final boolean onlyNightAvailable; // 夜限定フラグ
+    private boolean alreadyIn; // true means this ticket is unavailable
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Ticket(int displayPrice, int daysLeft, boolean onlyNightAvailable) {
+    public Ticket(TicketType ticketType) {
         // done hase 代入行の順番、できればConstructorの引数の順番に合わせましょう by jflute (2025/07/07)
         // そういったところ整ってるだけで、読み手はノイズなく直感的に読みやすくなるので。
         // ちなみに、インスタンス変数の定義順序も同じです。
         // 何か理由があれば順序通りじゃなくてもいいですが、特になければこの辺から一通り合わせてくれた方がありがたいです。
-        this.displayPrice = displayPrice;
-        this.daysLeft = daysLeft;
-        this.onlyNightAvailable = onlyNightAvailable;
+// おもいで：price, days, onlyNightをticketで管理していた時代
+//        this.ticketPrice = ticketType.getTicketPrice();
+//        this.onlyNightAvailable = ticketType.isOnlyNightAvailable(); // 夜間限定フラグ
+        this.ticketType = ticketType;
+        this.daysLeft = ticketType.getMaxDays(); // チケットの使用可能日数
     }
 
 
@@ -60,9 +64,10 @@ public class Ticket {
             throw new IllegalStateException("Already in park by this ticket.");
         }
         // 夜間入場処理もdoInPark()で行うように変更
-        if (onlyNightAvailable && !isNightTime()) {
+        if (isOnlyNightAvailable() && !isNightTime()) {
             throw new IllegalStateException("This ticket is not available for day park.");
         }
+// おもいで
 //        if (!firstTimeDone) {
 //            // done hase せめて、TicketBoothに定義してある定数を使いたいですね。 by jflute (2025/07/02)
 //            // 値段が変わったときに、あっちもこっちも修正しないと、あっ修正漏れ、になりやすいので。
@@ -79,19 +84,26 @@ public class Ticket {
 //            }
 //            firstTimeDone = true;
 //        }
-        // TODO hase すごく良いコメントなのですが、ちょこっとだけ値をオウム返ししているので、少しだけ抽象化しましょう by jflute (2025/07/07)
+        // TODO done hase すごく良いコメントなのですが、ちょこっとだけ値をオウム返ししているので、少しだけ抽象化しましょう by jflute (2025/07/07)
         // e.g.
         //  daysLeft--; // 入園したので、残り日数を減らす
         //  if (daysLeft == 0) { // 入園済みとする
         //
-        // TODO hase [読み物課題] オートマティックおうむ返しコメントより背景や理由を by jflute (2025/07/07)
+        // TODO done hase [読み物課題] オートマティックおうむ返しコメントより背景や理由を by jflute (2025/07/07)
         // https://jflute.hatenadiary.jp/entry/20180625/repeatablecomment
         // (ブログを読むのもjavatryということでじっくり読んでもらえればと)
         //
-        daysLeft--; // 入園したので、残り日数を1減らす
-        if (daysLeft == 0) { // 残り日数が0になったら、入園済みとする
+        daysLeft--; // 入園したので、残り日数を減らす
+        if (daysLeft == 0) { // 入園済みとする
             alreadyIn = true;
         }
+    }
+
+    // TODO done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
+    // TODO done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
+    // TODO done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
+    private boolean isNightTime() { // 夜間判定
+        return LocalDateTime.now().getHour() >= 17 && LocalDateTime.now().getHour() <= 21;
     }
     // done hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)
     // ただ、TicketでonlyNightAvailableの状態まで持っていますので、できれば一つのdoInPark()で、
@@ -111,8 +123,9 @@ public class Ticket {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getDisplayPrice() {
-        return displayPrice;
+    // 先にTicketクラスのインスタンス変数のaccessor by hase (2025/07/08)
+    public TicketType getTicketType() {
+        return ticketType;
     }
 
     public int getDaysLeft() {
@@ -123,18 +136,22 @@ public class Ticket {
         return alreadyIn;
     }
 
+    // 次にTicketTypeクラスのインスタンス変数のaccessor by hase (2025/07/08)
+    // TODO jflute (質問です) ticketPrice, maxDays, onlyNightAvailableは、TicketTypeクラスの責務であると定義したのですが、
+    //  Ticketクラスからも参照する方が直感的であると思ったため、両クラスから取得できる形で書きました。
+    //  責務は一つに集約すべきでしょうか？ by hase (2025/07/08)
+    public int getTicketPrice() {
+        return ticketType.getTicketPrice();
+    }
+
+    public int getMaxDays() {
+        return ticketType.getMaxDays();
+    }
+
+    public boolean isOnlyNightAvailable() {
+        return ticketType.isOnlyNightAvailable();
+    }
     // done hase こういうのもあるはあるんですが、ただオーソドックスにはisOnly...というようにisを付けます by jflute (2025/07/02)
     // ↑でも isAlreadyIn() と is 方式ですから、合わせた方が良いかなと。
     // is以外だと、has,existsなどの三単現の動詞、can/may/shouldなどの助動詞がbooleanでよく使われます。←勉強になります！！ありがとうございます。
-    public boolean isOnlyNightAvailable() {
-        return onlyNightAvailable;
-    }
-
-    // TODO hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
-    // TODO hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
-    // TODO hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
-    public boolean isNightTime() {
-        // 夜間判定
-        return LocalDateTime.now().getHour() >= 17 && LocalDateTime.now().getHour() <= 21;
-    }
 }

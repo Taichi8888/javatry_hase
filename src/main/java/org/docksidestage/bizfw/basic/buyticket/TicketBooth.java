@@ -29,20 +29,26 @@ public class TicketBooth {
     //                                                                          Definition
     //                                                                          ==========
     public static final int MAX_QUANTITY = 10;
-    public static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
-    public static final int TWO_DAY_PRICE = 13200;
-    public static final int FOUR_DAY_PRICE = 22400;
-    public static final int TWO_NIGHT_PRICE = 7400;
+// おもいで：TicketTypeでのみPriceを参照しているので、Price単体の変数は削除しました by hase (2025/07/08)
+//    public static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+//    public static final int TWO_DAY_PRICE = 13200;
+//    public static final int FOUR_DAY_PRICE = 22400;
+//    public static final int TWO_NIGHT_PRICE = 7400;
+    public static final TicketType ONE_DAY_TICKET = new TicketType(7400, 1, false);
+    public static final TicketType TWO_DAY_TICKET = new TicketType(13200, 2, false);
+    public static final TicketType FOUR_DAY_TICKET = new TicketType(22400, 4, false);
+    public static final TicketType TWO_NIGHT_TICKET = new TicketType(7400, 2, true);
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     private int quantity = MAX_QUANTITY;
-    private Integer salesProceeds; // null allowed: until first purchase
+    private int salesProceeds; // Not null
     // done hase 一回購入処理の中で発生する一時的なお釣りという値をインスタンス変数にすると... by jflute (2025/07/07)
     // 同じインスタンスで同時にアクセスされたときに、このchangeの値が入れ違ってしまう可能性があります。
     // あまり同時に処理を受け付けるつもりがないクラスだとしても、むやみにインスタンスに一時的な値を入れない方が無難です。
     // getChange()のためにそうしたのかなと思ったのですが...getChange()誰も使ってないような？？？
+// おもいで by hase (2025/07/08)
     // private int change;
 
     // ===================================================================================
@@ -70,22 +76,22 @@ public class TicketBooth {
     // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
     // 合わせて頂けるとありがたいというところではあります。
     public TicketBuyResult buyOneDayPassport(Integer handedMoney) {
-        // TODO hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
-        // TODO hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
+        // TODO done hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
+        // TODO done hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
         // Testクラスの showTicketIfNeeds() で書いたtodoとつながってきます。
-        return doBuyNDayPassport(handedMoney, ONE_DAY_PRICE, 1, false);
+        return doBuyTicket(handedMoney, ONE_DAY_TICKET);
     }
 
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
-        return doBuyNDayPassport(handedMoney, TWO_DAY_PRICE, 2, false);
+        return doBuyTicket(handedMoney, TWO_DAY_TICKET);
     }
 
     public TicketBuyResult buyFourDayPassport(Integer handedMoney) {
-        return doBuyNDayPassport(handedMoney, FOUR_DAY_PRICE, 4, false);
+        return doBuyTicket(handedMoney, FOUR_DAY_TICKET);
     }
 
     public TicketBuyResult buyTwoNightPassport(Integer handedMoney) {
-        return doBuyNDayPassport(handedMoney, TWO_NIGHT_PRICE, 2, true);
+        return doBuyTicket(handedMoney, TWO_NIGHT_TICKET);
     }
 
     public static class TicketSoldOutException extends RuntimeException {
@@ -116,17 +122,21 @@ public class TicketBooth {
     // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。←JavaDocの費用対効果...意識してみます！(hase)
     // done hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
     // せっかくなので、IDEのリファクタリング機能を使って1箇所だけ直してOKの簡単にrename処理してみましょう。←すごい！！night ticketもあるのでticketPriceにしました(hase)
-    // TODO hase javadoc, @paramが足りてません by jflute (2025/07/07)
-    // TODO hase javadoc, @param ticketPrice, javatryではぜひ (NotNull) を付けるようにお願いします。handedMoney参考に by jflute (2025/07/07)
+    // TODO done hase javadoc, @paramが足りてません by jflute (2025/07/07)
+    // TODO done hase javadoc, @param ticketPrice, javatryではぜひ (NotNull) を付けるようにお願いします。handedMoney参考に by jflute (2025/07/07)
     // nullを許す引数なのかどうか？というのは呼び出し側にとって重要な情報なので、javadocにこそ書いてあると呼び出す人は助かります。
     /**
      * Buy N-day / M-night passport, method for park guest. (N = 1,2,4) (M = 2)
      * @param handedMoney The money (amount) handed over from park guest. (NotNull, NotMinus)
-     * @param ticketPrice 各チケットの料金
+// おもいで：price, days, onlyNightをticketで管理していた時代
+//     * @param ticketPrice 各チケットの料金 (NotNull, NotMinus)
+//     * @param nDays チケットの残り日数 (NotNull, NotMinus)
+//     * @param onlyNightAvailable 夜間のみ入園可能なチケットか (True: 夜間のみ入園可能, False: 昼間も入園可能)
+     * @param ticketType 購入するチケットの種類 (NotNull)
      * @throws TicketSoldOutException When ticket in booth is sold out.
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
-    private TicketBuyResult doBuyNDayPassport(Integer handedMoney, Integer ticketPrice, Integer nDays, Boolean onlyNightAvailable) {
+    private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
         if (quantity <= 0) {
             throw new TicketSoldOutException("Sold out");
         } // 売り切れ
@@ -156,24 +166,21 @@ public class TicketBooth {
         // チェックが分かれているのは、やはりややこしく思えてきたので、購入時のチェックやチケット発行もTicketBoothの役割とし、
         // TicketBuyResultは単なる入れ物クラスにしたいと思います。
         // そして、doBuyNDayPassport()の戻り値をTicketではなくTicketBuyResultに変更し、購入処理の結果からチケットとお釣りを取得できるようにします。
-        if (handedMoney - ticketPrice < 0) {
+        if (handedMoney - ticketType.getTicketPrice() < 0) {
             throw new TicketBooth.TicketShortMoneyException("Short money: " + handedMoney);
         } // 金額不足
-        Ticket ticket = new Ticket(ticketPrice, nDays, onlyNightAvailable);
-        int change = handedMoney - ticketPrice; // お釣り（>= 0）
+        Ticket ticket = new Ticket(ticketType);
+        int change = handedMoney - ticket.getTicketPrice(); // お釣り（>= 0）
         TicketBuyResult result = new TicketBuyResult(ticket, change);
         // done jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
         // （未購入状態と売上0を違うものとして認識する時が想定できず質問しました） by hase (2025/07/07)
-        // TODO hase 0初期化で良いと思います。既存コードあえてパーフェクトにしてないので、よく思いつきましたという感じで^^ by jflute (2025/07/07)
+        // TODO done hase 0初期化で良いと思います。既存コードあえてパーフェクトにしてないので、よく思いつきましたという感じで^^ by jflute (2025/07/07)
         // まあ、例えば0円商品があったとき、購入が全くない0円と、売上があっても0円で区別が付かないとかはなくはないですが、
         // その状況は相当レアではありますし、購入の有無が必要な業務であれば別途変数を持たせても良いと思うので。
         //
         // ちなみに、todoは、4文字ぜんぶ大文字でお願いします。エディター的に大文字4文字のtodoが色が付いて認識されるというものなので。
-        if (salesProceeds != null) { // second or more purchase
-            salesProceeds = salesProceeds + ticketPrice;
-        } else { // first purchase
-            salesProceeds = ticketPrice;
-        }
+        // 承知しました！自分のエディターの設定も変えたので、今後は大文字じゃなければ自分で気づけます！ by hase (2025/07/08)
+        salesProceeds += ticket.getTicketPrice(); // おもいで：Not nullにしたからシンプルに書けた！！ by hase (2025/07/08)
         --quantity;
         return result;
     }
