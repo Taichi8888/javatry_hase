@@ -15,6 +15,8 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+
 /**
  * The object for zombie(ゾンビ).
  * @author jflute
@@ -54,9 +56,13 @@ public class Zombie extends Animal {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    public void breatheIn() {
-        super.breatheIn();
+    public BarkedSound bark() {
+        // 考え（言い訳）コメント：by hase (2025/07/08)
+        // 理想的には、breathIn()のたびにcountBreathIn()したい。
+        // しかし、ZombieのためだけにAnimalクラスでbreathIn()のカウントをするのは大袈裟
+        // 直感的に、bark()1回につき1度しか吸い込まないので、bark()をオーバーライドして元の機能を実現しました。
         zombieDiary.countBreatheIn();
+        return super.bark();
     }
 
     @Override

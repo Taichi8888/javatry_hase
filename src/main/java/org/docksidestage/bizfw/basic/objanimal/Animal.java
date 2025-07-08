@@ -18,8 +18,9 @@ package org.docksidestage.bizfw.basic.objanimal;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+// BarkingProcess移行によりひとまず使わなくなったが、また新しいメソッド作成時に使う可能性あり by hase (2025/07/08)
 
 /**
  * The object for animal(動物).
@@ -31,21 +32,22 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+//    private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+//    BarkingProcess移行によりひとまず使わなくなったが、また新しいメソッド作成時に使う可能性あり by hase (2025/07/08)
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
-    // TODO hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
-    protected BarkingProcess barkingProcess;
+    // TODO done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
+    protected final BarkingProcess barkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public Animal() {
         hitPoint = getInitialHitPoint();
-        barkingProcess = new BarkingProcess();
+        barkingProcess = new BarkingProcess(this);
     }
 
     protected int getInitialHitPoint() {
@@ -56,7 +58,7 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        return this.barkingProcess.bark(this);
+        return this.barkingProcess.bark();
     } // 引数にthis渡すのが冗長な気がする。
     // breatheInとかもまとめて外に出しても良いかも→HP管理がめんどくさい。
     // done [いいね] 外に出す考え方は良さそう
@@ -66,14 +68,15 @@ public abstract class Animal implements Loudable {
     // ただし、現状downHitPoint()はAnimalの責務なので、そこはBarkingProcessに持たせられない
     // うまくその処理を委譲できないかな・・・・ by tanaryo (2025/7/5
 
-    // TODO hase 修行++: コメントで "depends on barking" とありますから、barkのための「息継ぎ」なので... by jflute (2025/07/07)
+    // TODO done hase 修行++: コメントで "depends on barking" とありますから、barkのための「息継ぎ」なので... by jflute (2025/07/07)
     // やはり、BarkingProcessに置きたいメソッドですね。Zombieのオーバーライドがあるから取り残されているんでしょうが...
     // 他のケースで、prepareAbdominalMuscle()をオーバーライドしたい動物がいたらキリがないです。
     // BarkingProcess側に持っていっても、Zombieの振る舞いが維持できるような仕組みを考えてみましょう。
-    public void breatheIn() { // actually depends on barking
-        logger.debug("...Breathing in for barking"); // dummy implementation
-        downHitPoint();
-    }
+// おもいで：barkingProcessを作成する前
+//    public void breatheIn() { // actually depends on barking
+//        logger.debug("...Breathing in for barking"); // dummy implementation
+//        downHitPoint();
+//    }
 
 //    public void prepareAbdominalMuscle() { // also actually depends on barking
 //        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
@@ -85,7 +88,7 @@ public abstract class Animal implements Loudable {
     // 鳴く行為よりも抽象度の高いdownHitPoint()はAnimalに残しました。
     // breathInは迷ったのですが、Animalの子クラスであるZombieでoverrideしていて、
     // barkではない別のところでも使える可能性高いかなと思い、Animalに残しました。(hase 25/7/7)
-    // TODO hase [いいね] クラス名がProcessですからね。鳴き声はデータでもあるのでAnimalで良いと思います by jflute (2025/07/07)
+    // TODO done hase [いいね] クラス名がProcessですからね。鳴き声はデータでもあるのでAnimalで良いと思います by jflute (2025/07/07)
     // downHitPoint()は、それこそ fight() が使ってますからね(^^。
 
 //    public BarkedSound doBark(String barkWord) {

@@ -29,7 +29,7 @@ import org.docksidestage.javatry.basic.st6.os.Mac;
 import org.docksidestage.javatry.basic.st6.os.Windows;
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO hase 全体的に無言のコメントアウトが多いので... by jflute (2025/07/07)
+// TODO done hase 全体的に無言のコメントアウトが多いので... by jflute (2025/07/07)
 // まあ実務なら消すと思いますが、javatryは勉強用なのでコメントアウトで途中経過を残すのは良いです。
 // ただ、やりかけなのか？勉強用に残してるのか？わからないと読み手が迷いますね。
 // 説明を入れるまでもなく残すような場合は、「おもいでコメントアウト」してもらえると嬉しいです。
@@ -58,17 +58,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (OneDayPassportを買って InPark する処理の中で、(simulationを除いて)間違いがいくつかあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
-        // TODO hase まだ一個だけ間違いがそのまま残っていますね。本当にあと一個だけですね by jflute (2025/07/07)
-        //
+        // TODO done hase まだ一個だけ間違いがそのまま残っていますね。本当にあと一個だけですね by jflute (2025/07/07)
+        // do in park後のalreadyInチェックでしょうか！ by hase (2025/07/08)
+
         // [ticket booth info]
-        //
         // simulation: actually these variables should be more wide scope
         int oneDayPrice = 7400;
         int quantity = 10;
-        Integer salesProceeds = null;
-        //
+        int salesProceeds = 0;
         // [buy one-day passport]
-        //
         // simulation: actually this money should be from customer
         int handedMoney = 10000;
         if (quantity <= 0) {
@@ -79,32 +77,24 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
         --quantity;
         // done [いいね]売上加算気付けてる　by tanaryo
-        // TODO hase ちょっと dead codeの警告が出てしまっています。salesProceeds が初期値固定nullだからですね by jflute (2025/07/07)
+        // TODO done hase ちょっと dead codeの警告が出てしまっています。salesProceeds が初期値固定nullだからですね by jflute (2025/07/07)
         // ここは模擬コードなので仕方ないですが、step5であったように初期値0にしちゃってもいいかなと。
-        if (salesProceeds == null) {
-            salesProceeds = oneDayPrice;
-        }else {
-            salesProceeds += oneDayPrice;
-        }
+        salesProceeds += oneDayPrice;
         log(salesProceeds);
-        //
         // [ticket info]
-        //
         // simulation: actually these variables should be more wide scope
         int displayPrice = oneDayPrice; //
         boolean alreadyIn = false;
         // other processes here...
         Ticket oneDayPass = new Ticket(TicketBooth.ONE_DAY_TICKET);
-        //do in park here!!!
-        oneDayPass.doInPark();
-        // simulation: actually this process should be called by other trigger
+        // do in parkの前にチェック by hase (2025/07/08)
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
         }
+        //do in park here!!!
+        oneDayPass.doInPark();
         alreadyIn = true;
-        //
         // [final process]
-        //
         saveBuyingHistory(quantity, salesProceeds, displayPrice, alreadyIn);
     }
 
@@ -132,54 +122,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (このコードを読んで(分析して)、一つ前のテストメソッドと比べて、「オブジェクトとは何か？」を考えてみましょう)
      */
     public void test_objectOriented_aboutObject_usingObject() {
-        //
         // [ticket booth info]
-        //
         TicketBooth booth = new TicketBooth();
-        // *booth has these properties:
-        //int oneDayPrice = 7400;
-        //int quantity = 10;
-        //Integer salesProceeds = null;
-
-        //
         // [buy one-day passport]
-        //
         // if step05 has been finished, you can use this code by jflute (2019/06/15)
         Ticket ticket = booth.buyOneDayPassport(10000).getTicket();
-//        booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
-//        Ticket ticket = new Ticket(7400); // also here
-
-        // *buyOneDayPassport() has this process:
-        //if (quantity <= 0) {
-        //    throw new TicketSoldOutException("Sold out");
-        //}
-        //if (handedMoney < oneDayPrice) {
-        //    throw new TicketShortMoneyException("Short money: handedMoney=" + handedMoney);
-        //}
-        //--quantity;
-        //salesProceeds = handedMoney;
-
-        // *ticket has these properties:
-        //int displayPrice = oneDayPrice;
-        //boolean alreadyIn = false;
-
-        // other processes here...
-        // ...
-        // ...
-
-        //
         // [do in park now!!!]
-        //
         ticket.doInPark();
-        // *doInPark() has this process:
-        //if (alreadyIn) {
-        //    throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice);
-        //}
-        //alreadyIn = true;
-
-        //
         // [final process]
-        //
         saveBuyingHistory(booth, ticket);
     }
 
@@ -372,7 +322,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // インターフェースは継承と違って、can-doの関係。クラスに特定の機能を実装させる。
         // インターフェースは複数実装できるが、抽象クラスは1つしか継承できない。
         // _/_/_/_/_/_/_/_/_/_/
-        // TODO hase [ふぉろー] いいですね。わかりやすくまとまっています。 by jflute (2025/07/07)
+        // TODO done hase [ふぉろー] いいですね。わかりやすくまとまっています。 by jflute (2025/07/07)
         // ただ、ここで書いてるのは、概念的な違い (コンセプトの違い) というよりも機能的な違いになりますかね。
         // TODO jflute ここも1on1にてフォローする (2025/07/07)
     }
@@ -430,10 +380,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_writing_specialization_extractToConcrete() {
         Mac mac = new Mac("abc123");
         Windows windows = new Windows("def456");
-//        St6OperationSystem oldWindows = new St6OperationSystem("OldWindows", "ghi789");
         log(mac.getFileSeparator());
         log(windows.getUserDirectory());
-//        log(oldWindows.getUserDirectory());
     } // done hase Mac, Windows, oldWindows以外のOSが親クラスのコンストラクタから作られた時に例外処理することに詰まった。
     // 今のままだと、親クラスのコンストラクタから作られたもの全てが例外処理されてしまうが、親クラスのif文は消したい。
     // 30分詰まったので保留。

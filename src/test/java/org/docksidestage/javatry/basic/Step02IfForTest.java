@@ -17,11 +17,10 @@ package org.docksidestage.javatry.basic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO hase ↑unusedのimport文があります by jflute (2025/07/08)
+// TODO done hase ↑unusedのimport文があります by jflute (2025/07/08)
 // [1on1でのフォロー] IDEが、それなりに警告とかお知らせとかしてくれるので注目しましょう
 
 /**
@@ -217,7 +216,7 @@ public class Step02IfForTest extends PlainTestCase {
         // ここはチャレンジ案件という感じで、インスタンス変数を使わない方法も考えてみてください。
         // ヒント出しておきます。Immutableなクラスがあるということは、Mutableなクラスもあるということで。
         // step1でもMutableなクラス登場しましたね。
-        StringBuilder land = new StringBuilder("");
+        StringBuilder land = new StringBuilder();
         if (stageList.size() == 0) {
             String landNull = null;
             log(landNull);
