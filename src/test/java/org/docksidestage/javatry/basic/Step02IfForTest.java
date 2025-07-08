@@ -21,6 +21,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO hase ↑unusedのimport文があります by jflute (2025/07/08)
+// [1on1でのフォロー] IDEが、それなりに警告とかお知らせとかしてくれるので注目しましょう
+
 /**
  * The test of if-for. <br>
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
@@ -99,8 +102,9 @@ public class Step02IfForTest extends PlainTestCase {
             sea = 10;
         }
         log(sea); // your answer? => 10
-        // TODO jflute 1on1にて、ソースコードリーディング話のフォローする予定 (2025/07/01)
+        // done jflute 1on1にて、ソースコードリーディング話のフォローする予定 (2025/07/01)
         // (↑これは、くぼ自身のtodoなので、そのまま残しておいてください)
+        // [1on1でのフォロー] 目的ベースのソースコードリーディング (その中で逆読みすることもある)
     }
 
     // ===================================================================================
@@ -282,6 +286,9 @@ public class Step02IfForTest extends PlainTestCase {
 
         // (hase) 壮大な背景を教えていただき、ありがとうございます！！
         // まだ完全には理解できていませんが、開発者のリスクマネジメントで再代入を危惧したのだとイメージすることができました。
+        
+        // [1on1でのフォロー] for文とforEach()のメリデメ
+        // 「新しいから使うではなく、向いているから使う」の感覚を持って欲しい。
     }
 
     /**

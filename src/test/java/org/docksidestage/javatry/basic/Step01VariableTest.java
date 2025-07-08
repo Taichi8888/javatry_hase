@@ -80,7 +80,14 @@ public class Step01VariableTest extends PlainTestCase {
     // done hase [いいね] おお、Immutableの概念を理解してらっしゃるの素晴らしいです by jflute (2025/07/01)
     // ここは大事なところなので1on1ときにぜひ補足させてください(^^
     // (hase)ありがとうございます！よろしくお願いします！！
-    // TODO jflute 1on1のときに、JavaDocでのImmutable記述の話と、Immutableの現実感話 (2025/07/01)
+    // done jflute 1on1のときに、JavaDocでのImmutable記述の話と、Immutableの現実感話 (2025/07/01)
+    
+    // [1on1でのフォロー]
+    // IntelliJでメソッド補完中にcontrol+J
+    // https://x.com/jflute/status/877828346070970370
+    // JavaDocに着目。
+    // ソースコードも少し追ってみた。
+    // Immutableの現実性の話 (ScalaやJavaでのポリシーの違い)
 
     // ===================================================================================
     //                                                                   Instance Variable
