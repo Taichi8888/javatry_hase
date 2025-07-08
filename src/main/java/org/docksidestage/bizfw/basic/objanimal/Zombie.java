@@ -61,6 +61,10 @@ public class Zombie extends Animal {
         // 理想的には、breathIn()のたびにcountBreathIn()したい。
         // しかし、ZombieのためだけにAnimalクラスでbreathIn()のカウントをするのは大袈裟
         // 直感的に、bark()1回につき1度しか吸い込まないので、bark()をオーバーライドして元の機能を実現しました。
+        // TODO hase 悩んでて素晴らしい(^^。ただ、突き落としてしまいますが... by jflute (2025/07/09)
+        // bark()でBreathが一回とは限らないので、将来そのへんが変わったらcountが狂ってしまいます。
+        // とはいえどうしたらいいんだかって感じではありますよね。
+        // hint1: オブジェクト指向的な階層構造は別にAnimalだけのものじゃない
         zombieDiary.countBreatheIn();
         return super.bark();
     }

@@ -27,7 +27,7 @@ public class Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO done hase alreadyInだけ、Contructorで受け取らない純粋な状態を表すmutable変数なので、宣言の並びも一番下とかに移動しましょう by jflute (2025/07/07)
+    // done hase alreadyInだけ、Contructorで受け取らない純粋な状態を表すmutable変数なので、宣言の並びも一番下とかに移動しましょう by jflute (2025/07/07)
     // done hase フラグはできるだけ、falseからtrueになる、(降りてる旗が上がる) にしたいところですね by jflute (2025/07/02)
     // あと、変数のライフサイクル的には、doInPark()したらfalseに変わっていますので...
     // 「1回目の入園」という状態を示すニュアンスなのかもですが、そうだとすると最初からtrueなのが少し違和感出ます。
@@ -84,12 +84,12 @@ public class Ticket {
 //            }
 //            firstTimeDone = true;
 //        }
-        // TODO done hase すごく良いコメントなのですが、ちょこっとだけ値をオウム返ししているので、少しだけ抽象化しましょう by jflute (2025/07/07)
+        // done hase すごく良いコメントなのですが、ちょこっとだけ値をオウム返ししているので、少しだけ抽象化しましょう by jflute (2025/07/07)
         // e.g.
         //  daysLeft--; // 入園したので、残り日数を減らす
         //  if (daysLeft == 0) { // 入園済みとする
         //
-        // TODO done hase [読み物課題] オートマティックおうむ返しコメントより背景や理由を by jflute (2025/07/07)
+        // done hase [読み物課題] オートマティックおうむ返しコメントより背景や理由を by jflute (2025/07/07)
         // https://jflute.hatenadiary.jp/entry/20180625/repeatablecomment
         // (ブログを読むのもjavatryということでじっくり読んでもらえればと)
         //
@@ -99,9 +99,9 @@ public class Ticket {
         }
     }
 
-    // TODO done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
-    // TODO done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
-    // TODO done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
+    // done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
+    // done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
+    // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
     private boolean isNightTime() { // 夜間判定
         return LocalDateTime.now().getHour() >= 17 && LocalDateTime.now().getHour() <= 21;
     }
@@ -137,9 +137,15 @@ public class Ticket {
     }
 
     // 次にTicketTypeクラスのインスタンス変数のaccessor by hase (2025/07/08)
-    // TODO jflute (質問です) ticketPrice, maxDays, onlyNightAvailableは、TicketTypeクラスの責務であると定義したのですが、
+    // done jflute (質問です) ticketPrice, maxDays, onlyNightAvailableは、TicketTypeクラスの責務であると定義したのですが、
     //  Ticketクラスからも参照する方が直感的であると思ったため、両クラスから取得できる形で書きました。
     //  責務は一つに集約すべきでしょうか？ by hase (2025/07/08)
+    // TODO hase [へんじ] おお、これは悩ましいですね。スッキリさを優先するのであればTicketTypeさえgetできれば... by jflute (2025/07/09)
+    // いいわけですけど、Ticket自身が提供できていい情報なんじゃないか (直感的) ってのも一理あります。
+    // ぼく自身、両方のパターンがあったなぁと。ケースバイケースだと思うのですが、その線引きが確かに言語化できないですね。
+    // なので、直感的と思ったhaseさんの感覚で良いと思います。
+    // 人から「要らないのでは？」って言われたとき、「その方が直感的だと思いました」と堂々と言えれば良いです。
+    // 正解はないので、あとは決めの問題になるかなと。
     public int getTicketPrice() {
         return ticketType.getTicketPrice();
     }

@@ -34,6 +34,7 @@ public class TicketBooth {
 //    public static final int TWO_DAY_PRICE = 13200;
 //    public static final int FOUR_DAY_PRICE = 22400;
 //    public static final int TWO_NIGHT_PRICE = 7400;
+    // TODO hase 修行++: enum という文法を調べて使ってみてください。 by jflute (2025/07/09)
     public static final TicketType ONE_DAY_TICKET = new TicketType(7400, 1, false);
     public static final TicketType TWO_DAY_TICKET = new TicketType(13200, 2, false);
     public static final TicketType FOUR_DAY_TICKET = new TicketType(22400, 4, false);
@@ -76,8 +77,8 @@ public class TicketBooth {
     // 上に定義しているpublicのメソッドが、下に定義しているprivateのものを呼ぶみたいな。
     // 合わせて頂けるとありがたいというところではあります。
     public TicketBuyResult buyOneDayPassport(Integer handedMoney) {
-        // TODO done hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
-        // TODO done hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
+        // done hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
+        // done hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
         // Testクラスの showTicketIfNeeds() で書いたtodoとつながってきます。
         return doBuyTicket(handedMoney, ONE_DAY_TICKET);
     }
@@ -122,8 +123,8 @@ public class TicketBooth {
     // ここはTicketBoothにおけるとても重要なメソッドなので、JavaDocの費用対効果も高いです。←JavaDocの費用対効果...意識してみます！(hase)
     // done hase えらく細かいですが、Javaの引数名は先頭小文字が週間なので、nDayPriceの方がいいかなと by jflute (2025/07/02)
     // せっかくなので、IDEのリファクタリング機能を使って1箇所だけ直してOKの簡単にrename処理してみましょう。←すごい！！night ticketもあるのでticketPriceにしました(hase)
-    // TODO done hase javadoc, @paramが足りてません by jflute (2025/07/07)
-    // TODO done hase javadoc, @param ticketPrice, javatryではぜひ (NotNull) を付けるようにお願いします。handedMoney参考に by jflute (2025/07/07)
+    // done hase javadoc, @paramが足りてません by jflute (2025/07/07)
+    // done hase javadoc, @param ticketPrice, javatryではぜひ (NotNull) を付けるようにお願いします。handedMoney参考に by jflute (2025/07/07)
     // nullを許す引数なのかどうか？というのは呼び出し側にとって重要な情報なので、javadocにこそ書いてあると呼び出す人は助かります。
     /**
      * Buy N-day / M-night passport, method for park guest. (N = 1,2,4) (M = 2)
@@ -174,7 +175,7 @@ public class TicketBooth {
         TicketBuyResult result = new TicketBuyResult(ticket, change);
         // done jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
         // （未購入状態と売上0を違うものとして認識する時が想定できず質問しました） by hase (2025/07/07)
-        // TODO done hase 0初期化で良いと思います。既存コードあえてパーフェクトにしてないので、よく思いつきましたという感じで^^ by jflute (2025/07/07)
+        // done hase 0初期化で良いと思います。既存コードあえてパーフェクトにしてないので、よく思いつきましたという感じで^^ by jflute (2025/07/07)
         // まあ、例えば0円商品があったとき、購入が全くない0円と、売上があっても0円で区別が付かないとかはなくはないですが、
         // その状況は相当レアではありますし、購入の有無が必要な業務であれば別途変数を持たせても良いと思うので。
         //

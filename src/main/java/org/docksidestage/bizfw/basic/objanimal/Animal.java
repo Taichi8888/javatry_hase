@@ -39,7 +39,7 @@ public abstract class Animal implements Loudable {
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
-    // TODO done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
+    // done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
     protected final BarkingProcess barkingProcess;
 
     // ===================================================================================
@@ -68,7 +68,7 @@ public abstract class Animal implements Loudable {
     // ただし、現状downHitPoint()はAnimalの責務なので、そこはBarkingProcessに持たせられない
     // うまくその処理を委譲できないかな・・・・ by tanaryo (2025/7/5
 
-    // TODO done hase 修行++: コメントで "depends on barking" とありますから、barkのための「息継ぎ」なので... by jflute (2025/07/07)
+    // done hase 修行++: コメントで "depends on barking" とありますから、barkのための「息継ぎ」なので... by jflute (2025/07/07)
     // やはり、BarkingProcessに置きたいメソッドですね。Zombieのオーバーライドがあるから取り残されているんでしょうが...
     // 他のケースで、prepareAbdominalMuscle()をオーバーライドしたい動物がいたらキリがないです。
     // BarkingProcess側に持っていっても、Zombieの振る舞いが維持できるような仕組みを考えてみましょう。
@@ -88,7 +88,7 @@ public abstract class Animal implements Loudable {
     // 鳴く行為よりも抽象度の高いdownHitPoint()はAnimalに残しました。
     // breathInは迷ったのですが、Animalの子クラスであるZombieでoverrideしていて、
     // barkではない別のところでも使える可能性高いかなと思い、Animalに残しました。(hase 25/7/7)
-    // TODO done hase [いいね] クラス名がProcessですからね。鳴き声はデータでもあるのでAnimalで良いと思います by jflute (2025/07/07)
+    // done hase [いいね] クラス名がProcessですからね。鳴き声はデータでもあるのでAnimalで良いと思います by jflute (2025/07/07)
     // downHitPoint()は、それこそ fight() が使ってますからね(^^。
 
 //    public BarkedSound doBark(String barkWord) {

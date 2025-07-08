@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO done hase ↑unusedのimport文があります by jflute (2025/07/08)
+// done hase ↑unusedのimport文があります by jflute (2025/07/08)
 // [1on1でのフォロー] IDEが、それなりに警告とかお知らせとかしてくれるので注目しましょう
 
 /**
