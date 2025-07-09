@@ -23,13 +23,13 @@ import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
 // TODO jflute 1on1にて、全体的にエラーハンドリングのフォローする (2025/07/09)
-// TODO hase javadocのauthorお願いします！ by jflute (2025/07/09)
+// TODO done hase javadocのauthorお願いします！ by jflute (2025/07/09)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りに実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author tahasega
  */
 public class Step07ExceptionTest extends PlainTestCase {
 
@@ -183,14 +183,17 @@ public class Step07ExceptionTest extends PlainTestCase {
      */
     public void test_exception_checkedException_basic() {
         try {
-            String path = new java.io.File(".").getCanonicalPath(); //
-            log(path);
-            // TODO hase 実際に↓のように一時的にthrowさせてStackTraceがちゃんと出ているか確認してみてください by jflute (2025/07/09)
+            String path = new java.io.File("").getCanonicalPath();
+            throw new IOException("Invalid file path");
+            // log(path);
+            // TODO done hase 実際に↓のように一時的にthrowさせてStackTraceがちゃんと出ているか確認してみてください by jflute (2025/07/09)
             // 出てるは出ていますが、ちょっと出方が見やすくないですね。
             //throw new IOException();
         } catch (IOException e) {
-            log(e.getMessage()); // message
-            log(e.getStackTrace()); // stack trace
+            log(e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) {
+                log("  at " + element.toString());
+            }
         }
     } // ファイル操作、データベース接続、ネットワーク通信などでは、コンパイル時に強制的に例外処理を要求される。（チェック例外）
     // ファイルが存在しない、接続できない、などの事前に想定できる例外状況が多いので、チェック例外が使われる。
