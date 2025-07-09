@@ -53,7 +53,7 @@ public abstract class St6OperationSystem {
         return resourcePath.replace("/", fileSeparator);
     }
 
-    // TODO done hase getFileSeparator()はprotectedで、getUserDirectory()はpublic... by jflute (2025/07/07)
+    // done hase getFileSeparator()はprotectedで、getUserDirectory()はpublic... by jflute (2025/07/07)
     // でも、サブクラスではオーバーライドして結局 public にしている。この辺がちょっと統一感がないので整えましょう。
     // ここらへん苦手意識あります... by hase (2025/07/09)
     public abstract String getFileSeparator();

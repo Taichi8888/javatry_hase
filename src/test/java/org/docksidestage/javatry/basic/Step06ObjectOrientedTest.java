@@ -61,7 +61,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_aboutObject_againstObject() {
         // done hase まだ一個だけ間違いがそのまま残っていますね。本当にあと一個だけですね by jflute (2025/07/07)
         // do in park後のalreadyInチェックでしょうか！ by hase (2025/07/08)
-        // TODO done hase いや、もっと直接的でベタな間違いです。見つけたら笑っちゃうような by jflute (2025/07/09)
+        // done hase いや、もっと直接的でベタな間違いです。見つけたら笑っちゃうような by jflute (2025/07/09)
 
         // [ticket booth info]
         // simulation: actually these variables should be more wide scope
@@ -92,6 +92,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // do in parkの前にチェック by hase (2025/07/08)
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice); // ここかあああ by hase (2025/07/09)
+            // TODO hase [いいね] ここは見逃しランキングNo.1の箇所です。みんな正常の処理はよく見るのですが... by jflute (2025/07/10)
+            // 例外メッセージとかはあまり見ないでしょう。でも、本番で本当にその例外が発生する状況になったら...
+            // 「あー、出てる値が全然違うからデバッグできーん」になっちゃってピンチになるのです。
         }
         //do in park here!!!
         oneDayPass.doInPark();

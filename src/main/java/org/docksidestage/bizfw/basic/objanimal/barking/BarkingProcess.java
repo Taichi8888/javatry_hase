@@ -61,7 +61,7 @@ public class BarkingProcess {
         creature.downHitPoint();
     }
 
-    // TODO done hase メソッド内に不要な空行がありますので削除で by jflute (2025/07/09)
+    // done hase メソッド内に不要な空行がありますので削除で by jflute (2025/07/09)
     private String getBarkWord(Creature creature) {
         return creature.getBarkWord();
     }

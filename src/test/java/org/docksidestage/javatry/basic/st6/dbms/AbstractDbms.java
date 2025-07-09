@@ -13,6 +13,6 @@ public abstract class AbstractDbms { // MySQL, PostgreSQLでpagingQueryの書き
         int offset = pageSize * (pageNumber - 1);
         return eachPagingQuery(pageSize, offset);
     }
-    // TODO done hase publicである必要がないです by jflute (2025/07/07)
+    // done hase publicである必要がないです by jflute (2025/07/07)
     protected abstract String eachPagingQuery(int pageSize, int offset);
 }

@@ -23,7 +23,7 @@ import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
 // TODO jflute 1on1にて、全体的にエラーハンドリングのフォローする (2025/07/09)
-// TODO done hase javadocのauthorお願いします！ by jflute (2025/07/09)
+// done hase javadocのauthorお願いします！ by jflute (2025/07/09)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
