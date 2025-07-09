@@ -17,6 +17,7 @@ package org.docksidestage.javatry.basic;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
+import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.bizfw.basic.objanimal.*;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
@@ -60,7 +61,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_aboutObject_againstObject() {
         // done hase まだ一個だけ間違いがそのまま残っていますね。本当にあと一個だけですね by jflute (2025/07/07)
         // do in park後のalreadyInチェックでしょうか！ by hase (2025/07/08)
-        // TODO hase いや、もっと直接的でベタな間違いです。見つけたら笑っちゃうような by jflute (2025/07/09)
+        // TODO done hase いや、もっと直接的でベタな間違いです。見つけたら笑っちゃうような by jflute (2025/07/09)
 
         // [ticket booth info]
         // simulation: actually these variables should be more wide scope
@@ -87,10 +88,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         int displayPrice = oneDayPrice; //
         boolean alreadyIn = false;
         // other processes here...
-        Ticket oneDayPass = new Ticket(TicketBooth.ONE_DAY_TICKET);
+        Ticket oneDayPass = new Ticket(TicketType.ONE_DAY);
         // do in parkの前にチェック by hase (2025/07/08)
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
+            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice); // ここかあああ by hase (2025/07/09)
         }
         //do in park here!!!
         oneDayPass.doInPark();
@@ -236,11 +237,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
-        Animal animal = new Zombie();
-        BarkedSound sound = animal.bark();
+        Creature creature = new Zombie();
+        log(creature instanceof UndeadMonster);
+        BarkedSound sound = creature.bark();
         String sea = sound.getBarkWord();
         log(sea); // your answer? => uooo
-        int land = animal.getHitPoint();
+        int land = creature.getHitPoint();
         log(land); // your answer? => -1
     }
 
@@ -291,7 +293,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_interface_partImpl() {
         Animal seaAnimal = new Cat();
-        Animal landAnimal = new Zombie();
+        Creature landAnimal = new Zombie();
         boolean sea = seaAnimal instanceof FastRunner;
         log(sea); // your answer? => true
         boolean land = landAnimal instanceof FastRunner;
@@ -337,12 +339,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeConcrete() {
         Elephant zou = new Elephant();
+        Zombie zombie = new Zombie();
         log(zou.isBien()); //false
-        zou.fight();
+        zou.fight(zombie);
         log(zou.isBien()); // true
-        log(zou.getHitPoint()); // 9
-        zou.fight();
-        log(zou.getHitPoint()); // 6
+        log(zou.getHitPoint()); // 19
+        zou.fight(zombie);
+        log(zou.getHitPoint()); // 16
+        zombie.fight(zou);
+        log(zou.getHitPoint()); // 10 鼻炎x2回攻撃
     }
 
     /**
@@ -351,9 +356,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeInterface() {
         Animal zou = new Elephant();
-        zou.fight();
+        Zombie zombie = new Zombie();
+        zou.fight(zombie);
         log(zou.getHitPoint()); // 9
-        zou.fight();
+        zou.fight(zombie);
         log(zou.getHitPoint()); // 6
         ((Elephant)zou).ride();
         log(zou.getHitPoint()); // 5

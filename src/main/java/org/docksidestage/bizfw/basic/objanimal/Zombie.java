@@ -15,77 +15,84 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
-import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
-
 /**
  * The object for zombie(ゾンビ).
  * @author jflute
  */
-public class Zombie extends Animal {
+public class Zombie extends UndeadMonster {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected final ZombieDiary zombieDiary = new ZombieDiary();
+    protected final UndeadDiary undeadDiary; // アンデッドたちは皆持っている日記
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public Zombie() {
+        undeadDiary = new UndeadDiary();
     }
 
-    @Override
-    protected int getInitialHitPoint() {
-        return -1; // magic number for infinity hit point
-    }
+// おもいで
+//    @Override
+//    protected int getInitialHitPoint() {
+//        return super.getInitialHitPoint();
+//    }
 
-    public static class ZombieDiary {
-
-        private int breatheInCount;
-
-        public void countBreatheIn() {
-            ++breatheInCount;
-        }
-
-        public int getBreatheInCount() {
-            return breatheInCount;
-        }
-    }
+//    public static class ZombieDiary {
+//
+//        private int breatheInCount;
+//
+//        public void countBreatheIn() {
+//            ++breatheInCount;
+//        }
+//
+//        public int getBreatheInCount() {
+//            return breatheInCount;
+//        }
+//    }
 
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
-    @Override
-    public BarkedSound bark() {
-        // 考え（言い訳）コメント：by hase (2025/07/08)
-        // 理想的には、breathIn()のたびにcountBreathIn()したい。
-        // しかし、ZombieのためだけにAnimalクラスでbreathIn()のカウントをするのは大袈裟
-        // 直感的に、bark()1回につき1度しか吸い込まないので、bark()をオーバーライドして元の機能を実現しました。
-        // TODO hase 悩んでて素晴らしい(^^。ただ、突き落としてしまいますが... by jflute (2025/07/09)
-        // bark()でBreathが一回とは限らないので、将来そのへんが変わったらcountが狂ってしまいます。
-        // とはいえどうしたらいいんだかって感じではありますよね。
-        // hint1: オブジェクト指向的な階層構造は別にAnimalだけのものじゃない
-        zombieDiary.countBreatheIn();
-        return super.bark();
-    }
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    @Override
+//    public BarkedSound bark() {
+//        // 考え（言い訳）コメント：by hase (2025/07/08)
+//        // 理想的には、breathIn()のたびにcountBreathIn()したい。
+//        // しかし、ZombieのためだけにAnimalクラスでbreathIn()のカウントをするのは大袈裟
+//        // 直感的に、bark()1回につき1度しか吸い込まないので、bark()をオーバーライドして元の機能を実現しました。
+//        // TODO done hase 悩んでて素晴らしい(^^。ただ、突き落としてしまいますが... by jflute (2025/07/09)
+//        // bark()でBreathが一回とは限らないので、将来そのへんが変わったらcountが狂ってしまいます。
+//        // とはいえどうしたらいいんだかって感じではありますよね。
+//        // hint1: オブジェクト指向的な階層構造は別にAnimalだけのものじゃない
+    //
+    // Animalと同じ粒度のUndeadMonsterクラスを作成し、ZombieはUndeadMonsterの1つとしました。by hase (2025/07/09)
+    // さらに、AnimalとUndeadMonsterの親クラスCreatureを作成し、共通の処理を移行しました。
+    // bark()の時、UndeadMonsterだけDiaryにカウントする責務については、BarkingProcessに任せました。
+    // 前回の反省を活かし、bark()のたびにカウントするのではなく、breathIn()のたびにカウントするようにしました。
+//        return super.bark();
+//    }
 
     @Override
     public String getBarkWord() {
-        return "uooo"; // what in English?
+        return "uooo";
     }
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    @Override
-    public void downHitPoint() {
-        // do nothing, infinity hit point
-    }
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    @Override
+//    public void downHitPoint() {
+//        // do nothing, infinity hit point
+//    }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public ZombieDiary getZombieDiary() {
-        return zombieDiary;
-    }
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    public ZombieDiary getZombieDiary() {
+//        return zombieDiary;
+//    }
 }

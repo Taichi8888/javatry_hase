@@ -12,7 +12,7 @@ public class Elephant extends Animal implements Ridable {
     //                                                                           Attribute
     //                                                                           =========
     // done hase 初期値の = false は省略されることが多いので、bien; でOKです。 by jflute (2025/07/07)
-    protected boolean bien;
+    protected boolean bien; // フランス語のbienじゃなくて「鼻炎」
 
     // ===================================================================================
     //                                                                         Constructor
@@ -20,11 +20,29 @@ public class Elephant extends Animal implements Ridable {
     public Elephant() {
     }
 
+    @Override
+    protected int getInitialHitPoint() {
+        return 20; // 象は大きいのでHPも大きい
+    }
+
     // ===================================================================================
     //                                                                                Bark
     //                                                                            ========
+    @Override
     public String getBarkWord() {
         return "paon"; // what in English
+    }
+
+    // ===================================================================================
+    //                                                                            HitPoint
+    //                                                                            ========
+    @Override
+    public void downHitPoint() {
+        super.downHitPoint();
+        if (isBien()) {
+            super.downHitPoint();
+            super.downHitPoint(); // 鼻炎でダメージ3倍！！
+        }
     }
 
     // ===================================================================================
@@ -37,8 +55,8 @@ public class Elephant extends Animal implements Ridable {
     // fight()をAnimalに持たせるか、Elephantだけでいいか迷った記憶があります...
     // その名残の謎コメントアウトだと思います、すみません by hase (2025/07/08)
     @Override
-    public void fight() {
-        downHitPoint();
+    public void fight(Creature creature) {
+        super.fight(creature);
         this.bien = true;
     }
 
@@ -48,18 +66,6 @@ public class Elephant extends Animal implements Ridable {
     public void ride() {
         this.bien = false; // medicine given ...
         downHitPoint();
-    }
-
-    // ===================================================================================
-    //                                                                            HitPoint
-    //                                                                            ========
-    @Override
-    public void downHitPoint() {
-        super.downHitPoint();
-        if (isBien()) {
-            super.downHitPoint();
-            super.downHitPoint();
-        }
     }
 
     // ===================================================================================

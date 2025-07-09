@@ -15,9 +15,6 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
-import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
-import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
-import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 // BarkingProcess移行によりひとまず使わなくなったが、また新しいメソッド作成時に使う可能性あり by hase (2025/07/08)
@@ -27,7 +24,7 @@ import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
  * @author jflute
  * @author tahasega
  */
-public abstract class Animal implements Loudable {
+public abstract class Animal extends Creature {
 
     // ===================================================================================
     //                                                                          Definition
@@ -38,18 +35,21 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected int hitPoint; // is HP
-    // done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
-    protected final BarkingProcess barkingProcess;
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    protected int hitPoint; // is HP
+//    // done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
+//    protected final BarkingProcess barkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public Animal() {
-        hitPoint = getInitialHitPoint();
-        barkingProcess = new BarkingProcess(this);
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//        hitPoint = getInitialHitPoint();
+//        barkingProcess = new BarkingProcess(this);
     }
 
+    @Override
     protected int getInitialHitPoint() {
         return 10; // as default
     }
@@ -57,9 +57,10 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
-    public BarkedSound bark() {
-        return this.barkingProcess.bark();
-    } // 引数にthis渡すのが冗長な気がする。
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    public BarkedSound bark() {
+//        return this.barkingProcess.bark();
+//    } // 引数にthis渡すのが冗長な気がする。
     // breatheInとかもまとめて外に出しても良いかも→HP管理がめんどくさい。
     // done [いいね] 外に出す考え方は良さそう
     // そもそもbarkingProcessを作成した理由はAnimalのbark()のプロセスをそっちに切り出すため
@@ -99,29 +100,38 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
+
+    @Override
     public void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
-            throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
+            throw new IllegalStateException("I'm very tired, so I want to sleep, " + getBarkWord());
         }
     }
 
-    public void fight() {
+    // ===================================================================================
+    //                                                                               Fight
+    //                                                                           =========
+    @Override
+    public void fight(Creature creature) {
+        creature.downHitPoint();
         downHitPoint();
     }
 
     // ===================================================================================
     //                                                                               Loud
     //                                                                              ======
-    @Override
-    public String soundLoudly() {
-        return bark().getBarkWord();
-    }
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    @Override
+//    public String soundLoudly() {
+//        return bark().getBarkWord();
+//    }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getHitPoint() {
-        return hitPoint;
-    }
+// おもいで：Creatureクラスに移行by hase (2025/07/09)
+//    public int getHitPoint() {
+//        return hitPoint;
+//    }
 }

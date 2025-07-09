@@ -17,6 +17,7 @@ package org.docksidestage.javatry.basic;
 
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
+import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.unit.PlainTestCase;
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
@@ -53,7 +54,7 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(10000);
         Integer sea = booth.getSalesProceeds();
-        log(sea); // your answer? => 10000
+        log(sea); // your answer? => 7400
         // log(booth.getQuantity()); => 9：リセットされる
     }
 
@@ -61,13 +62,13 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_howToUse_noSales() {
         TicketBooth booth = new TicketBooth();
         Integer sea = booth.getSalesProceeds();
-        log(sea); // your answer? => null
+        log(sea); // your answer? => 0
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_class_howToUse_wrongQuantity() {
         Integer sea = doTest_class_ticket_wrongQuantity();
-        log(sea); // your answer? => 9
+        log(sea); // your answer? => Failed to buy one-day passport: money=7399
     }
 
     private Integer doTest_class_ticket_wrongQuantity() {
@@ -214,7 +215,7 @@ public class Step05ClassTest extends PlainTestCase {
 //        if (ticket.getTicketPrice() == TicketBooth.TWO_DAY_PRICE
 //                && ticket.getDaysLeft() == 2
 //                && !ticket.isOnlyNightAvailable()) { // write determination for two-day passport
-        if (ticket.getTicketType() == TicketBooth.TWO_DAY_TICKET) {
+        if (ticket.getTicketType() == TicketType.TWO_DAY) {
             log("two-day passport");
         } else {
             log("other");

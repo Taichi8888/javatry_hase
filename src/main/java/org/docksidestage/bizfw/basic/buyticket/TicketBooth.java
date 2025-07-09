@@ -34,11 +34,13 @@ public class TicketBooth {
 //    public static final int TWO_DAY_PRICE = 13200;
 //    public static final int FOUR_DAY_PRICE = 22400;
 //    public static final int TWO_NIGHT_PRICE = 7400;
-    // TODO hase 修行++: enum という文法を調べて使ってみてください。 by jflute (2025/07/09)
-    public static final TicketType ONE_DAY_TICKET = new TicketType(7400, 1, false);
-    public static final TicketType TWO_DAY_TICKET = new TicketType(13200, 2, false);
-    public static final TicketType FOUR_DAY_TICKET = new TicketType(22400, 4, false);
-    public static final TicketType TWO_NIGHT_TICKET = new TicketType(7400, 2, true);
+    // TODO done hase 修行++: enum という文法を調べて使ってみてください。 by jflute (2025/07/09)
+// おもいで：enumを知った日 by hase (2025/07/09)
+// enumは定数の集合を型安全に表現できるクラス。
+//    public static final TicketType ONE_DAY_TICKET = new TicketType(7400, 1, false);
+//    public static final TicketType TWO_DAY_TICKET = new TicketType(13200, 2, false);
+//    public static final TicketType FOUR_DAY_TICKET = new TicketType(22400, 4, false);
+//    public static final TicketType TWO_NIGHT_TICKET = new TicketType(7400, 2, true);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -80,19 +82,19 @@ public class TicketBooth {
         // done hase [いいね] だいぶ綺麗になって、新しいチケット種別が来ても、追加がすごく簡単になりましたね！ by jflute (2025/07/07)
         // done hase 一方で、priceとdaysと夜か？の三つの情報で、一つのチケット種別という業務概念に捉えることができそうです by jflute (2025/07/07)
         // Testクラスの showTicketIfNeeds() で書いたtodoとつながってきます。
-        return doBuyTicket(handedMoney, ONE_DAY_TICKET);
+        return doBuyTicket(handedMoney, TicketType.ONE_DAY);
     }
 
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
-        return doBuyTicket(handedMoney, TWO_DAY_TICKET);
+        return doBuyTicket(handedMoney, TicketType.TWO_DAY);
     }
 
     public TicketBuyResult buyFourDayPassport(Integer handedMoney) {
-        return doBuyTicket(handedMoney, FOUR_DAY_TICKET);
+        return doBuyTicket(handedMoney, TicketType.FOUR_DAY);
     }
 
     public TicketBuyResult buyTwoNightPassport(Integer handedMoney) {
-        return doBuyTicket(handedMoney, TWO_NIGHT_TICKET);
+        return doBuyTicket(handedMoney, TicketType.TWO_NIGHT);
     }
 
     public static class TicketSoldOutException extends RuntimeException {

@@ -4,7 +4,11 @@ package org.docksidestage.bizfw.basic.buyticket;
  * チケットの種類（価格、使用可能日数、夜間限定フラグ）を表すクラス
  * @author tahasega
  */
-public class TicketType {
+public enum TicketType {
+    ONE_DAY(7400, 1, false),
+    TWO_DAY(13200, 2, false),
+    FOUR_DAY(22400, 4, false),
+    TWO_NIGHT(7400, 2, true);
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
@@ -15,7 +19,7 @@ public class TicketType {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketType(int ticketPrice, int maxDays, boolean onlyNightAvailable) {
+    TicketType(int ticketPrice, int maxDays, boolean onlyNightAvailable) {
         this.ticketPrice = ticketPrice;
         this.maxDays = maxDays;
         this.onlyNightAvailable = onlyNightAvailable;
