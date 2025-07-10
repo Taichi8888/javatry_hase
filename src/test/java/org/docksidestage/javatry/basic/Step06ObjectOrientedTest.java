@@ -92,9 +92,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // do in parkの前にチェック by hase (2025/07/08)
         if (alreadyIn) {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice); // ここかあああ by hase (2025/07/09)
-            // TODO hase [いいね] ここは見逃しランキングNo.1の箇所です。みんな正常の処理はよく見るのですが... by jflute (2025/07/10)
+            // TODO done hase [いいね] ここは見逃しランキングNo.1の箇所です。みんな正常の処理はよく見るのですが... by jflute (2025/07/10)
             // 例外メッセージとかはあまり見ないでしょう。でも、本番で本当にその例外が発生する状況になったら...
             // 「あー、出てる値が全然違うからデバッグできーん」になっちゃってピンチになるのです。
+            // 確かに...この問題以外にも例外処理を試していない箇所がありました、気をつけます by hase (2025/07/10)
         }
         //do in park here!!!
         oneDayPass.doInPark();

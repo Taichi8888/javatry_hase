@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarManufacturer.Supercar;
+import org.docksidestage.bizfw.basic.supercar.exception.SupercarCannotBuyException;
+import org.docksidestage.bizfw.basic.supercar.exception.SupercarCannotDealException;
 
 /**
  * The client(顧客) of supercar.
@@ -31,6 +33,11 @@ public class SupercarClient {
     public void buySupercar() {
         SupercarDealer dealer = createDealer(); // ディーラーできた
         String clientRequirement = prepareClientRequirement(); // 客の要望を準備、"steering wheel is like sea"
+        try {
+            dealer.orderSupercar(clientRequirement);
+        } catch (SupercarCannotDealException e) {
+            throw new SupercarCannotBuyException("SupercarDealer> " + e.getMessage());
+        }
         Supercar orderedCustomCar = dealer.orderSupercar(clientRequirement); // ディーラーに注文（）
         orderedCustomCarCollection.add(orderedCustomCar);
     }

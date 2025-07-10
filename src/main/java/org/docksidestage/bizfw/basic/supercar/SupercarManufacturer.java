@@ -16,6 +16,8 @@
 package org.docksidestage.bizfw.basic.supercar;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarSteeringWheelManufacturer.SteeringWheel;
+import org.docksidestage.bizfw.basic.supercar.exception.SteeringWheelCannotMakeException;
+import org.docksidestage.bizfw.basic.supercar.exception.SupercarCannotMakeException;
 
 /**
  * The manufacturer(製造業者) of supercar.
@@ -29,6 +31,11 @@ public class SupercarManufacturer {
         Integer steeringWheelId = catalog.findSteeringWheelSpecId(catalogKey); // 3, has many shop
 
         SupercarSteeringWheelManufacturer wheelManufacturer = createSupercarSteeringWheelManufacturer();
+        try {
+            wheelManufacturer.makeSteeringWheel(steeringWheelId);
+        } catch (SteeringWheelCannotMakeException e) {
+            throw new SupercarCannotMakeException("SupercarSteeringWheelManufacture> " + e.getMessage());
+        }
         SteeringWheel steeringWheel = wheelManufacturer.makeSteeringWheel(steeringWheelId);
 
         return new Supercar(steeringWheel);
