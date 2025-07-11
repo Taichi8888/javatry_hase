@@ -38,7 +38,8 @@ public class SupercarDealer {
                 throw new IllegalStateException("Cannot understand the client requirement: " + clientRequirement);
             }
         } catch (SupercarCannotMakeException e) {
-            throw new SupercarCannotDealException("SupercarManufacture> " + e.getMessage());
+//            throw new SupercarCannotDealException("SupercarManufacture> " + e.getMessage());  // おもいで：Caused by使おう by hase (2025/07/11)
+            throw new SupercarCannotDealException("Could not deal supercar.", e);
         }
     }
 

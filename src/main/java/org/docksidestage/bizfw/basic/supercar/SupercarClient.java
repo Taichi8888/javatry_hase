@@ -36,7 +36,8 @@ public class SupercarClient {
         try {
             dealer.orderSupercar(clientRequirement);
         } catch (SupercarCannotDealException e) {
-            throw new SupercarCannotBuyException("SupercarDealer> " + e.getMessage());
+//            throw new SupercarCannotBuyException("SupercarDealer> " + e.getMessage()); // おもいで：Caused by使おう by hase (2025/07/11)
+            throw new SupercarCannotBuyException("Could not buy supercar.", e);
         }
         Supercar orderedCustomCar = dealer.orderSupercar(clientRequirement); // ディーラーに注文（）
         orderedCustomCarCollection.add(orderedCustomCar);

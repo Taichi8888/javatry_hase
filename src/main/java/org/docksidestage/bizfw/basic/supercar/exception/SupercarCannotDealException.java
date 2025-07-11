@@ -6,7 +6,12 @@ package org.docksidestage.bizfw.basic.supercar.exception;
  */
 public class SupercarCannotDealException extends RuntimeException {
 
-    public SupercarCannotDealException(String message) {
-        super(message);
+    public SupercarCannotDealException(String msg) {
+        super(msg);
     }
+
+    public SupercarCannotDealException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
 }

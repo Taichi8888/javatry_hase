@@ -6,7 +6,11 @@ package org.docksidestage.bizfw.basic.supercar.exception;
  */
 public class SteeringWheelCannotMakeException extends RuntimeException {
 
-  public SteeringWheelCannotMakeException(String message) {
-    super(message);
+    public SteeringWheelCannotMakeException(String msg) {
+        super(msg);
+    }
+
+    public SteeringWheelCannotMakeException(String msg, Throwable cause) {
+    super(msg, cause);
   }
 }

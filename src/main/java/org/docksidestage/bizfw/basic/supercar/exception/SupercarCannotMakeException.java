@@ -9,4 +9,9 @@ public class SupercarCannotMakeException extends RuntimeException {
     public SupercarCannotMakeException(String msg) {
         super(msg);
     }
+
+    public SupercarCannotMakeException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
 }
