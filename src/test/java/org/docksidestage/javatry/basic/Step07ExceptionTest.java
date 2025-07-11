@@ -17,6 +17,8 @@ package org.docksidestage.javatry.basic;
 
 import java.io.IOException;
 
+import org.docksidestage.bizfw.basic.objanimal.Dog;
+import org.docksidestage.bizfw.basic.objanimal.Zombie;
 import org.docksidestage.bizfw.basic.supercar.SupercarClient;
 import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
@@ -321,14 +323,19 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
-            throw new St7ConstructorChallengeException("Failed to do something.");
+            throw new St7ConstructorChallengeException("Failed to save dog.", e);
         }
     }
 
     private void helpThrowIllegalState() {
-        if (true) { // simulate something illegal
-            String importantValue = "dummy"; // important to debug
-            throw new IllegalStateException("something illegal: importantValue=" + importantValue);
+        Zombie zombie = new Zombie();
+        Dog dog = new Dog();
+        for (int i = 0; i < 3; i++) {
+            zombie.fight(dog);
+        }
+        if (dog.getHitPoint() < 5) { // simulate something illegal
+            String law = "生類憐れみの令"; // important to debug
+            throw new IllegalStateException("something illegal: law = " + law);
         }
     }
 
@@ -343,8 +350,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // Write here. (ここに書いてみましょう)
         // - - - - - - - - - -
-        //
-        //
+        // Exceptionは事前に想定して対応するもの、Errorは事前に想定できなくて後々対応するもの、のイメージです。by hase (2025/07/11)
         //
         // _/_/_/_/_/_/_/_/_/_/
     }
