@@ -215,6 +215,13 @@ public class Step05ClassTest extends PlainTestCase {
 //        if (ticket.getTicketPrice() == TicketBooth.TWO_DAY_PRICE
 //                && ticket.getDaysLeft() == 2
 //                && !ticket.isOnlyNightAvailable()) { // write determination for two-day passport
+        // #1on1 == で判定できている理由
+        // そもそも "==" と equals() の違い:
+        //  o "==" はインスタンスが同一のもの
+        //  o equals() はインスタンスが同一だろうが別だろうが、クラスの内容が同じかどうか？ (業務的なイコール)
+        // https://dbflute.seasar.org/ja/manual/topic/programming/java/beginners.html#equalsequal
+        // enumに関しては、"==" でも ".equals()" と結果がおなじになる。
+        // if (ticket.getTicketType().equals(TicketType.TWO_DAY) {
         if (ticket.getTicketType() == TicketType.TWO_DAY) {
             log("two-day passport");
         } else {
@@ -271,6 +278,9 @@ public class Step05ClassTest extends PlainTestCase {
             log("Could not use this ticket. " + e.getMessage());
         }
         log(ticket.getDaysLeft()); // 17時前：2, 17時以降：1
+        // TODO hase 修行++: UnitTestで、現在日時を差し替えて両方一気にテストしたい by jflute (2025/07/11)
+        // 一方で、一般ユーザーは doInPark() のままで、現在日時を差し替えるってのはできないようにしたい。
+        // これは最後でOKです。(hint: step6以降の知識が必要なので、つまりjavatryのbasic範囲内の知識でできる)
     }
 
     /**
@@ -282,5 +292,14 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBuyResult result1 = booth.buyTwoNightPassport(32000);
         log(result1.getChange());
         log(result1.getTicket().isOnlyNightAvailable());
+    }
+
+    // TODO hase ↑のエクササイズが↓に変わりました。ぜひやってみてください by jflute (2025/07/11)
+    /**
+     * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
+     * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)
+     */
+    public void test_class_moreFix_yourSuperJavaDoc() {
+        // your confirmation code here
     }
 }
