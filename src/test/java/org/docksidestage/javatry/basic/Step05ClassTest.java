@@ -294,7 +294,7 @@ public class Step05ClassTest extends PlainTestCase {
         log(result1.getTicket().isOnlyNightAvailable());
     }
 
-    // TODO hase ↑のエクササイズが↓に変わりました。ぜひやってみてください by jflute (2025/07/11)
+    // TODO done hase ↑のエクササイズが↓に変わりました。ぜひやってみてください by jflute (2025/07/11)
     /**
      * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
      * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)

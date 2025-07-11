@@ -18,7 +18,8 @@ package org.docksidestage.bizfw.basic.buyticket;
 import java.time.LocalDateTime;
 
 /**
- * チケットの管理（価格、入場、残り入場可能回数、使用済み、夜間限定）
+ * 入園チケットのクラス。
+ * チケット種別、入園可能日数、使用済みかどうかを管理し、入園処理も行う。
  * @author jflute
  * @author tahasega
  */
@@ -36,13 +37,18 @@ public class Ticket {
 // おもいで：price, days, onlyNightをticketで管理していた時代
 //    private final int ticketPrice; // written on ticket, park guest can watch this
 //    private final boolean onlyNightAvailable; // 夜限定フラグ
-    private final TicketType ticketType;
+    private final TicketType ticketType; // チケット種別
     private int daysLeft; // チケットの残日数管理
     private boolean alreadyIn; // true means this ticket is unavailable
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+
+     /**
+     * チケット種別に応じてチケットを作成するコンストラクタ。
+     * @param ticketType チケット種別
+     */
     public Ticket(TicketType ticketType) {
         // done hase 代入行の順番、できればConstructorの引数の順番に合わせましょう by jflute (2025/07/07)
         // そういったところ整ってるだけで、読み手はノイズなく直感的に読みやすくなるので。
@@ -59,6 +65,11 @@ public class Ticket {
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
+
+    /**
+     * 入園処理のメソッド。入園したらチケットの残り日数を減らし、残り日数が0になったら使用済みにする。
+     * @throws IllegalStateException すでに入園済みの場合、または夜間限定チケットで昼間に入園しようとした場合
+     */
     public void doInPark() {
         if (alreadyIn) { // すでに入園済みなら、入園できない
             throw new IllegalStateException("Already in park by this ticket.");
@@ -124,6 +135,7 @@ public class Ticket {
     //                                                                            Accessor
     //                                                                            ========
     // 先にTicketクラスのインスタンス変数のaccessor by hase (2025/07/08)
+    // accessorは、JavaDocがなくても直感的だと判断しました。 by hase (2025/07/11)
     public TicketType getTicketType() {
         return ticketType;
     }

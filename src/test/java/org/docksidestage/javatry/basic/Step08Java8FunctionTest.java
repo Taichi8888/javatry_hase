@@ -51,28 +51,39 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String title = "over";
 
         log("...Executing named class callback(!?)");
-        helpCallbackConsumer(new St8BasicConsumer(title));
+        helpCallbackConsumer(new St8BasicConsumer(title)); // broadway\n dockside: over\n hangar
 
         log("...Executing anonymous class callback");
         helpCallbackConsumer(new Consumer<String>() {
             public void accept(String stage) {
                 log(stage + ": " + title);
             }
-        });
+        }); // 匿名クラスのコールバック：名前のないクラスをその場で作り、accept()メソッドを実装している。by hase (2025/07/11)
+        // helpCallbackConsumer(Consumer<String> oneArgLambda)なので、
+        // 名前のないクラスのオブジェクトがoneArgLambdaに代入されて、accept()メソッドが呼ばれる。
 
         log("...Executing lambda block style callback");
         helpCallbackConsumer(stage -> {
             log(stage + ": " + title);
-        });
+        }); // lambdaブロックスタイルのコールバック：引数を受け取るstageにdocksideが代入される。by hase (2025/07/11)
 
         log("...Executing lambda expression style callback");
         helpCallbackConsumer(stage -> log(stage + ": " + title));
+        // lambda式のコールバック：引数を受け取るstageにdocksideが代入される。by hase (2025/07/11)
+        // 関数型インタフェースをインスタンス化するときにめんどい記述しなくても済むような記法、らしい
 
-        // your answer? => 
+        // your answer? => yes
 
         // cannot reassign because it is used at callback process
-        //title = "wave";
+        // title = "wave"; 「ローカル変数は、finalまたは事実上のfinalである必要があります」：コールバック内で使われているため by hase (2025/07/11)
     }
+// hase勉強用 (2025/07/11)
+// 関数型インターフェース：メソッドが1つだけのインターフェース
+    // 例：Consumer<T>, Supplier<T>, Function<T, R>
+// ラムダ式の記法：(引数) -> { 処理 }
+    // 例：stage -> log(stage + ": " + title);
+// 関数型インターフェースの型の引数や変数に、ラムダ式を代入できる
+    // 例：helpCallbackConsumer(stage -> log(stage + ": " + title));
 
     /**
      * What is order of strings by log(). (write answer as comma-separated) <br>
@@ -84,7 +95,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(stage);
         });
         log("lost river");
-        // your answer? => 
+        // your answer? => harbor, broadway, dockside, hangar, lost river
     }
 
     private class St8BasicConsumer implements Consumer<String> {
@@ -116,8 +127,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String sea = helpCallbackFunction(number -> {
             return label + ": " + number;
         });
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => number: 7
+    } // Function<Integer, String> oneArgLambda：Integer型の引数を一つ受け取り、Stringを返す関数型インターフェース。by hase (2025/07/11)
+    // 拡張版itoaってこと？？
 
     private String helpCallbackFunction(Function<Integer, String> oneArgLambda) {
         return oneArgLambda.apply(7);
@@ -147,11 +159,24 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             }
         });
 
+        // ↑をBlockのlambda式に
+        helpCallbackSupplier(() -> {
+            return "broadway";
+        }); // get()メソッドは引数がないので() ->と書くらしい by hase (2025/07/11)
+
         helpCallbackSupplier(() -> { // land
             return "dockside";
         });
 
+        // ↑をExpressionのlambda式に
+        helpCallbackSupplier(() -> "dockside");
+
         helpCallbackSupplier(() -> "hangar"); // piari
+
+        // ↑をBlockのlambda式に
+        helpCallbackSupplier(() -> {
+            return "hangar";
+        });
     }
 
     private void helpCallbackSupplier(Supplier<String> oneArgLambda) {
@@ -169,14 +194,15 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_optional_concept() {
         St8Member oldmember = new St8DbFacade().oldselectMember(1);
         if (oldmember != null) {
-            log(oldmember.getMemberId(), oldmember.getMemberName());
+            log(oldmember.getMemberId(), oldmember.getMemberName()); // 1, broadway
         }
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
-        if (optMember.isPresent()) {
+            // ofNullable() によって、nullかもしれない値をOptionalに変換している（値が無ければ空のOptionalオブジェクトが入る）by hase (2025/07/11)
+        if (optMember.isPresent()) { // ↑によって安全に使える
             St8Member member = optMember.get();
-            log(member.getMemberId(), member.getMemberName());
+            log(member.getMemberId(), member.getMemberName()); // 1, broadway
         }
-        // your answer? => 
+        // your answer? => yes
     }
 
     /**
@@ -187,12 +213,13 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
         if (optMember.isPresent()) {
             St8Member member = optMember.get();
-            log(member.getMemberId(), member.getMemberName());
+            log(member.getMemberId(), member.getMemberName()); // 1, broadway
         }
         optMember.ifPresent(member -> {
-            log(member.getMemberId(), member.getMemberName());
+            // ↑selectMember()の戻り値はnullじゃないと保証されている()から、ifPresent()によるnullチェックは不要ではないか？ by hase (2025/07/11)
+            log(member.getMemberId(), member.getMemberName()); // 1, broadway
         });
-        // your answer? => 
+        // your answer? => yes
     }
 
     /**
@@ -208,7 +235,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         if (oldmemberFirst != null) {
             St8Withdrawal withdrawal = oldmemberFirst.oldgetWithdrawal();
             if (withdrawal != null) {
-                sea = withdrawal.oldgetPrimaryReason();
+                sea = withdrawal.oldgetPrimaryReason(); // music
                 if (sea == null) {
                     sea = "*no reason1: the PrimaryReason was null";
                 }
@@ -252,14 +279,14 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .map(wdl -> wdl.getWithdrawalId()) // ID here
                 .orElse(defaultWithdrawalId);
 
-        log(sea); // your answer? => 
-        log(land); // your answer? => 
-        log(piari); // your answer? => 
-        log(bonvo); // your answer? => 
-        log(dstore); // your answer? => 
-        log(amba); // your answer? => 
-        log(miraco); // your answer? => 
-    }
+        log(sea); // your answer? => music
+        log(land); // your answer? => music
+        log(piari); // your answer? => music
+        log(bonvo); // your answer? => music
+        log(dstore); // your answer? => "*no reason: someone was not present"
+        log(amba); // your answer? => () ←wrong
+        log(miraco); // your answer? => 12
+    } // コレクションよくわからない、今日はここまでで本読んでから再開する by hase (2025/07/11)
 
     /**
      * What string is sea variables at the method end? <br>
