@@ -284,9 +284,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log(piari); // your answer? => music
         log(bonvo); // your answer? => music
         log(dstore); // your answer? => "*no reason: someone was not present"
-        log(amba); // your answer? => () ←wrong
+        log(amba); // your answer? => () ←wrong "*no reason: someone was not present"
         log(miraco); // your answer? => 12
-    } // コレクションよくわからない、今日はここまでで本読んでから再開する by hase (2025/07/11)
+    }
 
     /**
      * What string is sea variables at the method end? <br>
@@ -304,7 +304,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wave
     }
 
     // ===================================================================================
@@ -323,15 +323,18 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             }
         }
         String sea = oldfilteredNameList.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => broadway, dockside
 
         List<String> filteredNameList = memberList.stream() //
                 .filter(mb -> mb.getWithdrawal().isPresent()) //
                 .map(mb -> mb.getMemberName()) //
                 .collect(Collectors.toList());
         String land = filteredNameList.toString();
-        log(land); // your answer? => 
-    }
+        log(land); // your answer? => broadway, dockside
+    } // stream(): コレクションをストリームに変換 by hase (2025/07/14)
+    // filter(): 条件でフィルタリング
+    // map(): 値を変換
+    // collect(): ストリームをコレクションに変換
 
     /**
      * What string is sea, variables at the method end? <br>
@@ -346,8 +349,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .mapToInt(pur -> pur.getPurchasePrice())
                 .distinct()
                 .sum();
-        log(sea); // your answer? => 
-    }
+        log(sea); // your answer? => 600
+    } // distinct() で重複が排除されるので100 + 200 + 300 = 600 by hase (2025/07/14)
 
     // *Stream API will return at Step12 again, it's worth the wait!
 }
