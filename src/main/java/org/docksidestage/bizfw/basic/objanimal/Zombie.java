@@ -24,7 +24,7 @@ public class Zombie extends UndeadMonster {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO done hase UndeadMonsterのundeadDiary変数を隠蔽してしまっていますね by jflute (2025/07/15)
+    // done hase UndeadMonsterのundeadDiary変数を隠蔽してしまっていますね by jflute (2025/07/15)
     // UndeadMonsterのundeadDiary は protected で継承しているので、ここで再び宣言する必要はないです。
 
     // ===================================================================================
@@ -74,19 +74,28 @@ public class Zombie extends UndeadMonster {
     // 前回の反省を活かし、bark()のたびにカウントするのではなく、breathIn()のたびにカウントするようにしました。
 //        return super.bark();
 //    }
-    // TODO done hase [いいね] おおぉぉ、すごい。階層構造が変わりましたね。でもこれはこれでUndeadという概念をしっかり表現したと by jflute (2025/07/15)
+    // done hase [いいね] おおぉぉ、すごい。階層構造が変わりましたね。でもこれはこれでUndeadという概念をしっかり表現したと by jflute (2025/07/15)
     // そのために、Creatureという概念も導き出して、より抽象化して扱えるようになったということですね。
     // これはこれでとても良いと思います。
     // BarkingProcess が Zombie に依存するのはベタ感(列挙感)が強いですが、
     // Undead という抽象概念に依存するのであれば、そういう業務ロジックという風に捉えることができますね。
-    // TODO done hase 修行++: だがしかし、BarkingProcess に UndeadMonster の if文があるのも少々もったいないですね by jflute (2025/07/15)
+    // done hase 修行++: だがしかし、BarkingProcess に UndeadMonster の if文があるのも少々もったいないですね by jflute (2025/07/15)
     // BarkingProcess から UndeadMonster の分岐を外して、diaryを実現することも可能です。
     // hint2: オブジェクト指向的な階層構造は別にAnimal/Creatureの路線だけのものじゃない
     // hint3: オーバーライドはAnimal/Creatureの路線だけじゃなくどのオブジェクトでも利用できる
 
     // なるほど、BarkingProcessの階層構造ですか！by hase (2025/07/15)
-    // TODO jflute (質問です) 粒度を揃えるためにAnimalBarkingProcessとUndeadBarkingProcessの両方を作成したのですが、
+    // TODO hase [いいね] おお、良い感じになってきましたね！細かい実装のtodoは別途入れています by jflute (2025/07/15)
+    
+    // TODO done jflute (質問です) 粒度を揃えるためにAnimalBarkingProcessとUndeadBarkingProcessの両方を作成したのですが、
     // AnimalBarkingProcessは作らなくてもよかったでしょうか。
+    // TODO hase [へんじ] 悩ましいところですね。将来に備えるか備えないかの違いで、多少ギャンブルになります by jflute (2025/07/15)
+    // なので正解があるわけではなく、Animal固有の処理が入りそう、確率が高いと考えるのであれば今の状態で良いと思います。
+    // 人によっては「必要になったときに作るほうが良い」というセオリーもあります。
+    // 事前に作ってても、一生使われなかったり、使われそうなときが来てもちょっと要件が違って使えなかったりするからと。
+    // 特に後者はぼくもすごく思います。要件がないときに適した枠組みを用意するって難しくて、いざ要件が来たら「想定とちがーう」ってなりがち。
+    // とはいえ用意しなかったらしなかったで、後の人が AnimalBarkingProcess を作ったらいいということを思いつけない可能性も。
+    // こういうジレンマです(^^。
 
     @Override
     public String getBarkWord() {

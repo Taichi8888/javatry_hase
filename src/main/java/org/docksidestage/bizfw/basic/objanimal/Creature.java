@@ -12,6 +12,11 @@ public abstract class Creature implements Loudable {
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
+    // TODO hase おもいでにしちゃったけど、FactoryMethodパターンというのをちょっと調べてみてください by jflute (2025/07/15)
+    // せっかく BarkingProcess も Creature レベルで抽象化できているのに、
+    // Creature のところに BarkingProcess を登場させずに Animal と Undead にそれぞれ定義してるってのはもったいないです。
+    // オブジェクト指向にはオーバーライドという技があるので、newするところだけ差し替ガガガガ
+
 // おもいで：UndeadBarkingProcess作成前はCreatureで共通だった by hase (2025/07/15)
 //    protected final BarkingProcess barkingProcess;
 

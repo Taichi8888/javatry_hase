@@ -23,6 +23,7 @@ public class BarkingProcess {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    // TODO hase final付けちゃいましょう by jflute (2025/07/15)
     protected Creature creature; // which animal is barking
 
     // ===================================================================================
@@ -38,6 +39,8 @@ public class BarkingProcess {
     // done hase animalをひたすら引数で持ち回すのも大変そうなので、Constructorで受け取ってインスタンスに持ってしまったらどうでしょう？ by jflute (2025/07/07)
     // Animalの中で BarkingProcess は、インスタンスのライフサイクルが一致しているので、それで問題ないなることもないですし。
     public BarkedSound bark() {
+        // TODO hase インスタンス変数でcreature持ってますから、引数渡しじゃなくても良いような？ by jflute (2025/07/15)
+        // それぞれのprotectedメソッド (インスタンスメソッド) で、インスタンス変数を直接使ってもらえば良いかなと。
         breatheIn(creature); // Zombieは日記にカウントするのでAnimalの責務
         prepareAbdominalMuscle(creature); // BarkingProcessの責務として腹筋を準備する
         String barkWord = getBarkWord(creature); // Animalごとに違う鳴き声なのでAnimalの責務

@@ -18,7 +18,7 @@ public abstract class UndeadMonster extends Creature {
     //                                                                         Constructor
     //                                                                         ===========
     public UndeadMonster() {
-        this.undeadDiary = new UndeadDiary();
+        this.undeadDiary = new UndeadDiary();        
         this.undeadBarkingProcess = new UndeadBarkingProcess(this);
     }
 
