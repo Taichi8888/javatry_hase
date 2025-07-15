@@ -5,6 +5,7 @@ import org.docksidestage.bizfw.basic.objanimal.UndeadMonster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
 /**
  * Animalが鳴くプロセスをここにまとめたよ
  * @author jflute

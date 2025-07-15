@@ -34,7 +34,7 @@ public class TicketBooth {
 //    public static final int TWO_DAY_PRICE = 13200;
 //    public static final int FOUR_DAY_PRICE = 22400;
 //    public static final int TWO_NIGHT_PRICE = 7400;
-    // TODO done hase 修行++: enum という文法を調べて使ってみてください。 by jflute (2025/07/09)
+    // done hase 修行++: enum という文法を調べて使ってみてください。 by jflute (2025/07/09)
 // おもいで：enumを知った日 by hase (2025/07/09)
 // enumは定数の集合を型安全に表現できるクラス。
 //    public static final TicketType ONE_DAY_TICKET = new TicketType(7400, 1, false);

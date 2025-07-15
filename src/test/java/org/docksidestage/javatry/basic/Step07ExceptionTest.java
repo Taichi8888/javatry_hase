@@ -186,9 +186,9 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_checkedException_basic() {
         try {
             String path = new java.io.File("").getCanonicalPath();
+            log(path);
             throw new IOException("Invalid file path");
-            // log(path);
-            // TODO done hase 実際に↓のように一時的にthrowさせてStackTraceがちゃんと出ているか確認してみてください by jflute (2025/07/09)
+            // done hase 実際に↓のように一時的にthrowさせてStackTraceがちゃんと出ているか確認してみてください by jflute (2025/07/09)
             // 出てるは出ていますが、ちょっと出方が見やすくないですね。
             //throw new IOException();
         } catch (IOException e) {
@@ -196,6 +196,9 @@ public class Step07ExceptionTest extends PlainTestCase {
             for (StackTraceElement element : e.getStackTrace()) {
                 log("  at " + element.toString());
             }
+            // TODO hase [いいね] おおぉ、すごい。よく頑張りましたね。 by jflute (2025/07/15)
+            // スタックトレースというデータの本質的なところがよく理解できたんじゃないかなと。
+            // ちなみに、log(e); とするだけで、全部出てくるようになってます(^^。
         }
     } // ファイル操作、データベース接続、ネットワーク通信などでは、コンパイル時に強制的に例外処理を要求される。（チェック例外）
     // ファイルが存在しない、接続できない、などの事前に想定できる例外状況が多いので、チェック例外が使われる。
@@ -283,6 +286,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             // _/_/_/_/_/_/_/_/_/_/
         }
     }
+    // TODO jflute 1on1でフォロー予定 (2025/07/15)
 
     /**
      * Improve exception handling in supercar's classes to understand the situation
@@ -323,6 +327,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
+            // TODO hase せっかくなので、Exception側にもauthorを追加しましょう〜 by jflute (2025/07/15)
             throw new St7ConstructorChallengeException("Failed to save dog.", e);
         }
     }
@@ -353,5 +358,9 @@ public class Step07ExceptionTest extends PlainTestCase {
         // Exceptionは事前に想定して対応するもの、Errorは事前に想定できなくて後々対応するもの、のイメージです。by hase (2025/07/11)
         //
         // _/_/_/_/_/_/_/_/_/_/
+        // TODO hase ↑論理的におおよそそんな感じではありますが、実際は... by jflute (2025/07/15)
+        // Exception, 半分はそうなんですけど半分は事前に想定できないものもあって、それだけの違いではないという感じではありますね。
+        // ただ、チェック例外は確実に「事前に想定」と言えます。RuntimeExceptionは自由度が高くて...
+        // TODO jflute 1on1にてフォロー予定 (2025/07/15)
     }
 }

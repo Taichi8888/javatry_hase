@@ -24,6 +24,8 @@ public class Zombie extends UndeadMonster {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    // TODO hase UndeadMonsterのundeadDiary変数を隠蔽してしまっていますね by jflute (2025/07/15)
+    // UndeadMonsterのundeadDiary は protected で継承しているので、ここで再び宣言する必要はないです。
     protected final UndeadDiary undeadDiary; // アンデッドたちは皆持っている日記
 
     // ===================================================================================
@@ -62,7 +64,7 @@ public class Zombie extends UndeadMonster {
 //        // 理想的には、breathIn()のたびにcountBreathIn()したい。
 //        // しかし、ZombieのためだけにAnimalクラスでbreathIn()のカウントをするのは大袈裟
 //        // 直感的に、bark()1回につき1度しか吸い込まないので、bark()をオーバーライドして元の機能を実現しました。
-//        // TODO done hase 悩んでて素晴らしい(^^。ただ、突き落としてしまいますが... by jflute (2025/07/09)
+//        // done hase 悩んでて素晴らしい(^^。ただ、突き落としてしまいますが... by jflute (2025/07/09)
 //        // bark()でBreathが一回とは限らないので、将来そのへんが変わったらcountが狂ってしまいます。
 //        // とはいえどうしたらいいんだかって感じではありますよね。
 //        // hint1: オブジェクト指向的な階層構造は別にAnimalだけのものじゃない
@@ -73,6 +75,15 @@ public class Zombie extends UndeadMonster {
     // 前回の反省を活かし、bark()のたびにカウントするのではなく、breathIn()のたびにカウントするようにしました。
 //        return super.bark();
 //    }
+    // TODO hase [いいね] おおぉぉ、すごい。階層構造が変わりましたね。でもこれはこれでUndeadという概念をしっかり表現したと by jflute (2025/07/15)
+    // そのために、Creatureという概念も導き出して、より抽象化して扱えるようになったということですね。
+    // これはこれでとても良いと思います。
+    // BarkingProcess が Zombie に依存するのはベタ感(列挙感)が強いですが、
+    // Undead という抽象概念に依存するのであれば、そういう業務ロジックという風に捉えることができますね。
+    // TODO hase 修行++: だがしかし、BarkingProcess に UndeadMonster の if文があるのも少々もったいないですね by jflute (2025/07/15)
+    // BarkingProcess から UndeadMonster の分岐を外して、diaryを実現することも可能です。
+    // hint2: オブジェクト指向的な階層構造は別にAnimal/Creatureの路線だけのものじゃない
+    // hint3: オーバーライドはAnimal/Creatureの路線だけじゃなくどのオブジェクトでも利用できる
 
     @Override
     public String getBarkWord() {
