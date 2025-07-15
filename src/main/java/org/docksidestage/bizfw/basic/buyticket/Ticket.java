@@ -17,17 +17,17 @@ package org.docksidestage.bizfw.basic.buyticket;
 
 import java.time.LocalDateTime;
 
-// TODO hase [いいね] ちょうどいいぐらいのjavadocでのオブジェクトの説明 by jflute (2025/07/15)
-// TODO hase 細かいですが、列挙を断定しちゃうと要素を増えたときに勘違いしやすいので... by jflute (2025/07/15)
+// TODO done hase [いいね] ちょうどいいぐらいのjavadocでのオブジェクトの説明 by jflute (2025/07/15)
+// TODO done hase 細かいですが、列挙を断定しちゃうと要素を増えたときに勘違いしやすいので... by jflute (2025/07/15)
 // e.g. チケット種別、入園可能日数、使用済みかどうかを管理し
 //  ↓
 // e.g. チケット種別、入園可能日数、使用済みかどうかなどを管理し
 // というように、「など」を入れて少しぼかしておくというテクニックがあります。
-// (たぶん、要素が増えたときにjavadocはなかなか修正されないので)
+// (たぶん、要素が増えたときにjavadocはなかなか修正されないので) ← 確かに、、、
 // (ここで知りたいのは、概要なので全部を正確に列挙する必要もないしと)
 /**
  * 入園チケットのクラス。
- * チケット種別、入園可能日数、使用済みかどうかを管理し、入園処理も行う。
+ * チケット種別、入園可能日数、使用済みかどうかなどを管理し、入園処理も行う。
  * @author jflute
  * @author tahasega
  */
@@ -45,9 +45,15 @@ public class Ticket {
 // おもいで：price, days, onlyNightをticketで管理していた時代
 //    private final int ticketPrice; // written on ticket, park guest can watch this
 //    private final boolean onlyNightAvailable; // 夜限定フラグ
-    private final TicketType ticketType; // チケット種別
-    private int daysLeft; // チケットの残日数管理
-    private boolean alreadyIn; // true means this ticket is unavailable
+    /**
+     * チケットクラスのインスタンス変数
+     * ticketType: チケット種別
+     * daysLeft: チケットの残日数管理
+     * alreadyIn: 使用済みかどうかのフラグ
+     */
+    private final TicketType ticketType;
+    private int daysLeft;
+    private boolean alreadyIn;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -73,7 +79,7 @@ public class Ticket {
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
-    // TODO hase [いいね] throws素晴らしい by jflute (2025/07/15)
+    // TODO done hase [いいね] throws素晴らしい by jflute (2025/07/15)
     /**
      * 入園処理のメソッド。入園したらチケットの残り日数を減らし、残り日数が0になったら使用済みにする。
      * @throws IllegalStateException すでに入園済みの場合、または夜間限定チケットで昼間に入園しようとした場合
@@ -144,7 +150,7 @@ public class Ticket {
     //                                                                            ========
     // 先にTicketクラスのインスタンス変数のaccessor by hase (2025/07/08)
     // accessorは、JavaDocがなくても直感的だと判断しました。 by hase (2025/07/11)
-    // TODO hase したら逆に、インスタンス変数にjavadocを付けてみましょう by jflute (2025/07/15)
+    // TODO done hase したら逆に、インスタンス変数にjavadocを付けてみましょう by jflute (2025/07/15)
     // 要はどちらでもいいのですが、チケットが持つ「属性」の説明がどこかにあると嬉しいということで。
     // ただ、インスタンス変数の宣言のところに横のスラスラコメントでそれっぽいことがすでに書いてあるので、
     // そういうのをjavadocに昇格という感じですね。

@@ -1,7 +1,6 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
-import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 
 /**
@@ -13,14 +12,16 @@ public abstract class Creature implements Loudable {
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
-    protected final BarkingProcess barkingProcess;
+// おもいで：UndeadBarkingProcess作成前はCreatureで共通だった by hase (2025/07/15)
+//    protected final BarkingProcess barkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public Creature() {
         hitPoint = getInitialHitPoint();
-        barkingProcess = new BarkingProcess(this);
+// おもいで：UndeadBarkingProcess作成前はCreatureで共通だった by hase (2025/07/15)
+//        barkingProcess = new BarkingProcess(this);
     }
 
     protected abstract int getInitialHitPoint();
@@ -28,9 +29,11 @@ public abstract class Creature implements Loudable {
     // ===================================================================================
     //                                                                                Bark
     //                                                                              ======
-    public BarkedSound bark() {
-        return this.barkingProcess.bark();
-    }
+// おもいで：UndeadBarkingProcess作成前はCreatureで共通だった by hase (2025/07/15)
+//    public BarkedSound bark() {
+//        return this.barkingProcess.bark();
+//    }
+    public abstract BarkedSound bark();
 
     public abstract String getBarkWord();
 

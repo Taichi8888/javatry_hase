@@ -19,6 +19,9 @@ package org.docksidestage.bizfw.basic.objanimal;
 //import org.slf4j.LoggerFactory;
 // BarkingProcess移行によりひとまず使わなくなったが、また新しいメソッド作成時に使う可能性あり by hase (2025/07/08)
 
+import org.docksidestage.bizfw.basic.objanimal.barking.AnimalBarkingProcess;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+
 /**
  * The object for animal(動物).
  * @author jflute
@@ -38,7 +41,7 @@ public abstract class Animal extends Creature {
 // おもいで：Creatureクラスに移行by hase (2025/07/09)
 //    protected int hitPoint; // is HP
 //    // done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
-//    protected final BarkingProcess barkingProcess;
+    protected final AnimalBarkingProcess animalBarkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -46,7 +49,7 @@ public abstract class Animal extends Creature {
     public Animal() {
 // おもいで：Creatureクラスに移行by hase (2025/07/09)
 //        hitPoint = getInitialHitPoint();
-//        barkingProcess = new BarkingProcess(this);
+        animalBarkingProcess = new AnimalBarkingProcess(this);
     }
 
     @Override
@@ -58,9 +61,12 @@ public abstract class Animal extends Creature {
     //                                                                               Bark
     //                                                                              ======
 // おもいで：Creatureクラスに移行by hase (2025/07/09)
-//    public BarkedSound bark() {
-//        return this.barkingProcess.bark();
-//    } // 引数にthis渡すのが冗長な気がする。
+//    UndeadBarkingProcess作って再び戻ってきた by hase (2025/07/15)
+    @Override
+    public BarkedSound bark() {
+        return this.animalBarkingProcess.bark();
+    }
+    // 引数にthis渡すのが冗長な気がする。
     // breatheInとかもまとめて外に出しても良いかも→HP管理がめんどくさい。
     // done [いいね] 外に出す考え方は良さそう
     // そもそもbarkingProcessを作成した理由はAnimalのbark()のプロセスをそっちに切り出すため

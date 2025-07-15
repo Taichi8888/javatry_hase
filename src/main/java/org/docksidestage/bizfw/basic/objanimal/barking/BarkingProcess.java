@@ -1,13 +1,12 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
 import org.docksidestage.bizfw.basic.objanimal.Creature;
-import org.docksidestage.bizfw.basic.objanimal.UndeadMonster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
+// TODO done hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
 /**
- * Animalが鳴くプロセスをここにまとめたよ
+ * Creatureが鳴くプロセスをここにまとめたよ
  * @author jflute
  * @author tahasega
  */
@@ -19,7 +18,7 @@ public class BarkingProcess {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(BarkingProcess.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BarkingProcess.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -47,11 +46,12 @@ public class BarkingProcess {
     }
 
     // done hase コメントアウトにはコメントを (これは消すと言うよりも、どういう思考があったかのコメントがあると良いなと) by jflute (2025/07/07)
-    private void breatheIn(Creature creature) { // actually depends on barking
+    protected void breatheIn(Creature creature) { // actually depends on barking
         logger.debug("...Breathing in for barking");
-        if (creature instanceof UndeadMonster) { // 呼吸のカウントの責務は呼吸メソッドに任せました by hase (2025/07/09)
-            ((UndeadMonster) creature).getUndeadDiary().countBreatheIn();
-        }
+// おもいで：UndeadBarkingProcessのbreatheIn()に移行 by hase (2025/07/15)
+//        if (creature instanceof UndeadMonster) { // 呼吸のカウントの責務は呼吸メソッドに任せました by hase (2025/07/09)
+//            ((UndeadMonster) creature).getUndeadDiary().countBreatheIn();
+//        }
         creature.downHitPoint();
     } // breatheInはAnimalの責務なので、Animalのメソッドに移動した
     // しかし、breathInはBarkingProcess特有の吸い込みとして、再度こちらに移動した by hase (2025/07/08)

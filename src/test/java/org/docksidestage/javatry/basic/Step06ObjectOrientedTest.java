@@ -244,11 +244,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
         Creature creature = new Zombie();
         log(creature instanceof UndeadMonster);
+        int diaryCount = ((Zombie) creature).getUndeadDiary().getBreatheInCount();
+        log(diaryCount); // 0
         BarkedSound sound = creature.bark();
         String sea = sound.getBarkWord();
         log(sea); // your answer? => uooo
         int land = creature.getHitPoint();
         log(land); // your answer? => -1
+        diaryCount = ((Zombie) creature).getUndeadDiary().getBreatheInCount();
+        log(diaryCount); // 1
     }
 
     /**

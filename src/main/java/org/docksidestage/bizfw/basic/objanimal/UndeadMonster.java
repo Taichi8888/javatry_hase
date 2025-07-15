@@ -1,5 +1,8 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.UndeadBarkingProcess;
+
 /**
  * The object for undead monster.
  * @author tahasega
@@ -8,13 +11,15 @@ public abstract class UndeadMonster extends Creature {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected final UndeadDiary undeadDiary;
+    protected UndeadDiary undeadDiary;
+    protected final UndeadBarkingProcess undeadBarkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public UndeadMonster() {
         this.undeadDiary = new UndeadDiary();
+        this.undeadBarkingProcess = new UndeadBarkingProcess(this);
     }
 
     @Override // creatureクラス作成時に復活
@@ -38,6 +43,10 @@ public abstract class UndeadMonster extends Creature {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
+    public BarkedSound bark() {
+        return this.undeadBarkingProcess.bark();
+    }
+
     @Override
     public abstract String getBarkWord();
 
