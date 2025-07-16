@@ -42,7 +42,7 @@ public abstract class Animal extends Creature {
 //    protected int hitPoint; // is HP
 //    // done hase final付けられるなら付けておきましょう。newされて以降変わることはないということを示すためにも by jflute (2025/07/07)
     protected final AnimalBarkingProcess animalBarkingProcess;
-
+    
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========

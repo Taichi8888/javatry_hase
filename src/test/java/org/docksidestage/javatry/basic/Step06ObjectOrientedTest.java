@@ -271,7 +271,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [1on1でのフォロー] 日常での抽象化、めちゃ使ってる。それをプログラミングでも使いたいってだけ。
     }
     
-    // TODO jflute 1on1ここまで、次回ここから (2025/07/08)
+    // done jflute 1on1ここまで、次回ここから (2025/07/08)
 
     // ===================================================================================
     //                                                              Polymorphism Interface
@@ -441,6 +441,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal dog = new Dog();
         log(dog.bark().getBarkWord());
     }
+    // #1on1: フラットな階層とパッケージ分けのお話、そして現場のジレンマ
+    // #1on1: 枠組みを最初から作っておくか？話 (AnimalBarkingProcessにつながる話)
 
     /**
      * Is Zombie correct as subclass of Animal? Analyze it in thirty seconds. (thinking only) <br>
@@ -455,6 +457,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/
         // done hase [ふぉろー] is-aの関係が成り立つかどうか？ってところですね by jflute (2025/07/07)
         // was-aですね...もはやAnimalではないので適切でないと思いました by hase (2025/07/08)
-        // TODO jflute 1on1にて補足する予定。バイオハザードの話をする (2025/07/07)
+        // done jflute 1on1にて補足する予定。バイオハザードの話をする (2025/07/07)
+        // バイオの世界で考えると、ゾンビはanimalじゃなくて、animalの状態と言えるかも？
+        
+        // #1on1: ソースコードを追う指スキルがあるかどうか？でわかりやすさ変わってくる
+        // #1on1: 的を得たオブジェクトになってないのに階層構造を作ってもよけいわかりづらい
+        // しっかり階層化するのであれば、やり切ることが大切
+        // #1on1: 整理整頓のお話: プログラミングから整理整頓を学ぶ
+        // #1on1: 抽象度のお話。抽象度のコントロール、的を得た抽象度を見つけることが大切
     }
 }
