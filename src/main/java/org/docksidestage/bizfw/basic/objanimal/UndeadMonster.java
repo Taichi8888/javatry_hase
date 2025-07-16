@@ -1,6 +1,5 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
-import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.UndeadBarkingProcess;
 
 /**
@@ -12,19 +11,23 @@ public abstract class UndeadMonster extends Creature {
     //                                                                           Attribute
     //                                                                           =========
     protected UndeadDiary undeadDiary;
-    protected final UndeadBarkingProcess undeadBarkingProcess;
+//    protected final UndeadBarkingProcess undeadBarkingProcess;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public UndeadMonster() {
-        this.undeadDiary = new UndeadDiary();        
-        this.undeadBarkingProcess = new UndeadBarkingProcess(this);
+        this.undeadDiary = new UndeadDiary();
     }
 
-    @Override // creatureクラス作成時に復活
+    @Override
     protected int getInitialHitPoint() {
         return -1; // magic number for infinity hit point
+    }
+
+    @Override
+    protected UndeadBarkingProcess createBarkingProcess() {
+        return new UndeadBarkingProcess(this);
     }
 
     public static class UndeadDiary {
@@ -43,10 +46,6 @@ public abstract class UndeadMonster extends Creature {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
-    public BarkedSound bark() {
-        return this.undeadBarkingProcess.bark();
-    }
-
     @Override
     public abstract String getBarkWord();
 

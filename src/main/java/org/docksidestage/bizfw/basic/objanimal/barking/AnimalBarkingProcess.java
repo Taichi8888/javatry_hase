@@ -1,16 +1,20 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
-import org.docksidestage.bizfw.basic.objanimal.Creature;
+import org.docksidestage.bizfw.basic.objanimal.Animal;
 
 /**
  * Animalが鳴くプロセス
  * @author tahasega
  */
-public class AnimalBarkingProcess extends  BarkingProcess {
-    public AnimalBarkingProcess(Creature creature) {
-        super(creature);
+public class AnimalBarkingProcess extends BarkingProcess {
+
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public AnimalBarkingProcess(Animal animal) {
+        super(animal);
     }
     
-    // TODO hase [ふぉろー] こういうコメントあるといいかも by jflute (2025/07/16)
+    // TODO done hase [ふぉろー] こういうコメントあるといいかも by jflute (2025/07/16)
     // e.g. いま空っぽだけど、何かanimalで固有処理ができたら追加していくこと
 }

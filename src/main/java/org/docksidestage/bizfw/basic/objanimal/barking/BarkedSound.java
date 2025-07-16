@@ -34,6 +34,9 @@ public class BarkedSound {
         this.barkWord = barkWord;
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public String getBarkWord() {
         return barkWord;
     }

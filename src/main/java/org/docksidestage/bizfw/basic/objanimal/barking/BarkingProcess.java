@@ -23,8 +23,8 @@ public class BarkingProcess {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO hase final付けちゃいましょう by jflute (2025/07/15)
-    protected Creature creature; // which animal is barking
+    // TODO done hase final付けちゃいましょう by jflute (2025/07/15)
+    protected final Creature creature; // which creature is barking
 
     // ===================================================================================
     //                                                                         Constructor
@@ -39,17 +39,17 @@ public class BarkingProcess {
     // done hase animalをひたすら引数で持ち回すのも大変そうなので、Constructorで受け取ってインスタンスに持ってしまったらどうでしょう？ by jflute (2025/07/07)
     // Animalの中で BarkingProcess は、インスタンスのライフサイクルが一致しているので、それで問題ないなることもないですし。
     public BarkedSound bark() {
-        // TODO hase インスタンス変数でcreature持ってますから、引数渡しじゃなくても良いような？ by jflute (2025/07/15)
+        // TODO done hase インスタンス変数でcreature持ってますから、引数渡しじゃなくても良いような？ by jflute (2025/07/15)
         // それぞれのprotectedメソッド (インスタンスメソッド) で、インスタンス変数を直接使ってもらえば良いかなと。
-        breatheIn(creature); // Zombieは日記にカウントするのでAnimalの責務
-        prepareAbdominalMuscle(creature); // BarkingProcessの責務として腹筋を準備する
-        String barkWord = getBarkWord(creature); // Animalごとに違う鳴き声なのでAnimalの責務
-        BarkedSound barkedSound = doBark(creature, barkWord); // BarkingProcessの責務として鳴く
+        breatheIn();
+        prepareAbdominalMuscle();
+        String barkWord = getBarkWord();
+        BarkedSound barkedSound = doBark(barkWord);
         return barkedSound;
     }
 
     // done hase コメントアウトにはコメントを (これは消すと言うよりも、どういう思考があったかのコメントがあると良いなと) by jflute (2025/07/07)
-    protected void breatheIn(Creature creature) { // actually depends on barking
+    protected void breatheIn() { // actually depends on barking
         logger.debug("...Breathing in for barking");
 // おもいで：UndeadBarkingProcessのbreatheIn()に移行 by hase (2025/07/15)
 //        if (creature instanceof UndeadMonster) { // 呼吸のカウントの責務は呼吸メソッドに任せました by hase (2025/07/09)
@@ -60,17 +60,17 @@ public class BarkingProcess {
     // しかし、breathInはBarkingProcess特有の吸い込みとして、再度こちらに移動した by hase (2025/07/08)
 
     // done hase クラス内で呼び出すだけのメソッドならprivateで by jflute (2025/07/07)
-    private void prepareAbdominalMuscle(Creature creature) { // also actually depends on barking
+    private void prepareAbdominalMuscle() { // also actually depends on barking
         logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
         creature.downHitPoint();
     }
 
     // done hase メソッド内に不要な空行がありますので削除で by jflute (2025/07/09)
-    private String getBarkWord(Creature creature) {
+    private String getBarkWord() {
         return creature.getBarkWord();
     }
 
-    private BarkedSound doBark(Creature creature, String barkWord) {
+    private BarkedSound doBark(String barkWord) {
         creature.downHitPoint();
         return new BarkedSound(barkWord);
     }

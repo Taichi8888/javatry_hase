@@ -332,8 +332,8 @@ public class Step11ClassicStringTest extends PlainTestCase {
         }
     }
 
-    // textをMapに変換するメソッド
-    //
+    // StringをMapに変換するメソッド
+    // valueがMapのときは再帰的に処理する
     private static Map<String, Object> parseStringToMap(String text) {
         Map<String, Object> map = new LinkedHashMap<>();
         List<String> entries = splitEntries(text);

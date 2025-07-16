@@ -85,11 +85,11 @@ public class Zombie extends UndeadMonster {
     // hint3: オーバーライドはAnimal/Creatureの路線だけじゃなくどのオブジェクトでも利用できる
 
     // なるほど、BarkingProcessの階層構造ですか！by hase (2025/07/15)
-    // TODO hase [いいね] おお、良い感じになってきましたね！細かい実装のtodoは別途入れています by jflute (2025/07/15)
+    // TODO done hase [いいね] おお、良い感じになってきましたね！細かい実装のtodoは別途入れています by jflute (2025/07/15)
     
-    // TODO done jflute (質問です) 粒度を揃えるためにAnimalBarkingProcessとUndeadBarkingProcessの両方を作成したのですが、
+    // done jflute (質問です) 粒度を揃えるためにAnimalBarkingProcessとUndeadBarkingProcessの両方を作成したのですが、
     // AnimalBarkingProcessは作らなくてもよかったでしょうか。
-    // TODO hase [へんじ] 悩ましいところですね。将来に備えるか備えないかの違いで、多少ギャンブルになります by jflute (2025/07/15)
+    // TODO done hase [へんじ] 悩ましいところですね。将来に備えるか備えないかの違いで、多少ギャンブルになります by jflute (2025/07/15)
     // なので正解があるわけではなく、Animal固有の処理が入りそう、確率が高いと考えるのであれば今の状態で良いと思います。
     // 人によっては「必要になったときに作るほうが良い」というセオリーもあります。
     // 事前に作ってても、一生使われなかったり、使われそうなときが来てもちょっと要件が違って使えなかったりするからと。
@@ -97,6 +97,9 @@ public class Zombie extends UndeadMonster {
     // とはいえ用意しなかったらしなかったで、後の人が AnimalBarkingProcess を作ったらいいということを思いつけない可能性も。
     // こういうジレンマです(^^。
     // 追記: この階層構造は綺麗で概念を適切に表現してると思うので、最初から枠組みあってもいいかなと思った。
+
+    // 確かに！！使われそうな時が来ても要件が違ったり、というセオリーは考えつきませんでした。by hase (2025/07/16)
+    // とても納得しました。ありがとうございます！
 
     @Override
     public String getBarkWord() {
