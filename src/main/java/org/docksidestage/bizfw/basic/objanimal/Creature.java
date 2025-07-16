@@ -13,7 +13,7 @@ public abstract class Creature implements Loudable {
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
-    // TODO done hase おもいでにしちゃったけど、FactoryMethodパターンというのをちょっと調べてみてください by jflute (2025/07/15)
+    // done hase おもいでにしちゃったけど、FactoryMethodパターンというのをちょっと調べてみてください by jflute (2025/07/15)
     // せっかく BarkingProcess も Creature レベルで抽象化できているのに、
     // Creature のところに BarkingProcess を登場させずに Animal と Undead にそれぞれ定義してるってのはもったいないです。
     // オブジェクト指向にはオーバーライドという技があるので、newするところだけ差し替ガガガガ
@@ -30,6 +30,7 @@ public abstract class Creature implements Loudable {
 
     protected abstract int getInitialHitPoint();
 
+    // TODO hase [いいね] おおぉ、完璧な「FactoryMethod によるポリモーフィズム」 by jflute (2025/07/16)
     protected abstract BarkingProcess createBarkingProcess();
     // factory method!!! by hase (2025/07/16)
     // newの代わりに、生成処理をサブクラスに任せて柔軟に。
@@ -48,6 +49,10 @@ public abstract class Creature implements Loudable {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
+    // TODO hase 修行++: public を protected に戻したいところですね by jflute (2025/07/16)
+    // BarkingProcess や package移動のリファクタリングの影響でスコープ的に呼べなくなって、 
+    // publicにして回避してしまっていますが、元々隠れてたってことは隠したいものではあるので。
+    // これはまた悩むかと思いますが、ちょっと考えてみてください。
     public abstract void downHitPoint();
 
     // ===================================================================================

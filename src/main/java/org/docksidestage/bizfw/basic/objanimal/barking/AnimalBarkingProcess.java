@@ -15,6 +15,6 @@ public class AnimalBarkingProcess extends BarkingProcess {
         super(animal);
     }
     
-    // TODO done hase [ふぉろー] こういうコメントあるといいかも by jflute (2025/07/16)
+    // done hase [ふぉろー] こういうコメントあるといいかも by jflute (2025/07/16)
     // e.g. いま空っぽだけど、何かanimalで固有処理ができたら追加していくこと
 }

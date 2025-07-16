@@ -17,8 +17,8 @@ package org.docksidestage.bizfw.basic.buyticket;
 
 import java.time.LocalDateTime;
 
-// TODO done hase [いいね] ちょうどいいぐらいのjavadocでのオブジェクトの説明 by jflute (2025/07/15)
-// TODO done hase 細かいですが、列挙を断定しちゃうと要素を増えたときに勘違いしやすいので... by jflute (2025/07/15)
+// done hase [いいね] ちょうどいいぐらいのjavadocでのオブジェクトの説明 by jflute (2025/07/15)
+// done hase 細かいですが、列挙を断定しちゃうと要素を増えたときに勘違いしやすいので... by jflute (2025/07/15)
 // e.g. チケット種別、入園可能日数、使用済みかどうかを管理し
 //  ↓
 // e.g. チケット種別、入園可能日数、使用済みかどうかなどを管理し
@@ -45,6 +45,9 @@ public class Ticket {
 // おもいで：price, days, onlyNightをticketで管理していた時代
 //    private final int ticketPrice; // written on ticket, park guest can watch this
 //    private final boolean onlyNightAvailable; // 夜限定フラグ
+    // TODO hase javadocは、インスタンス変数ごとに付与します。 by jflute (2025/07/16)
+    // いま、ticketType, daysLeft それぞれにカーソルを当ててツールチップでjavadocを見てみてください。
+    // (あと、Stringクラスのソースコード上のインスタンス変数などに対するjavadocも見てみてください)
     /**
      * チケットクラスのインスタンス変数
      * ticketType: チケット種別
@@ -150,7 +153,7 @@ public class Ticket {
     //                                                                            ========
     // 先にTicketクラスのインスタンス変数のaccessor by hase (2025/07/08)
     // accessorは、JavaDocがなくても直感的だと判断しました。 by hase (2025/07/11)
-    // TODO done hase したら逆に、インスタンス変数にjavadocを付けてみましょう by jflute (2025/07/15)
+    // done hase したら逆に、インスタンス変数にjavadocを付けてみましょう by jflute (2025/07/15)
     // 要はどちらでもいいのですが、チケットが持つ「属性」の説明がどこかにあると嬉しいということで。
     // ただ、インスタンス変数の宣言のところに横のスラスラコメントでそれっぽいことがすでに書いてあるので、
     // そういうのをjavadocに昇格という感じですね。

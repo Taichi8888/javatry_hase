@@ -4,7 +4,7 @@ import org.docksidestage.bizfw.basic.objanimal.Creature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO done hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
+// done hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
 /**
  * Creatureが鳴くプロセスをここにまとめたよ
  * @author jflute
@@ -23,7 +23,7 @@ public class BarkingProcess {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO done hase final付けちゃいましょう by jflute (2025/07/15)
+    // done hase final付けちゃいましょう by jflute (2025/07/15)
     protected final Creature creature; // which creature is barking
 
     // ===================================================================================
@@ -39,7 +39,7 @@ public class BarkingProcess {
     // done hase animalをひたすら引数で持ち回すのも大変そうなので、Constructorで受け取ってインスタンスに持ってしまったらどうでしょう？ by jflute (2025/07/07)
     // Animalの中で BarkingProcess は、インスタンスのライフサイクルが一致しているので、それで問題ないなることもないですし。
     public BarkedSound bark() {
-        // TODO done hase インスタンス変数でcreature持ってますから、引数渡しじゃなくても良いような？ by jflute (2025/07/15)
+        // done hase インスタンス変数でcreature持ってますから、引数渡しじゃなくても良いような？ by jflute (2025/07/15)
         // それぞれのprotectedメソッド (インスタンスメソッド) で、インスタンス変数を直接使ってもらえば良いかなと。
         breatheIn();
         prepareAbdominalMuscle();

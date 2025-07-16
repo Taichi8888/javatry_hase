@@ -85,11 +85,11 @@ public class Zombie extends UndeadMonster {
     // hint3: オーバーライドはAnimal/Creatureの路線だけじゃなくどのオブジェクトでも利用できる
 
     // なるほど、BarkingProcessの階層構造ですか！by hase (2025/07/15)
-    // TODO done hase [いいね] おお、良い感じになってきましたね！細かい実装のtodoは別途入れています by jflute (2025/07/15)
+    // done hase [いいね] おお、良い感じになってきましたね！細かい実装のtodoは別途入れています by jflute (2025/07/15)
     
     // done jflute (質問です) 粒度を揃えるためにAnimalBarkingProcessとUndeadBarkingProcessの両方を作成したのですが、
     // AnimalBarkingProcessは作らなくてもよかったでしょうか。
-    // TODO done hase [へんじ] 悩ましいところですね。将来に備えるか備えないかの違いで、多少ギャンブルになります by jflute (2025/07/15)
+    // done hase [へんじ] 悩ましいところですね。将来に備えるか備えないかの違いで、多少ギャンブルになります by jflute (2025/07/15)
     // なので正解があるわけではなく、Animal固有の処理が入りそう、確率が高いと考えるのであれば今の状態で良いと思います。
     // 人によっては「必要になったときに作るほうが良い」というセオリーもあります。
     // 事前に作ってても、一生使われなかったり、使われそうなときが来てもちょっと要件が違って使えなかったりするからと。

@@ -196,7 +196,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             for (StackTraceElement element : e.getStackTrace()) {
                 log("  at " + element.toString());
             }
-            // TODO done hase [いいね] おおぉ、すごい。よく頑張りましたね。 by jflute (2025/07/15)
+            // done hase [いいね] おおぉ、すごい。よく頑張りましたね。 by jflute (2025/07/15)
             // スタックトレースというデータの本質的なところがよく理解できたんじゃないかなと。
             // ちなみに、log(e); とするだけで、全部出てくるようになってます(^^。
             log(e); // 本当だ！！by hase (2025/07/15)
@@ -328,7 +328,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
-            // TODO done hase せっかくなので、Exception側にもauthorを追加しましょう〜 by jflute (2025/07/15)
+            // done hase せっかくなので、Exception側にもauthorを追加しましょう〜 by jflute (2025/07/15)
             throw new St7ConstructorChallengeException("Failed to save dog.", e);
         }
     }
@@ -362,7 +362,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         // 事前に想定できるIOExceptionなどは事前に想定してcatchすべきで、RuntimeExceptionは想定できないものも多くcatchしなくても良い。
         // 調べてこのような理解になりました。
         // _/_/_/_/_/_/_/_/_/_/
-        // TODO done hase ↑論理的におおよそそんな感じではありますが、実際は... by jflute (2025/07/15)
+        // done hase ↑論理的におおよそそんな感じではありますが、実際は... by jflute (2025/07/15)
         // Exception, 半分はそうなんですけど半分は事前に想定できないものもあって、それだけの違いではないという感じではありますね。
         // ただ、チェック例外は確実に「事前に想定」と言えます。RuntimeExceptionは自由度が高くて...
         // TODO jflute 1on1にてフォロー予定 (2025/07/15)
