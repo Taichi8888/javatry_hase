@@ -50,13 +50,13 @@ public class Ticket {
     // (あと、Stringクラスのソースコード上のインスタンス変数などに対するjavadocも見てみてください)
 
     /** チケット種別 */
-    private final TicketType ticketType;
+    protected final TicketType ticketType;
 
     /** チケットの残り日数 */
-    private int daysLeft;
+    protected int daysLeft;
 
     /** チケットが使用済みかどうかのフラグ */
-    private boolean alreadyIn;
+    protected boolean alreadyIn;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -88,12 +88,12 @@ public class Ticket {
      * @throws IllegalStateException すでに入園済みの場合、または夜間限定チケットで昼間に入園しようとした場合
      */
     public void doInPark() {
-        if (alreadyIn) { // すでに入園済みなら、入園できない
+        if (isAlreadyIn()) { // すでに入園済みなら、入園できない
             throw new IllegalStateException("Already in park by this ticket.");
         }
         // 夜間入場処理もdoInPark()で行うように変更
         if (isOnlyNightAvailable() && !isNightTime()) {
-            throw new IllegalStateException("This ticket is not available for day park.");
+            throw new IllegalStateException("isOnlyNightAvailable: " + isOnlyNightAvailable() + ", isNightTime: " + isNightTime());
         }
 // おもいで
 //        if (!firstTimeDone) {
@@ -130,8 +130,9 @@ public class Ticket {
     // done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
     // done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
     // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
-    private boolean isNightTime() { // 夜間判定
-        return LocalDateTime.now().getHour() >= 17 && LocalDateTime.now().getHour() <= 21;
+    protected boolean isNightTime() { // 夜間判定
+        int hour = getCurrentHour();
+        return hour >= 17 && hour <= 21;
     }
     // done hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)
     // ただ、TicketでonlyNightAvailableの状態まで持っていますので、できれば一つのdoInPark()で、
@@ -147,6 +148,9 @@ public class Ticket {
 //    。       alreadyIn = true;
 //        }
 //    }
+    protected int getCurrentHour() {
+        return LocalDateTime.now().getHour();
+    }
 
     // ===================================================================================
     //                                                                            Accessor

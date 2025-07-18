@@ -15,12 +15,9 @@
  */
 package org.docksidestage.javatry.basic;
 
-import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
+import org.docksidestage.bizfw.basic.buyticket.*;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
-import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.unit.PlainTestCase;
-import org.docksidestage.bizfw.basic.buyticket.Ticket;
-import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
 
 /**
  * The test of class. <br>
@@ -278,9 +275,25 @@ public class Step05ClassTest extends PlainTestCase {
             log("Could not use this ticket. " + e.getMessage());
         }
         log(ticket.getDaysLeft()); // 17時前：2, 17時以降：1
-        // TODO hase 修行++: UnitTestで、現在日時を差し替えて両方一気にテストしたい by jflute (2025/07/11)
+        // TODO done hase 修行++: UnitTestで、現在日時を差し替えて両方一気にテストしたい by jflute (2025/07/11)
         // 一方で、一般ユーザーは doInPark() のままで、現在日時を差し替えるってのはできないようにしたい。
         // これは最後でOKです。(hint: step6以降の知識が必要なので、つまりjavatryのbasic範囲内の知識でできる)
+
+        // TestTicketクラスを作成し、テストの時はtestHourにて時刻を（開発者だけが）設定できる仕様にしました。by hase (2025/07/18)
+        // 一般ユーザーはTicketクラスのdoInPark()を使うので、入園時刻はコントロールできない。
+        // 夜間フラグを操作できるように時刻の引数を受け取る仕様(isNightTime(int time)、doInPark(int time))にすることも考えたが、
+        // テスト用に全く別のメソッドを作成するのはおかしいと思い、OverrideできるgetCurrentHour()を作りました。
+        // 元のメソッドに変更があった時にも面倒くさいと思い。。
+        // TODO hase (自分用) TestTicketも購入して手に入れられるべき。by hase (2025/07/18)
+        // でもわざわざTestTicketBuyResultなどを作るのは面倒、いかにせむ。
+        TestTicket testTicket = new TestTicket(TicketType.TWO_NIGHT);
+        try {
+            testTicket.doInPark();
+            log("Today is horror night!");
+        } catch (Exception e) {
+            log("Could not enter. " + e.getMessage());
+        }
+        log(testTicket.getDaysLeft());
     }
 
     /**
