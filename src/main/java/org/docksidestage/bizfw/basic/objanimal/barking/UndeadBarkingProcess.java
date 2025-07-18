@@ -11,7 +11,7 @@ public class UndeadBarkingProcess extends BarkingProcess{
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO hase [いいね] こういうのよくやります。super側と同じインスタンスですが... by jflute (2025/07/16)
+    // TODO done hase [いいね] こういうのよくやります。super側と同じインスタンスですが... by jflute (2025/07/16)
     // 型違い(抽象度の違い)でそれぞれのレイヤごとに保持してもいいわけです。
     protected final UndeadMonster undeadMonster;
 

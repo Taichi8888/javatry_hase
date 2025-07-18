@@ -55,14 +55,14 @@ public class BarkingProcess {
 //        if (creature instanceof UndeadMonster) { // 呼吸のカウントの責務は呼吸メソッドに任せました by hase (2025/07/09)
 //            ((UndeadMonster) creature).getUndeadDiary().countBreatheIn();
 //        }
-        creature.downHitPoint();
+        creature.getTired();
     } // breatheInはAnimalの責務なので、Animalのメソッドに移動した
     // しかし、breathInはBarkingProcess特有の吸い込みとして、再度こちらに移動した by hase (2025/07/08)
 
     // done hase クラス内で呼び出すだけのメソッドならprivateで by jflute (2025/07/07)
     private void prepareAbdominalMuscle() { // also actually depends on barking
         logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
-        creature.downHitPoint();
+        creature.getTired();
     }
 
     // done hase メソッド内に不要な空行がありますので削除で by jflute (2025/07/09)
@@ -71,7 +71,7 @@ public class BarkingProcess {
     }
 
     private BarkedSound doBark(String barkWord) {
-        creature.downHitPoint();
+        creature.getTired(2); // 吠えるのは体力を使うし、みんなに見られるから心も疲れる。2ダメージ。
         return new BarkedSound(barkWord);
     }
 }

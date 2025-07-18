@@ -30,7 +30,7 @@ public abstract class Creature implements Loudable {
 
     protected abstract int getInitialHitPoint();
 
-    // TODO hase [いいね] おおぉ、完璧な「FactoryMethod によるポリモーフィズム」 by jflute (2025/07/16)
+    // TODO done hase [いいね] おおぉ、完璧な「FactoryMethod によるポリモーフィズム」 by jflute (2025/07/16)
     protected abstract BarkingProcess createBarkingProcess();
     // factory method!!! by hase (2025/07/16)
     // newの代わりに、生成処理をサブクラスに任せて柔軟に。
@@ -49,11 +49,26 @@ public abstract class Creature implements Loudable {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    // TODO hase 修行++: public を protected に戻したいところですね by jflute (2025/07/16)
+    // TODO done hase 修行++: public を protected に戻したいところですね by jflute (2025/07/16)
     // BarkingProcess や package移動のリファクタリングの影響でスコープ的に呼べなくなって、 
     // publicにして回避してしまっていますが、元々隠れてたってことは隠したいものではあるので。
     // これはまた悩むかと思いますが、ちょっと考えてみてください。
-    public abstract void downHitPoint();
+
+    // 流石に継承して使うわけにはいかないので、新しい窓口を作ることにしました。by hase (2025/07/18)
+    // ただdownHitPoint()だけを書くのも寂しいので、引数も取れるようにしました、そんなに深い意味はないです。
+    protected abstract void downHitPoint();
+
+    public void getTired() { // ゲッターじゃないよ
+        downHitPoint();
+    }
+
+    public void getTired(int damage) { // ゲッターじゃないよ
+        if (damage > 0) {
+            for (int i = 0; i < damage; i++) {
+                downHitPoint();
+            } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
+        }
+    }
 
     // ===================================================================================
     //                                                                               Fight

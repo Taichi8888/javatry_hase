@@ -45,17 +45,17 @@ public class Ticket {
 // おもいで：price, days, onlyNightをticketで管理していた時代
 //    private final int ticketPrice; // written on ticket, park guest can watch this
 //    private final boolean onlyNightAvailable; // 夜限定フラグ
-    // TODO hase javadocは、インスタンス変数ごとに付与します。 by jflute (2025/07/16)
+    // TODO done hase javadocは、インスタンス変数ごとに付与します。 by jflute (2025/07/16)
     // いま、ticketType, daysLeft それぞれにカーソルを当ててツールチップでjavadocを見てみてください。
     // (あと、Stringクラスのソースコード上のインスタンス変数などに対するjavadocも見てみてください)
-    /**
-     * チケットクラスのインスタンス変数
-     * ticketType: チケット種別
-     * daysLeft: チケットの残日数管理
-     * alreadyIn: 使用済みかどうかのフラグ
-     */
+
+    /** チケット種別 */
     private final TicketType ticketType;
+
+    /** チケットの残り日数 */
     private int daysLeft;
+
+    /** チケットが使用済みかどうかのフラグ */
     private boolean alreadyIn;
 
     // ===================================================================================
