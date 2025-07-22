@@ -45,10 +45,10 @@ public class Ticket {
 // おもいで：price, days, onlyNightをticketで管理していた時代
 //    private final int ticketPrice; // written on ticket, park guest can watch this
 //    private final boolean onlyNightAvailable; // 夜限定フラグ
-    // TODO done hase javadocは、インスタンス変数ごとに付与します。 by jflute (2025/07/16)
+    // done hase javadocは、インスタンス変数ごとに付与します。 by jflute (2025/07/16)
     // いま、ticketType, daysLeft それぞれにカーソルを当ててツールチップでjavadocを見てみてください。
     // (あと、Stringクラスのソースコード上のインスタンス変数などに対するjavadocも見てみてください)
-
+    // #1on1 本気でコメント書いたらのお話、javadocのHTMLのお話
     /** チケット種別 */
     protected final TicketType ticketType;
 
@@ -132,6 +132,8 @@ public class Ticket {
     // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
     protected boolean isNightTime() { // 夜間判定
         int hour = getCurrentHour();
+        // TODO hase nightの時間帯が固定化されてしまっていて、今後ちょっと違うnightが出てきたときに... by jflute (2025/07/22)
+        // せめてチケット種別ごとにnightの時間帯を設定できるようにしたいところ。(Ticketクラスに固定化するものじゃない)
         return hour >= 17 && hour <= 21;
     }
     // done hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)

@@ -275,7 +275,7 @@ public class Step05ClassTest extends PlainTestCase {
             log("Could not use this ticket. " + e.getMessage());
         }
         log(ticket.getDaysLeft()); // 17時前：2, 17時以降：1
-        // TODO done hase 修行++: UnitTestで、現在日時を差し替えて両方一気にテストしたい by jflute (2025/07/11)
+        // done hase 修行++: UnitTestで、現在日時を差し替えて両方一気にテストしたい by jflute (2025/07/11)
         // 一方で、一般ユーザーは doInPark() のままで、現在日時を差し替えるってのはできないようにしたい。
         // これは最後でOKです。(hint: step6以降の知識が必要なので、つまりjavatryのbasic範囲内の知識でできる)
 
@@ -286,6 +286,8 @@ public class Step05ClassTest extends PlainTestCase {
         // 元のメソッドに変更があった時にも面倒くさいと思い。。
         // TODO hase (自分用) TestTicketも購入して手に入れられるべき。by hase (2025/07/18)
         // でもわざわざTestTicketBuyResultなどを作るのは面倒、いかにせむ。
+        // TODO hase 修行#: 現状でも十分テストにはなっているけど、確かにBoothからの一気通貫でやりたいですね by jflute (2025/07/22)
+        // #1on1: もし、Ticketにもっと購入情報が入るような状態であれば、BoothからのTicketで試したくなるだろう。
         TestTicket testTicket = new TestTicket(TicketType.TWO_NIGHT);
         try {
             testTicket.doInPark();

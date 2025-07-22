@@ -30,6 +30,9 @@ import org.docksidestage.javatry.basic.st6.os.Mac;
 import org.docksidestage.javatry.basic.st6.os.Windows;
 import org.docksidestage.unit.PlainTestCase;
 
+// #1on1 書いては壊して書いては壊して、その過程で色々な発想が舞い込んできて by jflute (2025/07/22)
+// https://jflute.hatenadiary.jp/entry/20150727/fivebooks
+
 // done hase 全体的に無言のコメントアウトが多いので... by jflute (2025/07/07)
 // まあ実務なら消すと思いますが、javatryは勉強用なのでコメントアウトで途中経過を残すのは良いです。
 // ただ、やりかけなのか？勉強用に残してるのか？わからないと読み手が迷いますね。

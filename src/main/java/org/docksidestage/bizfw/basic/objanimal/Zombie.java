@@ -31,7 +31,6 @@ public class Zombie extends UndeadMonster {
     //                                                                         Constructor
     //                                                                         ===========
     public Zombie() {
-
     }
 
 // おもいで
