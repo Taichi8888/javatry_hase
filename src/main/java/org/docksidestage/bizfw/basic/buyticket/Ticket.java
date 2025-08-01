@@ -49,7 +49,7 @@ public class Ticket {
     // いま、ticketType, daysLeft それぞれにカーソルを当ててツールチップでjavadocを見てみてください。
     // (あと、Stringクラスのソースコード上のインスタンス変数などに対するjavadocも見てみてください)
     // #1on1 本気でコメント書いたらのお話、javadocのHTMLのお話
-    /** チケット種別 */
+    /** チケット種別 (NotNull) */
     protected final TicketType ticketType;
 
     /** チケットの残り日数 */

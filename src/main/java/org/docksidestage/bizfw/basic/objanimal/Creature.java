@@ -56,12 +56,13 @@ public abstract class Creature implements Loudable {
 
     // 流石に継承して使うわけにはいかないので、新しい窓口を作ることにしました。by hase (2025/07/18)
     // ただdownHitPoint()だけを書くのも寂しいので、引数も取れるようにしました、そんなに深い意味はないです。
-    // TODO hase [いいね] まあ代替となる、かつ、publicでも良いような業務を一つ作って回避した by jflute (2025/07/22)
+    // TODO done hase [いいね] まあ代替となる、かつ、publicでも良いような業務を一つ作って回避した by jflute (2025/07/22)
     // TODO hase 修行#: step8の技術を使って、getTired()なしでprotectedキープをしてみましょう by jflute (2025/07/22)
     // hint1: step8の前半
+    // MEMO hase コールバックでできそうな情報があったよ、来週頑張れ by hase (2025/08/01)
     protected abstract void downHitPoint();
 
-    // TODO hase [いいね] "ゲッターじゃないよ" がとても興味ふかい(^^ by jflute (2025/07/22)
+    // TODO done hase [いいね] "ゲッターじゃないよ" がとても興味ふかい(^^ by jflute (2025/07/22)
     public void getTired() { // ゲッターじゃないよ
         downHitPoint();
     }

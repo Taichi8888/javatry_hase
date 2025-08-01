@@ -10,8 +10,8 @@ public abstract class UndeadMonster extends Creature {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO hase final付けられるので付けておきましょう by jflute (2025/07/22)
-    protected UndeadDiary undeadDiary;
+    // TODO done hase final付けられるので付けておきましょう by jflute (2025/07/22)
+    protected final UndeadDiary undeadDiary;
 //    protected final UndeadBarkingProcess undeadBarkingProcess;
 
     // ===================================================================================
@@ -19,12 +19,15 @@ public abstract class UndeadMonster extends Creature {
     //                                                                         ===========
     public UndeadMonster() {
         // #1on1 さらなる Factory Method の拡張ポイントについて。
-        // TODO hase 1on1でさらなる拡張ポイントの話をしたので、IntelliJのショートカットを使ってFactoryしてみましょう by jflute (2025/07/22)
+        // TODO done hase 1on1でさらなる拡張ポイントの話をしたので、IntelliJのショートカットを使ってFactoryしてみましょう by jflute (2025/07/22)
         // shift+shift or shift+command+A でコマンドを探すやり方でもOK。
-        // TODO hase [読み物課題] リファクタリングは思考のツール by jflute (2025/07/22)
+        // TODO done hase [読み物課題] リファクタリングは思考のツール by jflute (2025/07/22)
         // https://jflute.hatenadiary.jp/entry/20121202/1354442627
         // (指が面倒だと思うと、直したほうが良いコードだと思ってもやらなくなる)
-        this.undeadDiary = new UndeadDiary();
+        this.undeadDiary = createUndeadDiary();
+    }
+    private static UndeadDiary createUndeadDiary() {
+        return new UndeadDiary();
     }
 
     @Override
