@@ -129,6 +129,7 @@ public class Step07ExceptionTest extends PlainTestCase {
     // ===================================================================================
     //                                                                         NullPointer
     //                                                                         ===========
+    // TODO jflute 1on1にてnullPoの話 (2025/08/06)
     /**
      * What variable (is null) causes the NullPointerException? And what row number? (you can execute and watch logs) <br>
      * (NullPointerが発生する変数(nullだった変数)と、発生する行番号は？(実行してログを見ても良い))
@@ -204,10 +205,15 @@ public class Step07ExceptionTest extends PlainTestCase {
     } // ファイル操作、データベース接続、ネットワーク通信などでは、コンパイル時に強制的に例外処理を要求される。（チェック例外）
     // ファイルが存在しない、接続できない、などの事前に想定できる例外状況が多いので、チェック例外が使われる。
     // RuntimeExceptionは「プログラム自体のバグ」で発生することが多い。毎回try-catch処理すると煩雑になるため、チェック例外から除外。
+    
+    // #1on1: チェック例外が流行ってない話 (2025/08/06)
+    // getCanonicalPath()で例外が発生する確率は？したとしてリカバリできるか？ (今の時代)
+    // UncheckedIOExceptionの話。
 
     // ===================================================================================
     //                                                                               Cause
     //                                                                               =====
+    // TODO jflute 1on1にてネスト例外の話 (2025/08/06)
     /**
      * What string is sea variable in the catch block?
      * And What is exception class name displayed at the last "Caused By:" of stack trace? <br>
@@ -365,6 +371,23 @@ public class Step07ExceptionTest extends PlainTestCase {
         // done hase ↑論理的におおよそそんな感じではありますが、実際は... by jflute (2025/07/15)
         // Exception, 半分はそうなんですけど半分は事前に想定できないものもあって、それだけの違いではないという感じではありますね。
         // ただ、チェック例外は確実に「事前に想定」と言えます。RuntimeExceptionは自由度が高くて...
-        // TODO jflute 1on1にてフォロー予定 (2025/07/15)
+        // done jflute 1on1にてフォロー予定 (2025/07/15)
+        // #1on1: チェック例外とRuntime例外の世の中の実質の話。
+        // RuntimeExceptionの中で事前想定のものとそうじゃないもの区分けしてる。
+        //
+        // #1on1: 「プログラム外で発生して」→「発生自体はプログラム内だけど、原因がプログラム外にあることが多い」
+        //
+        // Errorは発生したらどうにも(その場では自動的に)リカバリできない。
+        // → 発生した瞬間にもう(システム)エラーであることが確定している
+        //
+        // Exceptionは例外、ダメなことなのか？
+        // → 起きにくいだけであって、正常なこともある!? by hase
+        // → 発生した瞬間には、ダメかどうかまだわからない
+        // e.g. throw new TicketSoldOutException("Sold out");
+        // → throwした瞬間には、まだ(システム)エラーなのかまだわからない
+        // SoldOutが普通にありえるレアケースのイベントなのか？そこに来たらシステムダメってことのなのか？
+        // 呼び出し側じゃないとわからない、呼び出し側が責任を持っている。
+        //
+        // TypeScriptの例外の仕組みで使われるErrorオブジェクトの話。
     }
 }
