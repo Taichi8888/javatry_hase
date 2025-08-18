@@ -139,7 +139,7 @@ public class TicketBooth {
      * @throws TicketSoldOutException When ticket in booth is sold out.
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
-    private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
+    protected TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
         if (quantity <= 0) {
             throw new TicketSoldOutException("Sold out");
         } // 売り切れ
@@ -197,6 +197,13 @@ public class TicketBooth {
 
     public Integer getSalesProceeds() {
         return salesProceeds;
+    }
+
+    protected void addSalesProceeds(int amount) {
+        this.salesProceeds += amount;
+    }
+    protected void decreaseQuantity() {
+        this.quantity--;
     }
 
 }
