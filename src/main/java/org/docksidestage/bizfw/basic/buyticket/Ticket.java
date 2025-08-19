@@ -132,10 +132,14 @@ public class Ticket {
     // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
     protected boolean isNightTime() { // 夜間判定
         int hour = getCurrentHour();
-        // TODO done hase nightの時間帯が固定化されてしまっていて、今後ちょっと違うnightが出てきたときに... by jflute (2025/07/22)
+        // done hase nightの時間帯が固定化されてしまっていて、今後ちょっと違うnightが出てきたときに... by jflute (2025/07/22)
         // せめてチケット種別ごとにnightの時間帯を設定できるようにしたいところ。(Ticketクラスに固定化するものじゃない)
         // TicketTypeクラスに、夜間の開始時刻と終了時刻を持たせて、そこから取得するようにしました by hase (2025/08/12)
         // また、Constructorでも夜間の開始時刻と終了時刻を設定できるようにし、チケット種別ごとにnight定義ができます。
+        // TODO hase 修行++: この判定をTicketType側に持っていってもいいかも by jflute (2025/08/19)
+        // 判定が再利用できるってだけじゃなく、TicketTypeの17,22をどう使うか？がTicketType自身で表現できる。
+        // 例えば、22というのは、22時まで(21時台)は入れるなのか？22時台まで入れるなのか？厳密には解釈がブレるので。
+        // 定義データだけじゃなく判定処理も提供することで、定義データの使い方に統一性が出る。
         int nightStartHour = ticketType.getNightStartHour();
         int nightEndHour = ticketType.getNightEndHour();
         return hour >= nightStartHour && hour <= nightEndHour;

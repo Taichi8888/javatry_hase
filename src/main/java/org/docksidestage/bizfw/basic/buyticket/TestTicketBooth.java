@@ -6,6 +6,9 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author tahasega
  */
 public class TestTicketBooth extends TicketBooth {
+    
+    // TODO hase step6のFactoryを思い出せ by jflute (2025/08/19)
+    
     // TestTicketBoothクラスを作るか、TicketBoothクラスをテスト用に拡張するか悩みました。by hase (2025/08/18)
     // TestTicketクラスも作成してあったので、テスト用のboothがあってもいいと判断しました。
     public TicketBuyResult doBuyTicket(int handedMoney, TicketType ticketType) {

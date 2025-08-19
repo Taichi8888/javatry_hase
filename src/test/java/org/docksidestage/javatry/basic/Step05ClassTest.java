@@ -284,9 +284,9 @@ public class Step05ClassTest extends PlainTestCase {
         // 夜間フラグを操作できるように時刻の引数を受け取る仕様(isNightTime(int time)、doInPark(int time))にすることも考えたが、
         // テスト用に全く別のメソッドを作成するのはおかしいと思い、OverrideできるgetCurrentHour()を作りました。
         // 元のメソッドに変更があった時にも面倒くさいと思い。。
-        // TODO done hase (自分用) TestTicketも購入して手に入れられるべき。by hase (2025/07/18)
+        // done hase (自分用) TestTicketも購入して手に入れられるべき。by hase (2025/07/18)
         // でもわざわざTestTicketBuyResultなどを作るのは面倒、いかにせむ。
-        // TODO done hase 修行#: 現状でも十分テストにはなっているけど、確かにBoothからの一気通貫でやりたいですね by jflute (2025/07/22)
+        // done hase 修行#: 現状でも十分テストにはなっているけど、確かにBoothからの一気通貫でやりたいですね by jflute (2025/07/22)
         // #1on1: もし、Ticketにもっと購入情報が入るような状態であれば、BoothからのTicketで試したくなるだろう。
         TestTicket testTicket = new TestTicket(TicketType.TWO_NIGHT);
         try {

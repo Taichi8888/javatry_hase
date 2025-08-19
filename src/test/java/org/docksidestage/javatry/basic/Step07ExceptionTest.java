@@ -129,7 +129,7 @@ public class Step07ExceptionTest extends PlainTestCase {
     // ===================================================================================
     //                                                                         NullPointer
     //                                                                         ===========
-    // TODO jflute 1on1にてnullPoの話 (2025/08/06)
+    // done jflute 1on1にてnullPoの話 (2025/08/06)
     /**
      * What variable (is null) causes the NullPointerException? And what row number? (you can execute and watch logs) <br>
      * (NullPointerが発生する変数(nullだった変数)と、発生する行番号は？(実行してログを見ても良い))
@@ -175,6 +175,9 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (NullPointerException e) {
             log(e);
         }
+        // #1on1: 最新のJavaだと、こういうことやらなくても、メッセージでどっちの変数がnullだったかわかる。
+        // ただ、1行であれこれてんこ盛りすると、そういうことが起きやすいという教訓ではある。
+        // (ぼくらは何かと行でコードを探したり見たりするものなので、nullPoに限らず)
     } // (Step07ExceptionTest.java:166)
 
     // ===================================================================================
@@ -213,7 +216,9 @@ public class Step07ExceptionTest extends PlainTestCase {
     // ===================================================================================
     //                                                                               Cause
     //                                                                               =====
-    // TODO jflute 1on1にてネスト例外の話 (2025/08/06)
+    // done jflute 1on1にてネスト例外の話 (2025/08/06)
+    // #1on1: 文法的なネスト例外のお話をした。
+    // 例外は基本的には1個しかthrowできないけど実質的に複数の例外をthrowできる。
     /**
      * What string is sea variable in the catch block?
      * And What is exception class name displayed at the last "Caused By:" of stack trace? <br>

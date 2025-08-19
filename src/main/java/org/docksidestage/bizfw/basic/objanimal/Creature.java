@@ -6,6 +6,10 @@ import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 
+// #1on1: 久しぶりだとコーディング感覚が下がってしまう by haseさん
+// 知ってても間を開けるとできてたことができなくなるのはスポーツもプログラミングも同じ。
+// TODO hase [読み物課題]「ミング」の時間ですよ by jflute (2025/08/19)
+// https://jflute.hatenadiary.jp/entry/20121016/ming
 /**
  * The object for creature.
  * @author tahasega
@@ -79,6 +83,9 @@ public abstract class Creature implements Loudable {
 
     // 自信がないです。by hase (2025/08/19)
     // コールバックを使うことで拡張性は増したと思いますが、結局は以前のgetTired()と同じような安全性・保守性になっている気がします。
+    // TODO hase hint: コールバックの方向が逆ですね... by jflute (2025/08/19)
+    // #1on1: コールバックでdownHitPoint()が呼べたらいいのに...って発言をご自身でしている。
+    // (コールバックの方向: A から B に電話を掛けて... Bが後から A に電話を掛け直す)
     public void getTiredWithCallback(int damage, IntConsumer callback) { // ゲッターじゃないよ
         if (damage > 0) {
             for (int i = 0; i < damage; i++) {
