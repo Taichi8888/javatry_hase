@@ -1,5 +1,7 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
+import java.util.function.IntConsumer;
+
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
@@ -62,15 +64,26 @@ public abstract class Creature implements Loudable {
     // MEMO hase コールバックでできそうな情報があったよ、来週頑張れ by hase (2025/08/01)
     protected abstract void downHitPoint();
 
-    // done hase [いいね] "ゲッターじゃないよ" がとても興味ふかい(^^ by jflute (2025/07/22)
-    public void getTired() { // ゲッターじゃないよ
-        downHitPoint();
-    }
+//    // done hase [いいね] "ゲッターじゃないよ" がとても興味ふかい(^^ by jflute (2025/07/22)
+//    public void getTired() { // ゲッターじゃないよ
+//        downHitPoint();
+//    }
+//
+//    public void getTired(int damage) { // ゲッターじゃないよ
+//        if (damage > 0) {
+//            for (int i = 0; i < damage; i++) {
+//                downHitPoint();
+//            } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
+//        }
+//    }
 
-    public void getTired(int damage) { // ゲッターじゃないよ
+    // 自信がないです。by hase (2025/08/19)
+    // コールバックを使うことで拡張性は増したと思いますが、結局は以前のgetTired()と同じような安全性・保守性になっている気がします。
+    public void getTiredWithCallback(int damage, IntConsumer callback) { // ゲッターじゃないよ
         if (damage > 0) {
             for (int i = 0; i < damage; i++) {
                 downHitPoint();
+                callback.accept(i + 1);
             } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
         }
     }
