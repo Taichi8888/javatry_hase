@@ -172,7 +172,7 @@ public class TicketBooth {
         if (handedMoney - ticketType.getTicketPrice() < 0) {
             throw new TicketBooth.TicketShortMoneyException("Short money: " + handedMoney);
         } // 金額不足
-        Ticket ticket = new Ticket(ticketType);
+        Ticket ticket = createTicket(ticketType);
         int change = handedMoney - ticket.getTicketPrice(); // お釣り（>= 0）
         TicketBuyResult result = new TicketBuyResult(ticket, change);
         // done jflute (質問です) 以下の売上では、salesProceedsを0で初期化すればif文が要らないと思うのですが、Noneの方が適切でしょうか？
@@ -186,6 +186,10 @@ public class TicketBooth {
         salesProceeds += ticket.getTicketPrice(); // おもいで：Not nullにしたからシンプルに書けた！！ by hase (2025/07/08)
         --quantity;
         return result;
+    }
+
+    protected Ticket createTicket(TicketType ticketType) {
+        return new Ticket(ticketType);
     }
 
     // ===================================================================================

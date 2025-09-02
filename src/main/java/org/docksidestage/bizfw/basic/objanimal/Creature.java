@@ -8,7 +8,7 @@ import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 
 // #1on1: 久しぶりだとコーディング感覚が下がってしまう by haseさん
 // 知ってても間を開けるとできてたことができなくなるのはスポーツもプログラミングも同じ。
-// TODO hase [読み物課題]「ミング」の時間ですよ by jflute (2025/08/19)
+// TODO done hase [読み物課題]「ミング」の時間ですよ by jflute (2025/08/19)
 // https://jflute.hatenadiary.jp/entry/20121016/ming
 /**
  * The object for creature.

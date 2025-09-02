@@ -15,8 +15,6 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-import java.time.LocalDateTime;
-
 // done hase [いいね] ちょうどいいぐらいのjavadocでのオブジェクトの説明 by jflute (2025/07/15)
 // done hase 細かいですが、列挙を断定しちゃうと要素を増えたときに勘違いしやすいので... by jflute (2025/07/15)
 // e.g. チケット種別、入園可能日数、使用済みかどうかを管理し
@@ -91,9 +89,9 @@ public class Ticket {
         if (isAlreadyIn()) { // すでに入園済みなら、入園できない
             throw new IllegalStateException("Already in park by this ticket.");
         }
-        // 夜間入場処理もdoInPark()で行うように変更
-        if (isOnlyNightAvailable() && !isNightTime()) {
-            throw new IllegalStateException("isOnlyNightAvailable: " + isOnlyNightAvailable() + ", isNightTime: " + isNightTime());
+        // 入園可能時間かどうかをチェック
+        if (!ticketType.isEntryAvailableTime()) {
+            throw new IllegalStateException("Entry not available at this time.");
         }
 // おもいで
 //        if (!firstTimeDone) {
@@ -130,20 +128,23 @@ public class Ticket {
     // done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
     // done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
     // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
-    protected boolean isNightTime() { // 夜間判定
-        int hour = getCurrentHour();
-        // done hase nightの時間帯が固定化されてしまっていて、今後ちょっと違うnightが出てきたときに... by jflute (2025/07/22)
-        // せめてチケット種別ごとにnightの時間帯を設定できるようにしたいところ。(Ticketクラスに固定化するものじゃない)
-        // TicketTypeクラスに、夜間の開始時刻と終了時刻を持たせて、そこから取得するようにしました by hase (2025/08/12)
-        // また、Constructorでも夜間の開始時刻と終了時刻を設定できるようにし、チケット種別ごとにnight定義ができます。
-        // TODO hase 修行++: この判定をTicketType側に持っていってもいいかも by jflute (2025/08/19)
-        // 判定が再利用できるってだけじゃなく、TicketTypeの17,22をどう使うか？がTicketType自身で表現できる。
-        // 例えば、22というのは、22時まで(21時台)は入れるなのか？22時台まで入れるなのか？厳密には解釈がブレるので。
-        // 定義データだけじゃなく判定処理も提供することで、定義データの使い方に統一性が出る。
-        int nightStartHour = ticketType.getNightStartHour();
-        int nightEndHour = ticketType.getNightEndHour();
-        return hour >= nightStartHour && hour <= nightEndHour;
-    }
+// おもいで：入場可能判定を、夜間だけでなく全てのチケットを対象にby hase (2025/08/19)
+    // done hase コメントアウトされているメソッドは削除しましょう by jflute (2025/07/07)
+    // done hase [いいね] こういうのもあるはあるんですが、ただオーソドックスにはisOnly...というようにisを付けます by jflute (2025/07/02)
+//    protected boolean isNightTime() { // 夜間判定
+//        int hour = getCurrentHour();
+//        // done hase nightの時間帯が固定化されてしまっていて、今後ちょっと違うnightが出てきたときに... by jflute (2025/07/22)
+//        // せめてチケット種別ごとにnightの時間帯を設定できるようにしたいところ。(Ticketクラスに固定化するものじゃない)
+//        // TicketTypeクラスに、夜間の開始時刻と終了時刻を持たせて、そこから取得するようにしました by hase (2025/08/12)
+//        // また、Constructorでも夜間の開始時刻と終了時刻を設定できるようにし、チケット種別ごとにnight定義ができます。
+//        // TODO done hase 修行++: この判定をTicketType側に持っていってもいいかも by jflute (2025/08/19)
+//        // 判定が再利用できるってだけじゃなく、TicketTypeの17,22をどう使うか？がTicketType自身で表現できる。
+//        // 例えば、22というのは、22時まで(21時台)は入れるなのか？22時台まで入れるなのか？厳密には解釈がブレるので。
+//        // 定義データだけじゃなく判定処理も提供することで、定義データの使い方に統一性が出る。
+//        int nightStartHour = ticketType.getStartHour();
+//        int nightEndHour = ticketType.getEndHour();
+//        return hour >= nightStartHour && hour <= nightEndHour;
+//    }
     // done hase 修行++: なるほど、呼び出し側がNightかどうかを呼び分けるって形にしたんですね。それはそれで一つの解決策ですね by jflute (2025/07/07)
     // ただ、TicketでonlyNightAvailableの状態まで持っていますので、できれば一つのdoInPark()で、
     // 現在が昼だったら入れる/入れない、夜だったら入れる/入れないという風に制御できると呼び出し側がもうちょい楽になるかなと。
@@ -158,9 +159,9 @@ public class Ticket {
 //    。       alreadyIn = true;
 //        }
 //    }
-    protected int getCurrentHour() {
-        return LocalDateTime.now().getHour();
-    }
+//    protected int getCurrentHour() {
+//        return LocalDateTime.now().getHour();
+//    }
 
     // ===================================================================================
     //                                                                            Accessor

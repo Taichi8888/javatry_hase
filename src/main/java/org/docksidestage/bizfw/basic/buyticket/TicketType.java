@@ -3,6 +3,10 @@ package org.docksidestage.bizfw.basic.buyticket;
 // #1on1: オブジェクト指向の知識自体は簡単に学べて覚えることはできる。 (2025/08/19)
 // けど、実際のオブジェクトの整理整頓スキルは、なんども繰り返して積み上げていかないといけない。
 // (オブジェクト指向に限らず、プログラミングデザインに関するものはすべて同じ)
+
+import java.time.LocalDateTime;
+import java.util.function.Supplier;
+
 /**
  * チケットの種類（価格、使用可能日数、夜間限定フラグ）を表すクラス
  * @author tahasega
@@ -11,7 +15,7 @@ public enum TicketType {
     ONE_DAY(7400, 1, false),
     TWO_DAY(13200, 2, false),
     FOUR_DAY(22400, 4, false),
-    TWO_NIGHT(7400, 2, true, 17, 22);
+    TWO_NIGHT(7400, 2, true, 17, 21);
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
@@ -19,10 +23,10 @@ public enum TicketType {
     private final int maxDays; // チケットの使用可能日数
     private final boolean onlyNightAvailable; // 夜間限定フラグ
     
-    // TODO hase コメントで具体値を書くと、いつかズレる問題があるかもなので、ちょっとぼかす by jflute (2025/08/19)
+    // TODO done hase コメントで具体値を書くと、いつかズレる問題があるかもなので、ちょっとぼかす by jflute (2025/08/19)
     // e.g. （デフォルトでは17時）→（初期値は業務上のデフォルト）
     // #1on1: コメントって本体のコードがあること前提の文章なので、コードで載ってることを書く必要はない
-    // TODO hase nightのみで使う変数ということで、それをコメントで表現しておきたいところ by jflute (2025/08/19)
+    // TODO done hase nightのみで使う変数ということで、それをコメントで表現しておきたいところ by jflute (2025/08/19)
     //  e.g.
     //   // nightのチケットのときのみ利用される想定
     //   private int nightStartHour = 17;
@@ -32,8 +36,9 @@ public enum TicketType {
     // 質問 by haseさん: enumの定義のところが 8, 22 だらけになって冗長な感じに
     // 回答 by jflute: オーソドックスな時間帯とかノーマルな時間帯という概念で参照すれば
     // hint2: 今やってるデフォルト値のやり方を踏襲して、そこでオーソドックスな時間帯を表現してもいいかも。
-    private int nightStartHour = 17; // 夜間の開始時刻（デフォルトでは17時）
-    private int nightEndHour = 21; // 夜間の終了時刻（デフォルトでは21時）
+    // hint2の方法で実装しました！by hase (2025/08/19)
+    private int startHour = 8; // チケット使用可能開始時刻
+    private int endHour = 20; // チケット使用可能終了時刻
 
     // ===================================================================================
     //                                                                         Constructor
@@ -44,14 +49,33 @@ public enum TicketType {
         this.onlyNightAvailable = onlyNightAvailable;
     }
 
-    TicketType(int ticketPrice, int maxDays, boolean onlyNightAvailable, int nightStartHour, int nightEndHour) {
+    TicketType(int ticketPrice, int maxDays, boolean onlyNightAvailable, int startHour, int endHour) {
         this.ticketPrice = ticketPrice;
         this.maxDays = maxDays;
         this.onlyNightAvailable = onlyNightAvailable;
-        this.nightStartHour = nightStartHour;
-        this.nightEndHour = nightEndHour;
+        this.startHour = startHour;
+        this.endHour = endHour;
     }
 
+    // ===================================================================================
+    //                                                                       Determination
+    //                                                                       =============
+    public boolean isEntryAvailableTime() {
+        int hour = currentHourSupplier.get();
+        return hour >= startHour && hour <= endHour; //{endHour}時台までは入園可能
+    }
+
+// おもいで：テスト時に時間を指定できるように拡張したby hase (2025/08/20)
+//    private int getCurrentHour() {
+//        return LocalDateTime.now().getHour();
+//    }
+
+    // テスト用
+    private Supplier<Integer> currentHourSupplier = () -> LocalDateTime.now().getHour();
+
+    void setCurrentHourSupplier(Supplier<Integer> supplier) {
+        this.currentHourSupplier = supplier;
+    }
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
@@ -67,11 +91,11 @@ public enum TicketType {
         return onlyNightAvailable;
     }
 
-    public int getNightStartHour() {
-        return nightStartHour;
+    public int getStartHour() {
+        return startHour;
     }
 
-    public int getNightEndHour() {
-        return nightEndHour;
+    public int getEndHour() {
+        return endHour;
     }
 }

@@ -9,7 +9,7 @@ public class TestTicket extends Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                          ==========
-    private static final int testHour = 16;
+//    private static final int testHour = 16;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -18,6 +18,7 @@ public class TestTicket extends Ticket {
      * チケット種別に応じてチケットを作成するコンストラクタ。
      * @param ticketType チケット種別
      */
+    // もはや独自の処理や変数は無くなってしまったが、将来のテスト拡張のために残しておきます。by hase (2025/08/20)
     public TestTicket(TicketType ticketType) {
         super(ticketType);
     }
@@ -25,8 +26,10 @@ public class TestTicket extends Ticket {
     // ===================================================================================
     //                                                                            Override
     //                                                                            ========
-    @Override
-    protected int getCurrentHour() {
-        return testHour; // ここの値を変えてテストする
-    }
+// done hase TicketTypeにisEntryAvailableメソッドを移したので、このオーバーライドが機能しなくなった。 by hase (2025/08/19)
+//
+//    @Override
+//    protected int getCurrentHour() {
+//        return testHour; // ここの値を変えてテストする
+//    }
 }

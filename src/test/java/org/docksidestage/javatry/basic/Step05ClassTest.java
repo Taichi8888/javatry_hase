@@ -320,27 +320,28 @@ public class Step05ClassTest extends PlainTestCase {
 
     // TestTicketBoothのテスト
     public void test_testTicketBooth_buyTestTicket() {
-        TestTicketBooth testBooth = new TestTicketBooth();
-        int handedMoney = 10000;
-        TicketBuyResult result = testBooth.doBuyTicket(handedMoney, TicketType.TWO_NIGHT);
-        TestTicket testTicket = (TestTicket) result.getTicket();
-
-        // チケットの価格・お釣り・残日数・夜間フラグを確認
-        log(testTicket.getTicketPrice()); // 7400
-        log(result.getChange()); // 2600
-        log(testTicket.getDaysLeft()); // 2
-        log(testTicket.isOnlyNightAvailable()); // true
-
-        // 入園処理のテスト
+        TestTicketBooth booth = new TestTicketBooth();
+        TicketBuyResult result = booth.buyTwoNightPassport(9600);
+        TicketBuyResult result2 = booth.buyTwoDayPassport(24000);
+        Ticket ticket = result.getTicket();
+        Ticket ticket2 = result2.getTicket();
+        log(ticket instanceof TestTicket); // TestTicketの確認
+        log(ticket.getTicketType() == TicketType.TWO_NIGHT); // 種別確認
+        log("ticket1の残り使用可能回数" + ticket.getDaysLeft()); // 2
         try {
-            testTicket.doInPark();
-            log("Today is horror night!");
+            ticket.doInPark();
+            log("入園成功");
         } catch (Exception e) {
-            log("Could not enter. " + e.getMessage());
+            log("入園失敗: " + e.getMessage());
         }
-
-        // 売上・残数の確認
-        log(testBooth.getSalesProceeds()); // 7400
-        log(testBooth.getQuantity()); // 9
+        log("ticket1の残り使用可能回数" + ticket.getDaysLeft());
+        log("ticket2の残り使用可能回数" + ticket2.getDaysLeft()); // 2
+        try {
+            ticket2.doInPark();
+            log("入園成功");
+        } catch (Exception e) {
+            log("入園失敗: " + e.getMessage());
+        }
+        log("ticket2の残り使用可能回数" + ticket2.getDaysLeft());
     }
 }
