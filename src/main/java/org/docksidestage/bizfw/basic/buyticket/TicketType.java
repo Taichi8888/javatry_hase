@@ -26,10 +26,10 @@ public enum TicketType {
     private final int maxDays; // チケットの使用可能日数
     private final boolean onlyNightAvailable; // 夜間限定フラグ
     
-    // TODO done hase コメントで具体値を書くと、いつかズレる問題があるかもなので、ちょっとぼかす by jflute (2025/08/19)
+    // done hase コメントで具体値を書くと、いつかズレる問題があるかもなので、ちょっとぼかす by jflute (2025/08/19)
     // e.g. （デフォルトでは17時）→（初期値は業務上のデフォルト）
     // #1on1: コメントって本体のコードがあること前提の文章なので、コードで載ってることを書く必要はない
-    // TODO done hase nightのみで使う変数ということで、それをコメントで表現しておきたいところ by jflute (2025/08/19)
+    // done hase nightのみで使う変数ということで、それをコメントで表現しておきたいところ by jflute (2025/08/19)
     //  e.g.
     //   // nightのチケットのときのみ利用される想定
     //   private int nightStartHour = 17;
@@ -40,6 +40,8 @@ public enum TicketType {
     // 回答 by jflute: オーソドックスな時間帯とかノーマルな時間帯という概念で参照すれば
     // hint2: 今やってるデフォルト値のやり方を踏襲して、そこでオーソドックスな時間帯を表現してもいいかも。
     // hint2の方法で実装しました！by hase (2025/08/19)
+    // TODO hase 終了時刻の含む含まないニュアンス、この変数のところに一言あった方が良い by jflute (2025/09/02)
+    // (つまり、データとしての定義を説明)
     private int startHour = 8; // チケット使用可能開始時刻
     private int endHour = 20; // チケット使用可能終了時刻
 

@@ -8,6 +8,7 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author tahasega
  */
 public class TestTicketBooth extends TicketBooth {
+    
     // ===================================================================================
     //                                                                           Attribute
     //                                                                          ==========
