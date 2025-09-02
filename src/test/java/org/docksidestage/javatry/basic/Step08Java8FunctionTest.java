@@ -52,6 +52,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_lambda_callback_basic() {
         String title = "over";
 
+        // #1on1: step2に引き続き、コールバックここでも理解を深める (2025/09/02)
         log("...Executing named class callback(!?)");
         helpCallbackConsumer(new St8BasicConsumer(title)); // broadway\n dockside: over\n hangar
 
