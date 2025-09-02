@@ -4,6 +4,9 @@ package org.docksidestage.bizfw.basic.buyticket;
 // けど、実際のオブジェクトの整理整頓スキルは、なんども繰り返して積み上げていかないといけない。
 // (オブジェクト指向に限らず、プログラミングデザインに関するものはすべて同じ)
 
+// #1on1: お部屋の片付けがプログラミングにつながると考えれば効率良い。 (2025/09/02)
+// し、プログラミング頑張ればお部屋の片付けが上手になる(かも!?)と考えれば効率良い。
+
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
@@ -60,6 +63,10 @@ public enum TicketType {
     // ===================================================================================
     //                                                                       Determination
     //                                                                       =============
+    // #1on1: 意味的にはTicketTypeに合ってもしっくり来るものではある (2025/09/02)
+    // 一方で、実務だと、enumのmutableを避けるために、...Logicクラスとかに出しちゃう!?
+    // 例えば、TicketAvailableTimeDeterminer みたいな専用クラスにしちゃうかも。
+    // でも、意味的にはすごく悪くない。
     public boolean isEntryAvailableTime() {
         int hour = currentHourSupplier.get();
         return hour >= startHour && hour <= endHour; //{endHour}時台までは入園可能
@@ -73,9 +80,23 @@ public enum TicketType {
     // テスト用
     private Supplier<Integer> currentHourSupplier = () -> LocalDateTime.now().getHour();
 
+    // #1on1: IntelliJ, protectedで警告が出る理由, enum はfinal classだから意味ないよ警告 (2025/09/02)
+    // #1on1: packageスコープで隠しているので、enumをmutableにしても問題ないと言える。
+    // 一方で、enumがmutableであることに少々びっくりする人いるかもしれない...くらい。
+    // でも、意味的には isEntryAvailableTime() はここにあっても良いので悪くない。
     void setCurrentHourSupplier(Supplier<Integer> supplier) {
         this.currentHourSupplier = supplier;
     }
+    
+    // #1on1: Javaのpackageスコープのジレンマ話
+    // ファイルの物理構造に依存してしまうのでリファクタリングがやりづらくなる。
+    // jflute個人的には、mainの中ではpackageスコープに依存した実装はしないようにしている。
+    // 他の言語では、packageとディレクトリ構造が分離されている場合があるので、そのときは問題にならない。
+    // ただ、jflute個人的には、物理に直結してるpackageはわりと好き。
+    // なぜかというと、やはり直感的にわかるし、ぐちゃぐちゃにならない。
+    // (経験上、自由な言語(C#)で、ぐちゃぐちゃでめっちゃクラス探しづらい現場もあった)
+    // (サブパッケージスコープがあったら全く文句なかったのに...)
+    
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========

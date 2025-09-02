@@ -125,6 +125,14 @@ public class Ticket {
         }
     }
 
+    // #1on1: 再利用性を逆に狭めて、局所化するならここに持ってくるとかも選択肢 (2025/09/02)
+    //private boolean isEntryAvailableTime() {
+    //    int hour = currentHourSupplier.get();
+    //    int startHour = ticketType.getStartHour();
+    //    int endHour = ticketType.getEndHour();
+    //    return hour >= startHour && hour <= endHour; //{endHour}時台までは入園可能
+    //}
+
     // done hase [いいね] isメソッドに切り出してるのGoodですねー。わかりやすい by jflute (2025/07/07)
     // done hase 内部だけで使う想定のメソッドなら、publicではなくprivateにしましょう by jflute (2025/07/07)
     // done hase そして、AccessorというよりかはLogicなので、doInPark()の直下あたりに宣言するで良いと思います by jflute (2025/07/07)
