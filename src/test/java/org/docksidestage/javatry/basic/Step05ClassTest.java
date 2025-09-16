@@ -320,7 +320,7 @@ public class Step05ClassTest extends PlainTestCase {
 
     // TestTicketBoothのテスト
     public void test_testTicketBooth_buyTestTicket() {
-        TestTicketBooth booth = new TestTicketBooth();
+        TestTicketBooth booth = new TestTicketBooth(16);
         TicketBuyResult result = booth.buyTwoNightPassport(9600);
         TicketBuyResult result2 = booth.buyTwoDayPassport(24000);
         Ticket ticket = result.getTicket();
@@ -334,7 +334,7 @@ public class Step05ClassTest extends PlainTestCase {
         } catch (Exception e) {
             log("入園失敗: " + e.getMessage());
         }
-        log("ticket1の残り使用可能回数" + ticket.getDaysLeft());
+        log("ticket1の残り使用可能回数" + ticket.getDaysLeft()); // 2
         log("ticket2の残り使用可能回数" + ticket2.getDaysLeft()); // 2
         try {
             ticket2.doInPark();
@@ -342,6 +342,6 @@ public class Step05ClassTest extends PlainTestCase {
         } catch (Exception e) {
             log("入園失敗: " + e.getMessage());
         }
-        log("ticket2の残り使用可能回数" + ticket2.getDaysLeft());
+        log("ticket2の残り使用可能回数" + ticket2.getDaysLeft()); // 1
     }
 }

@@ -63,7 +63,7 @@ public abstract class Creature implements Loudable {
     // 流石に継承して使うわけにはいかないので、新しい窓口を作ることにしました。by hase (2025/07/18)
     // ただdownHitPoint()だけを書くのも寂しいので、引数も取れるようにしました、そんなに深い意味はないです。
     // done hase [いいね] まあ代替となる、かつ、publicでも良いような業務を一つ作って回避した by jflute (2025/07/22)
-    // TODO hase 修行#: step8の技術を使って、getTired()なしでprotectedキープをしてみましょう by jflute (2025/07/22)
+    // TODO done hase 修行#: step8の技術を使って、getTired()なしでprotectedキープをしてみましょう by jflute (2025/07/22)
     // hint1: step8の前半
     // MEMO hase コールバックでできそうな情報があったよ、来週頑張れ by hase (2025/08/01)
     protected abstract void downHitPoint();
@@ -83,18 +83,29 @@ public abstract class Creature implements Loudable {
 
     // 自信がないです。by hase (2025/08/19)
     // コールバックを使うことで拡張性は増したと思いますが、結局は以前のgetTired()と同じような安全性・保守性になっている気がします。
-    // TODO hase hint: コールバックの方向が逆ですね... by jflute (2025/08/19)
+    // TODO done hase hint: コールバックの方向が逆ですね... by jflute (2025/08/19)
     // #1on1: コールバックでdownHitPoint()が呼べたらいいのに...って発言をご自身でしている。
     // (コールバックの方向: A から B に電話を掛けて... Bが後から A に電話を掛け直す)
-    // TODO hase hint2: 自分でちゃんとした方向のコールバック、TicketTypeのsupplierでできてるけど by jflute (2025/09/02)
+    // TODO done hase hint2: 自分でちゃんとした方向のコールバック、TicketTypeのsupplierでできてるけど by jflute (2025/09/02)
     // (#1on1: void set...のメソッドのスタイルが似てるではなく、あくまでコールバックの方向が)
-    public void getTiredWithCallback(int damage, IntConsumer callback) { // ゲッターじゃないよ
-        if (damage > 0) {
-            for (int i = 0; i < damage; i++) {
-                downHitPoint();
-                callback.accept(i + 1);
-            } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
+// おもいで：コールバック苦戦中 by hase (2025/9/16)
+//    public void getTiredWithCallback(int damage, IntConsumer callback) { // ゲッターじゃないよ
+//        if (damage > 0) {
+//            for (int i = 0; i < damage; i++) {
+//                downHitPoint();
+//                callback.accept(i + 1);
+//            } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
+//        }
+//    }
+    // コールバックの方向はこれでいい気がするけど、結局publicで呼び出しちゃってるから意味があるのかしら... by hase (2025/09/16)
+    private final IntConsumer downHitPointCallback = (damage) -> {
+        for (int i = 0; i < damage; i++) {
+            downHitPoint();
         }
+    };
+
+    public void getTired(int damage) { // ゲッターじゃないよ(再)
+        downHitPointCallback.accept(damage);
     }
 
     // ===================================================================================
