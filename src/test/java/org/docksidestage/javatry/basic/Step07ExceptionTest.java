@@ -24,7 +24,7 @@ import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO jflute 1on1にて、全体的にエラーハンドリングのフォローする (2025/07/09)
+// done jflute 1on1にて、全体的にエラーハンドリングのフォローする (2025/07/09)
 // done hase javadocのauthorお願いします！ by jflute (2025/07/09)
 /**
  * The test of variable. <br>
@@ -298,7 +298,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             // _/_/_/_/_/_/_/_/_/_/
         }
     }
-    // TODO jflute 1on1でフォロー予定 (2025/07/15)
+    // done jflute 1on1でフォロー予定 (2025/07/15)
 
     /**
      * Improve exception handling in supercar's classes to understand the situation
@@ -306,12 +306,24 @@ public class Step07ExceptionTest extends PlainTestCase {
      * できるだけ例外情報だけでその状況が理解できるように、Supercarのクラスたちの例外ハンドリングを改善しましょう。
      */
     public void test_exception_translation_improveChallenge() {
+        // TODO hase [いいね] 例外メッセージのチェーンで、ストーリーが描けるようになっているのでGood by jflute (2025/09/16)
+        // TODO hase 一方で、kawaii face とは具体的にどんな値なのか？作れなかったハンドルのIDは？...とかとか by jflute (2025/09/16)
+        // 例外メッセージにデバッグ用の(実際の)データが載ってないので、具体的に何が起きたのか？が追跡できない。
         try {
             new SupercarClient().buySupercar(); // you can fix the classes
             fail("always exception but none");
         } catch (RuntimeException e) {
             log("*No hint here for training.", e);
         }
+        
+        // #1on1: 例外翻訳の概念の話 (2025/09/16)
+        // https://dbflute.seasar.org/ja/manual/topic/programming/java/exception.html
+        // 実装する側としては、例外ハンドリングしっかり。
+        // 一方で、読む側としては、例外メッセージというのは、1事象に付き複数存在する。
+        // そのセオリーがわかれば、一部のメッセージしか読まないでデバッグで悩む、ってこともなくなるだろう。
+        // エラーメッセージの読み手としての心がけ。
+        // TODO hase エラーメッセージ読め読め大合唱 by jflute (2025/09/16)
+        // https://jflute.hatenadiary.jp/entry/20130522/errorsinging
     }
     // 考えコメント by hase (2025/07/10)
     // 例外情報だけで状況が理解できるようにするために、買えなかった経緯を一つずつ遡るのがいいと思いました。

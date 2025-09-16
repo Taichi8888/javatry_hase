@@ -1,6 +1,6 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO done hase 厳密には、Test...クラスは、src/test/java にあった方が良い by jflute (2025/09/02)
+// done hase 厳密には、Test...クラスは、src/test/java にあった方が良い by jflute (2025/09/02)
 // そうすると、チケットのユーザーさん (のプログラム) は、これを利用することができない。
 /**
  * テスト用チケットブースのクラス。
@@ -12,7 +12,7 @@ public class TestTicketBooth extends TicketBooth {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                          ==========
-    // TODO done hase 固定だと夜のテストとかしづらいので、newする側から受け取るほうがいいかなと by jflute (2025/09/02)
+    // done hase 固定だと夜のテストとかしづらいので、newする側から受け取るほうがいいかなと by jflute (2025/09/02)
     // 隠蔽するという意味では、別に書いたようにsrc/test/javaに配置すれば良い。
     // (し、一般ユーザーは、普通のTicketBoothで買うのでTestは使わないだろうし)
     private final int testHour;
@@ -23,6 +23,11 @@ public class TestTicketBooth extends TicketBooth {
     //                                                                         ===========
     public TestTicketBooth(int testHour) {
         this.testHour = testHour;
+        // #1on1: あえて言うなら、複数のインスタンスにset/setするのではなく、1個だけにsetで済ませたいというのはある。
+        // ただ、やるなら、やはり isEntryAvailableTime() を司る別のオブジェクトを作るか...
+        // SupplierをTicketTypeのstaticで宣言するとか...って感じなる。
+        // (まあここは思考トレーニングだけでOK、実際に直さなくてもOK)
+
         // 全てのTicketTypeに一括設定
         for (TicketType ticketType : TicketType.values()) {
             ticketType.setCurrentHourSupplier(() -> this.testHour);
@@ -33,7 +38,7 @@ public class TestTicketBooth extends TicketBooth {
     // ===================================================================================
     //                                                                            Override
     //                                                                            ========
-    // TODO done hase 現時点でもすでに、createTicket()をオーバーライドする必要性がない by jflute (2025/09/02)
+    // done hase 現時点でもすでに、createTicket()をオーバーライドする必要性がない by jflute (2025/09/02)
     // (TicketBooth側でcreateTicket()はどのみちあってもいいけど)
     // 単純に ticketType.set をするタイミングをcreateTicket()にしただけなので...
     // 例えば、new TestTicketBooth() (コンストラクター) をした時点で set しちゃうとか。

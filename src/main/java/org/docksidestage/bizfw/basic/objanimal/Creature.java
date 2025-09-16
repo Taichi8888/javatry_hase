@@ -50,6 +50,10 @@ public abstract class Creature implements Loudable {
         return this.barkingProcess.bark();
     }
 
+    // TODO hase ここも、publicじゃなくてprotectedをキープしたい by jflute (2025/09/16)
+    // こっちは更新系じゃないから、そんな実務的に困るものではないが...
+    // やはり元々protectedだったものなので、BarkingProcess切り出しというリファクタリングきっかけでpublicにしたくはない。
+    // こっちはもっと解決は簡単ですね。
     public abstract String getBarkWord();
 
     // ===================================================================================
@@ -63,7 +67,7 @@ public abstract class Creature implements Loudable {
     // 流石に継承して使うわけにはいかないので、新しい窓口を作ることにしました。by hase (2025/07/18)
     // ただdownHitPoint()だけを書くのも寂しいので、引数も取れるようにしました、そんなに深い意味はないです。
     // done hase [いいね] まあ代替となる、かつ、publicでも良いような業務を一つ作って回避した by jflute (2025/07/22)
-    // TODO done hase 修行#: step8の技術を使って、getTired()なしでprotectedキープをしてみましょう by jflute (2025/07/22)
+    // done hase 修行#: step8の技術を使って、getTired()なしでprotectedキープをしてみましょう by jflute (2025/07/22)
     // hint1: step8の前半
     // MEMO hase コールバックでできそうな情報があったよ、来週頑張れ by hase (2025/08/01)
     protected abstract void downHitPoint();
@@ -83,10 +87,10 @@ public abstract class Creature implements Loudable {
 
     // 自信がないです。by hase (2025/08/19)
     // コールバックを使うことで拡張性は増したと思いますが、結局は以前のgetTired()と同じような安全性・保守性になっている気がします。
-    // TODO done hase hint: コールバックの方向が逆ですね... by jflute (2025/08/19)
+    // done hase hint: コールバックの方向が逆ですね... by jflute (2025/08/19)
     // #1on1: コールバックでdownHitPoint()が呼べたらいいのに...って発言をご自身でしている。
     // (コールバックの方向: A から B に電話を掛けて... Bが後から A に電話を掛け直す)
-    // TODO done hase hint2: 自分でちゃんとした方向のコールバック、TicketTypeのsupplierでできてるけど by jflute (2025/09/02)
+    // done hase hint2: 自分でちゃんとした方向のコールバック、TicketTypeのsupplierでできてるけど by jflute (2025/09/02)
     // (#1on1: void set...のメソッドのスタイルが似てるではなく、あくまでコールバックの方向が)
 // おもいで：コールバック苦戦中 by hase (2025/9/16)
 //    public void getTiredWithCallback(int damage, IntConsumer callback) { // ゲッターじゃないよ
@@ -104,6 +108,19 @@ public abstract class Creature implements Loudable {
         }
     };
 
+    // TODO hase 修行#++: downHitPoint自体はインターフェースで抽象化して旅立てるようになっているのでGood by jflute (2025/09/16)
+    // でも、downHitPointCallbackの利用者が、結局Creatureのpublicメソッドになってしまっている。
+    // hint3: コールバックの逆の話は解消した!?と言えるかも。ただ、コールバックの利用者はここじゃないみたいな...
+    //
+    // downHitPointCallback変数をpublicにしちゃダメだから、ここでしか呼べないのでは？ by はせ
+    // downHitPointCallback変数自体へのアクセスは確かにprivateじゃないといけない by jflute
+    // hint4: ただ、downHitPointCallbackが指し示すコールバックインスタンスは、ピンポイントで旅立たせることはできる。
+    //
+    // hint5: step1での話、test_のseaと、helpのseaで同じインスタンスを共有している。
+    //  o test_variable_method_argument_mutable_methodcall()
+    //  o helpMethodArgumentMethodcall()
+    // 二つメソッドだけで共有していると言える。public的なものでもないのに、ピンポイントで共有している。
+    // 「わたしてしまえばいいのか」 by はせ
     public void getTired(int damage) { // ゲッターじゃないよ(再)
         downHitPointCallback.accept(damage);
     }
