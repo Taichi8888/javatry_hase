@@ -1,5 +1,8 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
+
 import org.docksidestage.bizfw.basic.objanimal.UndeadMonster;
 
 /**
@@ -22,8 +25,8 @@ public class UndeadBarkingProcess extends BarkingProcess{
     //                                                                         Constructor
     //                                                                         ===========
     // done hase ここは Undead と言い切ってますから、引数の型も Undead で良いかと by jflute (2025/07/15)
-    public UndeadBarkingProcess(UndeadMonster undeadMonster) {
-        super(undeadMonster);
+    public UndeadBarkingProcess(UndeadMonster undeadMonster, IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
+        super(undeadMonster, downHitPointCallback, getBarkWordCallback);
         this.undeadMonster = undeadMonster;
     }
 
@@ -49,6 +52,6 @@ public class UndeadBarkingProcess extends BarkingProcess{
 //            // https://jflute.hatenadiary.jp/entry/20170804/explossloss
 //            logger.warn(creature + " is not UndeadMonster", e);
         undeadMonster.getUndeadDiary().countBreatheIn();
-        undeadMonster.downHitPoint();
+        downHitPointCallback.accept(1);
     }
 }

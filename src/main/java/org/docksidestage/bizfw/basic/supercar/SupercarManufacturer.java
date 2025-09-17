@@ -35,7 +35,7 @@ public class SupercarManufacturer {
             wheelManufacturer.makeSteeringWheel(steeringWheelId);
         } catch (SteeringWheelCannotMakeException e) {
 //            throw new SupercarCannotMakeException("SupercarSteeringWheelManufacture> " + e.getMessage()); // おもいで：Caused by使おう by hase (2025/07/11)
-            throw new SupercarCannotMakeException("Could not make supercar.", e);
+            throw new SupercarCannotMakeException("Could not make supercar. catalogKey: " + catalogKey, e);
         }
         SteeringWheel steeringWheel = wheelManufacturer.makeSteeringWheel(steeringWheelId);
 

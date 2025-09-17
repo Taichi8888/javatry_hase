@@ -254,6 +254,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         log(sea); // your answer? => uooo
         int land = creature.getHitPoint();
         log(land); // your answer? => -1
+        creature.bark();
+        log(creature.getHitPoint()); // your answer? => -1
         diaryCount = ((Zombie) creature).getUndeadDiary().getBreatheInCount();
         log(diaryCount); // 1
     }

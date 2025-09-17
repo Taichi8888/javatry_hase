@@ -18,6 +18,9 @@ package org.docksidestage.bizfw.basic.objanimal;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 // BarkingProcess移行によりひとまず使わなくなったが、また新しいメソッド作成時に使う可能性あり by hase (2025/07/08)
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
+
 import org.docksidestage.bizfw.basic.objanimal.barking.AnimalBarkingProcess;
 
 /**
@@ -56,8 +59,8 @@ public abstract class Animal extends Creature {
     }
 
     @Override
-    protected AnimalBarkingProcess createBarkingProcess() {
-        return new AnimalBarkingProcess(this);
+    protected AnimalBarkingProcess createBarkingProcess(IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
+        return new AnimalBarkingProcess(this, downHitPointCallback, getBarkWordCallback);
     }
 
     // ===================================================================================
@@ -92,7 +95,7 @@ public abstract class Animal extends Creature {
 //        downHitPoint();
 //    }
 
-    public abstract String getBarkWord();
+    protected abstract String getBarkWord();
     // BarkingProcessは「鳴く行為の手順」を担当させ、動物ごとに異なる鳴き声の取得getBarkWord()や、
     // 鳴く行為よりも抽象度の高いdownHitPoint()はAnimalに残しました。
     // breathInは迷ったのですが、Animalの子クラスであるZombieでoverrideしていて、
@@ -108,9 +111,9 @@ public abstract class Animal extends Creature {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    // TODO hase 単に直し忘れかもだけど、protectedにしましょう by jflute (2025/09/16)
+    // TODO done hase 単に直し忘れかもだけど、protectedにしましょう by jflute (2025/09/16)
     @Override
-    public void downHitPoint() {
+    protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep, " + getBarkWord());

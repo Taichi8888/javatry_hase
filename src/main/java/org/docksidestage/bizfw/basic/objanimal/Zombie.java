@@ -101,7 +101,7 @@ public class Zombie extends UndeadMonster {
     // とても納得しました。ありがとうございます！
 
     @Override
-    public String getBarkWord() {
+    protected String getBarkWord() {
         return "uooo";
     }
 

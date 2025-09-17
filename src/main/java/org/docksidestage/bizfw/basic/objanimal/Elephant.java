@@ -29,7 +29,7 @@ public class Elephant extends Animal implements Ridable {
     //                                                                                Bark
     //                                                                            ========
     @Override
-    public String getBarkWord() {
+    protected String getBarkWord() {
         return "paon"; // what in English
     }
 
@@ -37,7 +37,7 @@ public class Elephant extends Animal implements Ridable {
     //                                                                            HitPoint
     //                                                                            ========
     @Override
-    public void downHitPoint() {
+    protected void downHitPoint() {
         super.downHitPoint();
         if (isBien()) {
             super.downHitPoint();

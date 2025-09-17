@@ -39,7 +39,7 @@ public class SupercarDealer {
             }
         } catch (SupercarCannotMakeException e) {
 //            throw new SupercarCannotDealException("SupercarManufacture> " + e.getMessage());  // おもいで：Caused by使おう by hase (2025/07/11)
-            throw new SupercarCannotDealException("Could not deal supercar.", e);
+            throw new SupercarCannotDealException("Could not deal supercar. clientRequirement: " + clientRequirement, e);
         }
     }
 

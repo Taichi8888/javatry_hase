@@ -1,6 +1,7 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
 import java.util.function.IntConsumer;
+import java.util.function.Supplier;
 
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
@@ -31,13 +32,13 @@ public abstract class Creature implements Loudable {
     //                                                                         ===========
     public Creature() {
         hitPoint = getInitialHitPoint();
-        barkingProcess = createBarkingProcess();
+        barkingProcess = createBarkingProcess(downHitPointCallback, getBarkWordCallback);
     }
 
     protected abstract int getInitialHitPoint();
 
     // done hase [いいね] おおぉ、完璧な「FactoryMethod によるポリモーフィズム」 by jflute (2025/07/16)
-    protected abstract BarkingProcess createBarkingProcess();
+    protected abstract BarkingProcess createBarkingProcess(IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback);
     // factory method!!! by hase (2025/07/16)
     // newの代わりに、生成処理をサブクラスに任せて柔軟に。
     // 共変戻り値型：オーバーライド時に戻り値型を親クラスの戻り値型のサブタイプにできる。
@@ -50,11 +51,13 @@ public abstract class Creature implements Loudable {
         return this.barkingProcess.bark();
     }
 
-    // TODO hase ここも、publicじゃなくてprotectedをキープしたい by jflute (2025/09/16)
+    // TODO done hase ここも、publicじゃなくてprotectedをキープしたい by jflute (2025/09/16)
     // こっちは更新系じゃないから、そんな実務的に困るものではないが...
     // やはり元々protectedだったものなので、BarkingProcess切り出しというリファクタリングきっかけでpublicにしたくはない。
     // こっちはもっと解決は簡単ですね。
-    public abstract String getBarkWord();
+    protected abstract String getBarkWord();
+
+    protected final Supplier<String> getBarkWordCallback = this::getBarkWord;
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -102,13 +105,14 @@ public abstract class Creature implements Loudable {
 //        }
 //    }
     // コールバックの方向はこれでいい気がするけど、結局publicで呼び出しちゃってるから意味があるのかしら... by hase (2025/09/16)
-    private final IntConsumer downHitPointCallback = (damage) -> {
+    // constructorでdownHitPoint()を呼び出すコールバックをセットしておけばいいのかあ by hase (2025/09/17)
+    protected final IntConsumer downHitPointCallback = (damage) -> {
         for (int i = 0; i < damage; i++) {
             downHitPoint();
         }
     };
 
-    // TODO hase 修行#++: downHitPoint自体はインターフェースで抽象化して旅立てるようになっているのでGood by jflute (2025/09/16)
+    // TODO done hase 修行#++: downHitPoint自体はインターフェースで抽象化して旅立てるようになっているのでGood by jflute (2025/09/16)
     // でも、downHitPointCallbackの利用者が、結局Creatureのpublicメソッドになってしまっている。
     // hint3: コールバックの逆の話は解消した!?と言えるかも。ただ、コールバックの利用者はここじゃないみたいな...
     //
@@ -121,9 +125,13 @@ public abstract class Creature implements Loudable {
     //  o helpMethodArgumentMethodcall()
     // 二つメソッドだけで共有していると言える。public的なものでもないのに、ピンポイントで共有している。
     // 「わたしてしまえばいいのか」 by はせ
-    public void getTired(int damage) { // ゲッターじゃないよ(再)
-        downHitPointCallback.accept(damage);
-    }
+    // できた気がする！！！by はせ (2025/09/17)
+    // コンストラクタで渡してしまえばいいのかあ、なるほど
+    // インスタンスであることをあまり意識できていなかったから思いつかなかったなあ、反省
+// おもいで：コールバックを引数で直接渡す前（めちゃ苦労した、、、）by hase (2025/9/17)
+//    public void getTired(int damage) { // ゲッターじゃないよ(再)
+//        downHitPointCallback.accept(damage);
+//    }
 
     // ===================================================================================
     //                                                                               Fight

@@ -1,5 +1,8 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
+
 import org.docksidestage.bizfw.basic.objanimal.Creature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +28,16 @@ public class BarkingProcess {
     //                                                                           =========
     // done hase final付けちゃいましょう by jflute (2025/07/15)
     protected final Creature creature; // which creature is barking
+    protected final IntConsumer downHitPointCallback;
+    protected final Supplier<String> getBarkWordCallback;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BarkingProcess(Creature creature) {
+    public BarkingProcess(Creature creature, IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
         this.creature = creature;
+        this.downHitPointCallback = downHitPointCallback;
+        this.getBarkWordCallback = getBarkWordCallback;
     }
 
     // ===================================================================================
@@ -55,23 +62,23 @@ public class BarkingProcess {
 //        if (creature instanceof UndeadMonster) { // 呼吸のカウントの責務は呼吸メソッドに任せました by hase (2025/07/09)
 //            ((UndeadMonster) creature).getUndeadDiary().countBreatheIn();
 //        }
-        creature.getTired(1);
+        downHitPointCallback.accept(1);
     } // breatheInはAnimalの責務なので、Animalのメソッドに移動した
     // しかし、breathInはBarkingProcess特有の吸い込みとして、再度こちらに移動した by hase (2025/07/08)
 
     // done hase クラス内で呼び出すだけのメソッドならprivateで by jflute (2025/07/07)
     private void prepareAbdominalMuscle() { // also actually depends on barking
         logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
-        creature.getTired(1);
+        downHitPointCallback.accept(1);
     }
 
     // done hase メソッド内に不要な空行がありますので削除で by jflute (2025/07/09)
-    private String getBarkWord() {
-        return creature.getBarkWord();
+    public String getBarkWord() {
+        return getBarkWordCallback.get(); // 直接コールバックを呼び出し
     }
 
     private BarkedSound doBark(String barkWord) {
-        creature.getTired(2); // 吠えるのは体力を使うし、みんなに見られるから心も疲れる。2ダメージ。
+        downHitPointCallback.accept(2); // 吠えるのは体力を使うし、みんなに見られるから心も疲れる。2ダメージ。
         return new BarkedSound(barkWord);
     }
 }

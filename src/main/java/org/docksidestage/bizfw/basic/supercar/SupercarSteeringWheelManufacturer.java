@@ -42,7 +42,7 @@ public class SupercarSteeringWheelManufacturer {
             screwManufacturer.makeSpecialScrew(screwSpec);
         } catch (ScrewCannotMakeBySpecException e) {
 //            throw new SteeringWheelCannotMakeException("SpecialScrewManufacture> " + e.getMessage()); // おもいで：Caused by使おう by hase (2025/07/11)
-            throw new SteeringWheelCannotMakeException("Could not make steering wheel.", e);
+            throw new SteeringWheelCannotMakeException("Could not make steering wheel. steeringWheelId: " + steeringWheelId, e);
         }
         SpecialScrew screw = screwManufacturer.makeSpecialScrew(screwSpec);
 

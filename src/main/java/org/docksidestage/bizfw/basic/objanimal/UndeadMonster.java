@@ -1,5 +1,8 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
+
 import org.docksidestage.bizfw.basic.objanimal.barking.UndeadBarkingProcess;
 
 /**
@@ -37,8 +40,8 @@ public abstract class UndeadMonster extends Creature {
     }
 
     @Override
-    protected UndeadBarkingProcess createBarkingProcess() {
-        return new UndeadBarkingProcess(this);
+    protected UndeadBarkingProcess createBarkingProcess(IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
+        return new UndeadBarkingProcess(this, downHitPointCallback, getBarkWordCallback);
     }
 
     public static class UndeadDiary {
@@ -58,13 +61,13 @@ public abstract class UndeadMonster extends Creature {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    public abstract String getBarkWord();
+    protected abstract String getBarkWord();
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    public void downHitPoint() {
+    protected void downHitPoint() {
         // do nothing, infinity hit point
     }
 
