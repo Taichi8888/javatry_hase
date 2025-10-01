@@ -19,6 +19,7 @@ public class UndeadBarkingProcess extends BarkingProcess{
     // #1on1: 二つの変数で、同じインスタンスを参照している話。二つの変数は、抽象度が高いもの、低いもの。
     // それぞれの抽象度のレイヤーに合う抽象度で保持するようにしている。
     // (ここは、インスタンスは一個なので、二回newしているというわけではない)
+    // #1on1: これをCallbackにするかどうか？ってところは、getUndeadDiary()をprotectedに隠蔽するかどうか？ (2025/10/01)
     protected final UndeadMonster undeadMonster;
 
     // ===================================================================================

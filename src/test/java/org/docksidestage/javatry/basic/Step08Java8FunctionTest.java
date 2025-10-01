@@ -15,8 +15,6 @@
  */
 package org.docksidestage.javatry.basic;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -249,6 +247,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             sea = "*no reason3: the selected Member was null";
         }
 
+        // TODO jflute そのうち1on1にて、DBFluteハンズオンsection2のとき照らし合わせて説明 (2025/10/01)
         Optional<St8Member> optMemberFirst = facade.selectMember(1);
 
         // map style
@@ -318,6 +317,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (メソッド終了時の変数 sea, land の中身は？)
      */
     public void test_java8_stream_concept() {
+        // TODO jflute そのうち1on1にて、DBFluteハンズオンsection3?4?のときに補足 (2025/10/01)
         List<St8Member> memberList = new St8DbFacade().selectMemberListAll();
         List<String> oldfilteredNameList = new ArrayList<>();
         for (St8Member member : memberList) {

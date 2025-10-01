@@ -306,8 +306,8 @@ public class Step07ExceptionTest extends PlainTestCase {
      * できるだけ例外情報だけでその状況が理解できるように、Supercarのクラスたちの例外ハンドリングを改善しましょう。
      */
     public void test_exception_translation_improveChallenge() {
-        // TODO done hase [いいね] 例外メッセージのチェーンで、ストーリーが描けるようになっているのでGood by jflute (2025/09/16)
-        // TODO done hase 一方で、kawaii face とは具体的にどんな値なのか？作れなかったハンドルのIDは？...とかとか by jflute (2025/09/16)
+        // done hase [いいね] 例外メッセージのチェーンで、ストーリーが描けるようになっているのでGood by jflute (2025/09/16)
+        // done hase 一方で、kawaii face とは具体的にどんな値なのか？作れなかったハンドルのIDは？...とかとか by jflute (2025/09/16)
         // 例外メッセージにデバッグ用の(実際の)データが載ってないので、具体的に何が起きたのか？が追跡できない。
         try {
             new SupercarClient().buySupercar(); // you can fix the classes
@@ -322,7 +322,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         // 一方で、読む側としては、例外メッセージというのは、1事象に付き複数存在する。
         // そのセオリーがわかれば、一部のメッセージしか読まないでデバッグで悩む、ってこともなくなるだろう。
         // エラーメッセージの読み手としての心がけ。
-        // TODO done hase エラーメッセージ読め読め大合唱 by jflute (2025/09/16)
+        // done hase エラーメッセージ読め読め大合唱 by jflute (2025/09/16)
         // https://jflute.hatenadiary.jp/entry/20130522/errorsinging
         // 最近、タスクで手戻りがあった際に、タスクの相談をしていたdevin(AI)君に対して、
         // 「今回私が答えにたどり着けなかった理由と反省点を教えて」と聞いて、ちょっと傷ついたばかりだったので興味深かったです。by hase (2025/09/17)

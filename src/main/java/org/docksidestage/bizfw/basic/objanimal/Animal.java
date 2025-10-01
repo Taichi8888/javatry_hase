@@ -111,7 +111,7 @@ public abstract class Animal extends Creature {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    // TODO done hase 単に直し忘れかもだけど、protectedにしましょう by jflute (2025/09/16)
+    // done hase 単に直し忘れかもだけど、protectedにしましょう by jflute (2025/09/16)
     @Override
     protected void downHitPoint() {
         --hitPoint;
