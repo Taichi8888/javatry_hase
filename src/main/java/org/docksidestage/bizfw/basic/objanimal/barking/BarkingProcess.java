@@ -3,13 +3,12 @@ package org.docksidestage.bizfw.basic.objanimal.barking;
 import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
-import org.docksidestage.bizfw.basic.objanimal.Creature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // done hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
 // #1on1: 高度な仕事の取りに行き方、人生の仕事に対するイメージ (2025/10/01)
-// TODO hase [読み物課題] 仕事の先にある仕事は明るい by jflute (2025/10/01)
+// TODO done hase [読み物課題] 仕事の先にある仕事は明るい by jflute (2025/10/01)
 // https://jflute.hatenadiary.jp/entry/20131028/brightness
 /**
  * Creatureが鳴くプロセスをここにまとめたよ
@@ -30,16 +29,16 @@ public class BarkingProcess {
     //                                                                           Attribute
     //                                                                           =========
     // done hase final付けちゃいましょう by jflute (2025/07/15)
-    // TODO hase もはや creature 依存がないので unused になってる by jflute (2025/10/01)
-    protected final Creature creature; // which creature is barking
+    // TODO done hase もはや creature 依存がないので unused になってる by jflute (2025/10/01)
+// おもいで：creatureを引数で受け取っていたとき by hase (2025/10/03)
+    // protected final Creature creature; // which creature is barking
     protected final IntConsumer downHitPointCallback;
     protected final Supplier<String> getBarkWordCallback;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BarkingProcess(Creature creature, IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
-        this.creature = creature;
+    public BarkingProcess(IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
         this.downHitPointCallback = downHitPointCallback;
         this.getBarkWordCallback = getBarkWordCallback;
     }

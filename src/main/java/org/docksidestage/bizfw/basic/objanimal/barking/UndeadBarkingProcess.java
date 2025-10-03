@@ -27,7 +27,7 @@ public class UndeadBarkingProcess extends BarkingProcess{
     //                                                                         ===========
     // done hase ここは Undead と言い切ってますから、引数の型も Undead で良いかと by jflute (2025/07/15)
     public UndeadBarkingProcess(UndeadMonster undeadMonster, IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
-        super(undeadMonster, downHitPointCallback, getBarkWordCallback);
+        super(downHitPointCallback, getBarkWordCallback);
         this.undeadMonster = undeadMonster;
     }
 

@@ -29,6 +29,21 @@ public abstract class Creature implements Loudable {
 
     protected final BarkingProcess barkingProcess;
 
+    // TODO done hase オーソドックスには、インスタンス変数はインスタンス変数(Attribute)で集まってたほうがいい by jflute (2025/10/01)
+    // コールバックの方向はこれでいい気がするけど、結局publicで呼び出しちゃってるから意味があるのかしら... by hase (2025/09/16)
+    // constructorでdownHitPoint()を呼び出すコールバックをセットしておけばいいのかあ by hase (2025/09/17)
+    // #1on1: インスタンス紐付きのインナークラスのお話
+    // #1on1: Processくんが、downHitPoint()の実装に依存していない話
+    // downHitPoint()の実装が変わったとしても、Processくんに影響はない。
+    // 修正しないってことは修正によるボンミスが起きないということ。
+    protected final IntConsumer downHitPointCallback = damage -> {
+        for (int i = 0; i < damage; i++) {
+            downHitPoint();
+        }
+    };
+
+    protected final Supplier<String> getBarkWordCallback = this::getBarkWord;
+
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
@@ -58,8 +73,6 @@ public abstract class Creature implements Loudable {
     // やはり元々protectedだったものなので、BarkingProcess切り出しというリファクタリングきっかけでpublicにしたくはない。
     // こっちはもっと解決は簡単ですね。
     protected abstract String getBarkWord();
-
-    protected final Supplier<String> getBarkWordCallback = this::getBarkWord;
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -106,19 +119,6 @@ public abstract class Creature implements Loudable {
 //            } // HPが0以下になった時の処理はdownHitPoint()に任せてあるのでここでは記述しない
 //        }
 //    }
-    
-    // TODO hase オーソドックスには、インスタンス変数はインスタンス変数(Attribute)で集まってたほうがいい by jflute (2025/10/01)
-    // コールバックの方向はこれでいい気がするけど、結局publicで呼び出しちゃってるから意味があるのかしら... by hase (2025/09/16)
-    // constructorでdownHitPoint()を呼び出すコールバックをセットしておけばいいのかあ by hase (2025/09/17)
-    // #1on1: インスタンス紐付きのインナークラスのお話
-    // #1on1: Processくんが、downHitPoint()の実装に依存していない話
-    // downHitPoint()の実装が変わったとしても、Processくんに影響はない。
-    // 修正しないってことは修正によるボンミスが起きないということ。
-    protected final IntConsumer downHitPointCallback = damage -> {
-        for (int i = 0; i < damage; i++) {
-            downHitPoint();
-        }
-    };
 
     // done hase 修行#++: downHitPoint自体はインターフェースで抽象化して旅立てるようになっているのでGood by jflute (2025/09/16)
     // でも、downHitPointCallbackの利用者が、結局Creatureのpublicメソッドになってしまっている。

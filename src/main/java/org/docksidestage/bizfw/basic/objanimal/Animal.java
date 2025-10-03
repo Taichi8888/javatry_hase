@@ -60,7 +60,7 @@ public abstract class Animal extends Creature {
 
     @Override
     protected AnimalBarkingProcess createBarkingProcess(IntConsumer downHitPointCallback, Supplier<String> getBarkWordCallback) {
-        return new AnimalBarkingProcess(this, downHitPointCallback, getBarkWordCallback);
+        return new AnimalBarkingProcess(downHitPointCallback, getBarkWordCallback);
     }
 
     // ===================================================================================
