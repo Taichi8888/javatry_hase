@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 // done hase javadoc, もうAnimalじゃなくてCreatureですね by jflute (2025/07/15)
 // #1on1: 高度な仕事の取りに行き方、人生の仕事に対するイメージ (2025/10/01)
-// TODO done hase [読み物課題] 仕事の先にある仕事は明るい by jflute (2025/10/01)
+// done hase [読み物課題] 仕事の先にある仕事は明るい by jflute (2025/10/01)
 // https://jflute.hatenadiary.jp/entry/20131028/brightness
 /**
  * Creatureが鳴くプロセスをここにまとめたよ
@@ -29,7 +29,7 @@ public class BarkingProcess {
     //                                                                           Attribute
     //                                                                           =========
     // done hase final付けちゃいましょう by jflute (2025/07/15)
-    // TODO done hase もはや creature 依存がないので unused になってる by jflute (2025/10/01)
+    // done hase もはや creature 依存がないので unused になってる by jflute (2025/10/01)
 // おもいで：creatureを引数で受け取っていたとき by hase (2025/10/03)
     // protected final Creature creature; // which creature is barking
     protected final IntConsumer downHitPointCallback;

@@ -29,7 +29,7 @@ public abstract class Creature implements Loudable {
 
     protected final BarkingProcess barkingProcess;
 
-    // TODO done hase オーソドックスには、インスタンス変数はインスタンス変数(Attribute)で集まってたほうがいい by jflute (2025/10/01)
+    // done hase オーソドックスには、インスタンス変数はインスタンス変数(Attribute)で集まってたほうがいい by jflute (2025/10/01)
     // コールバックの方向はこれでいい気がするけど、結局publicで呼び出しちゃってるから意味があるのかしら... by hase (2025/09/16)
     // constructorでdownHitPoint()を呼び出すコールバックをセットしておけばいいのかあ by hase (2025/09/17)
     // #1on1: インスタンス紐付きのインナークラスのお話
