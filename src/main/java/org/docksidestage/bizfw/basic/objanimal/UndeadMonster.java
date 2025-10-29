@@ -30,9 +30,9 @@ public abstract class UndeadMonster extends Creature {
         // #1on1: 問題にぶち当たったときこそ、整理整頓(リファクタリング)で全体像把握、論理を整理s
         this.undeadDiary = createUndeadDiary();
     }
-    // TODO done hase staticだとオーバーライドできないので、汎用性が低いFactoryになっちゃってる by jflute (2025/10/14)
+    // done hase staticだとオーバーライドできないので、汎用性が低いFactoryになっちゃってる by jflute (2025/10/14)
     // (もしかしたら、IntelliJのメソッド抽出で勝手にstaticを付与されちゃったのかも)
-    // TODO done hase かつ、あらかじめprotectedにしておいていいかなと by jflute (2025/10/14)
+    // done hase かつ、あらかじめprotectedにしておいていいかなと by jflute (2025/10/14)
     protected UndeadDiary createUndeadDiary() {
         return new UndeadDiary();
     }
