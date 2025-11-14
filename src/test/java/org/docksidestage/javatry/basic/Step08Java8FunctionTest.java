@@ -193,10 +193,19 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (二つのlog()によって出力される文字列は同じでしょうか？ (yes or no))
      */
     public void test_java8_optional_concept() {
+        // #1on1: Optionalの一番根幹となる機能がこちら (2025/11/14)
+
+        // Traditionalスタイルだと、nullチェックしなくてもコンパイルが通ってしまうので、
+        // ついつい忘れてしまって、本番で NullPointerException ってのが怖かった。
+        // 「業務的に値がないかもしれない」という概念を、nullで表現していた。
         St8Member oldmember = new St8DbFacade().oldselectMember(1);
         if (oldmember != null) {
             log(oldmember.getMemberId(), oldmember.getMemberName()); // 1, broadway
         }
+
+        // Optionalだと、何かしらチェックしない限りは、中身が取れない。ので強制される。
+        // 無理やり中身を取ろうとしてもコンパイルエラー。e.g. optMember.getMemberName() (x)
+        // Optional型で来ることで、「ついつい忘れてしまって」が起きにくい。
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
             // ofNullable() によって、nullかもしれない値をOptionalに変換している（値が無ければ空のOptionalオブジェクトが入る）by hase (2025/07/11)
         if (optMember.isPresent()) { // ↑によって安全に使える
@@ -204,6 +213,10 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(member.getMemberId(), member.getMemberName()); // 1, broadway
         }
         // your answer? => yes
+        
+        // #1on1: JavaのOptionalは、文法ではなくただのクラス。(コンパイラーは特別に関与しない)
+        // なんでJava8になって入ったか？もっと前からあっても良かったのでは？ (2015: Java20年経って)
+        // そこで、Lambda式が来た！
     }
 
     /**
@@ -247,7 +260,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             sea = "*no reason3: the selected Member was null";
         }
 
-        // TODO jflute そのうち1on1にて、DBFluteハンズオンsection2のとき照らし合わせて説明 (2025/10/01)
+        // done jflute そのうち1on1にて、DBFluteハンズオンsection2のとき照らし合わせて説明 (2025/10/01)
         Optional<St8Member> optMemberFirst = facade.selectMember(1);
 
         // map style
