@@ -207,7 +207,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // 無理やり中身を取ろうとしてもコンパイルエラー。e.g. optMember.getMemberName() (x)
         // Optional型で来ることで、「ついつい忘れてしまって」が起きにくい。
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
-            // ofNullable() によって、nullかもしれない値をOptionalに変換している（値が無ければ空のOptionalオブジェクトが入る）by hase (2025/07/11)
+        
+        // ofNullable() によって、nullかもしれない値をOptionalに変換している（値が無ければ空のOptionalオブジェクトが入る）by hase (2025/07/11)
         if (optMember.isPresent()) { // ↑によって安全に使える
             St8Member member = optMember.get();
             log(member.getMemberId(), member.getMemberName()); // 1, broadway
@@ -217,6 +218,12 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // #1on1: JavaのOptionalは、文法ではなくただのクラス。(コンパイラーは特別に関与しない)
         // なんでJava8になって入ったか？もっと前からあっても良かったのでは？ (2015: Java20年経って)
         // そこで、Lambda式が来た！
+        
+        // #1on1: 問答無用get()の話 (2026/01/20)
+        // なかったときにスルーしていいなら、ifPresent()など。
+        // なかったときに落ちていいなら、理想は orElseThrow() でデバッグ情報しっかりさせて例外。
+        // オーソドックな Java標準の Optional においては、確かにその通りの論理になる。
+        // ただ、DBFluteのOptionalにおいては...続きはDBFluteハンズオンのsection2にて。
     }
 
     /**
